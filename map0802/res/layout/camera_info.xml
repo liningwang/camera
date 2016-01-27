@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical" >
+
+    <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="44dip"
+        		  android:background="@color/red">
+
+       	 <TextView
+       	     android:id="@+id/re"
+       	     android:layout_width="57dp"
+       	     android:layout_height="match_parent"
+       	     android:paddingTop="3dip"
+       	     android:paddingBottom="3dip"
+       	     android:background="@drawable/back"
+       	     android:clickable="true" />
+       	 <TextView
+       	     android:layout_height="match_parent"
+       	     android:layout_width="match_parent"
+       	     android:paddingRight="57dip"
+       	     android:text="摄像头信息"
+       	     android:textColor="@color/white"
+       	     android:gravity="center"
+       	     android:textSize="20dip"
+       	     />
+"
+     </LinearLayout>
+    <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="40dip"
+        		  android:layout_marginTop="20dip"
+        		  android:layout_marginBottom="20dip"
+        		  android:background="@drawable/camera_info_layout_background">
+        		  <TextView 
+        		      android:layout_height="fill_parent"
+        		      android:layout_width="wrap_content"
+        		      android:text="名称"
+        		      android:gravity="center"
+        		      android:layout_weight="1"/>
+        		  <EditText 
+			      android:id="@+id/et_desc" 
+        		      android:layout_height="fill_parent"
+        		      android:layout_width="wrap_content"
+        		      android:layout_weight="3"
+        		      android:background="@null"
+        		      android:hint="给摄像头添加简短的描述"
+        		      android:textSize="12dip"/>
+        
+    </LinearLayout>
+        <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="40dip"
+        		  android:layout_marginBottom="20dip"
+        		  android:background="@drawable/camera_info_layout_background">
+        		  <TextView 
+        		      android:layout_height="fill_parent"
+        		      android:layout_width="wrap_content"
+        		      android:text="地址"
+        		      android:gravity="center"
+        		      android:layout_weight="1"/>
+        		  <EditText 
+			      android:id="@+id/et_addr" 
+        		      android:layout_height="fill_parent"
+        		      android:layout_width="wrap_content"
+        		      android:layout_weight="3"
+        		      android:background="@null"
+        		      android:hint="描述摄像头的详细地址信息"
+        		      android:textSize="12dip"/>
+        
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="wrap_content"
+        		  android:layout_marginBottom="20dip"
+        		  android:background="@drawable/camera_info_layout_background">
+        		  <TextView 
+        		      android:layout_height="wrap_content"
+        		      android:layout_width="wrap_content"
+        		      android:paddingTop="12dip"
+        		      android:paddingLeft="10dip"
+        		      android:textStyle="bold"
+        		      android:textSize="15dip"
+        		      android:text="摄像头类型："/>
+            <RadioGroup android:id="@+id/radio_group" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <RadioButton android:id="@+id/radio_jjz" android:checked="true" android:text="进京证限行" />
+            <RadioButton android:id="@+id/radio_rushour" android:text="高峰期限行" />
+            <RadioButton android:id="@+id/radio_tailno" android:text="尾号限行" />
+        	</RadioGroup>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="wrap_content"
+        		  android:layout_marginBottom="20dip"
+        		  android:background="@drawable/camera_info_layout_background">
+        		<TextView 
+        		      android:layout_height="fill_parent"
+        		      android:layout_width="wrap_content"
+        		      android:paddingTop="12dip"
+        		      android:paddingLeft="10dip"
+        		      android:textStyle="bold"
+        		      android:textSize="15dip"
+        		      android:text="违章道路方向："/>   
+    			<LinearLayout android:orientation="vertical" 
+        			  android:layout_width="wrap_content" 
+        			  android:layout_height="fill_parent"
+        			  android:layout_marginTop="10dip"
+        		 	  android:layout_marginBottom="20dip"
+        		  	>
+        			 	<CheckBox android:id="@+id/dir_w2e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="从西向东" />
+       					<CheckBox android:id="@+id/dir_e2w" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="从东向西" />
+       				 	<CheckBox android:id="@+id/dir_s2n" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="从南向北" />
+        			 	<CheckBox android:id="@+id/dir_n2s" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="从北向南" />
+    			</LinearLayout>
+     </LinearLayout>  
+     <Button 
+         android:id="@+id/camera_button"
+         android:layout_width="140dip"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="30dip"
+        android:layout_gravity="center_horizontal"
+        android:text="提交信息"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background"/>  		 
+</LinearLayout>
