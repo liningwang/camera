@@ -1,6 +1,6 @@
 bin/
 gen/
-*.swap
+*.swp
 .classpath
 .project
 

@@ -57,7 +57,7 @@ public class MainActivity extends BaseUi {
   private RelativeLayout mMarkerInfoLy;
   private boolean flag = false;
   private ImageView image;
-  private ImageButton addMark;
+  private TextView addMark;
   private TextView tv;
   private Overlay cameraOverlay;
   private LatLng cameraLocation;
@@ -74,7 +74,7 @@ public class MainActivity extends BaseUi {
 	mBaiduMap = mMapView.getMap();
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
-	addMark=(ImageButton) findViewById(R.id.main_top_add);
+	addMark=(TextView) findViewById(R.id.add_camera);
 	tv.setOnClickListener(new OnClickListener(){
 
 		@Override
