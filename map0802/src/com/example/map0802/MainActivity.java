@@ -162,7 +162,7 @@ private void initClickMap(){
 					// TODO Auto-generated method stub
 					addCameraOverlay(arg0);
 					 if(flag){
-						 mMarkerInfoLy.setVisibility(View.GONE);
+						 mBaiduMap.hideInfoWindow();
 						 flag = false;
 					 }
 				}
@@ -231,7 +231,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 private void showInfoWindow(LatLng ll) {
 
              InfoWindow mInfoWindow;
-             View location = getView();
+             View location = getAddCameraView();
              //final LatLng ll = marker.getPosition();
              Point p = mBaiduMap.getProjection().toScreenLocation(ll);
              Log.d("wang","haha x = " + p.x + "y = " + p.y);
@@ -249,14 +249,24 @@ private void showInfoWindow(LatLng ll) {
                         @Override
                         public boolean onMarkerClick(final Marker marker)
                         {
-             			mMarkerInfoLy.setVisibility(View.VISIBLE);
+                        	InfoWindow mInfoWindow;
+                     LatLng markerLat = marker.getPosition();
+                     Point p = mBaiduMap.getProjection().toScreenLocation(markerLat);
+             			//mMarkerInfoLy.setVisibility(View.VISIBLE);
+                     View location = getPopCameraView();
+                     p.y = -100;
+                     mInfoWindow = new InfoWindow(location, markerLat,p.y);
+                     mBaiduMap.showInfoWindow(mInfoWindow);
              			flag = true;
-                                return true;
+                     return true;
                         }
                 });
         }
-
-public View getView(){
+ public View getPopCameraView(){
+		View v = View.inflate(getApplicationContext(),R.layout.pop_for_camera , null);
+		return v;
+ }
+public View getAddCameraView(){
 	View v = View.inflate(getApplicationContext(),R.layout.tpl_list_blogs , null);
 	Button bt = (Button) v.findViewById(R.id.ok);
         Button cancel = (Button) v.findViewById(R.id.cancel);

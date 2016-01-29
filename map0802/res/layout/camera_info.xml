@@ -12,11 +12,11 @@
 
        	 <TextView
        	     android:id="@+id/re"
-       	     android:layout_width="57dp"
-       	     android:layout_height="match_parent"
-       	     android:paddingTop="3dip"
-       	     android:paddingBottom="3dip"
-       	     android:background="@drawable/back"
+       	     android:layout_width="40dip"
+       	     android:layout_height="fill_parent"
+       	     android:background="@drawable/icon_return"
+       	     	  android:layout_marginTop="5dip"
+       	     	  android:layout_marginBottom="5dip"
        	     android:clickable="true" />
        	 <TextView
        	     android:layout_height="match_parent"
