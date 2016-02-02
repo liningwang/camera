@@ -38,7 +38,7 @@ public class CameraInfo extends Activity{
 	private CheckBox dir_n2s;
 	private Button submit;
 	private	int radioId;
-	private String direction;
+	private String direction = " ";
 
 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -61,6 +62,10 @@ public class MainActivity extends BaseUi {
   private TextView tv;
   private Overlay cameraOverlay;
   private LatLng cameraLocation;
+  private String et_desc;
+  private String et_addr;
+  private String camera_typ;
+  private String direction;
   int tag=0;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -160,11 +165,11 @@ private void initClickMap(){
 				@Override
 				public void onMapClick(LatLng arg0) {
 					// TODO Auto-generated method stub
-					addCameraOverlay(arg0);
 					 if(flag){
 						 mBaiduMap.hideInfoWindow();
 						 flag = false;
 					 }
+					 addCameraOverlay(arg0);
 				}
 
 				@Override
@@ -191,6 +196,12 @@ private void uploadCameraOverlay() {
 	HashMap<String, String> locationParams = new HashMap<String, String>();
         locationParams.put("longitude", String.valueOf(cameraLocation.longitude));
         locationParams.put("latitude", String.valueOf(cameraLocation.latitude));
+        locationParams.put("name", this.et_desc);
+        locationParams.put("address", this.et_addr);
+        locationParams.put("direction", this.direction);
+        locationParams.put("type", this.camera_typ);
+        locationParams.put("zan", "0");
+        locationParams.put("buzan", "0");
         doTaskAsync(C.task.createCamera, C.api.createCamera, locationParams);
 	Log.d("wang","uploadCamera info successfully!!!");
 }
@@ -210,7 +221,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			Marker marker = null;
 			LatLng latLng = null;
 			for(Camera data : cameraList){
-			
+			    Log.d("wang","camera addr = " + data.getAddress() + "name = " + data.getName() + "direction = " + data.getDirection());
 				latLng = new LatLng(Double.valueOf(data.getLatitude()),Double.valueOf(data.getLongitude()));
 				overlayOptions = new MarkerOptions().position(latLng)
                          .icon(mIconMaker).zIndex(5);
@@ -292,20 +303,37 @@ public View getAddCameraView(){
 	});
 	return v;
 }
+
+@SuppressLint("NewApi")
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	// TODO Auto-generated method stub
-	String result = data.getExtras().getString("result");	
+	String result = data.getExtras().getString("result");
+	if(!result.isEmpty()){
 	if(result.equals("ok")) {
-		String et_desc = data.getExtras().getString("et_desc");	
-		String et_addr = data.getExtras().getString("et_addr");	
-		String camera_typ = data.getExtras().getString("camera_typ");	
-		String direction = data.getExtras().getString("direction");	
+		et_desc = data.getExtras().getString("et_desc");
+		if(et_desc.isEmpty()){
+			et_desc = "拍外地摄像头";
+		}
+		et_addr = data.getExtras().getString("et_addr");
+		if(et_addr.isEmpty()){
+			et_addr = "该用户没有留下地址";
+		}
+		camera_typ = data.getExtras().getString("camera_typ");
+		if(camera_typ.isEmpty()){
+			camera_typ = "0";
+		}
+		direction = data.getExtras().getString("direction");
+		if(direction.isEmpty()){
+			direction = " ";
+		}
 		Log.d("wang","upload camera info:et_desc = " + et_desc + " et_addr = " + et_addr + " camera_typ = " + camera_typ + " direction = " + direction);
-                mBaiduMap.hideInfoWindow();		
+                mBaiduMap.hideInfoWindow();	
+        uploadCameraOverlay();
 	} else {
 		cameraOverlay.remove();
                 mBaiduMap.hideInfoWindow();		
+	}
 	}
 }
    public class Mylistern implements InfoWindow.OnInfoWindowClickListener {
