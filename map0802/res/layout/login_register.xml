@@ -28,15 +28,40 @@
              />
 
      </LinearLayout>
-	<TextView
-             android:id="@+id/tv_private"
+
+	 <LinearLayout android:orientation="vertical" 
+                   android:layout_width="fill_parent" 
+    		  		 android:layout_height="wrap_content"
+    		  		 android:background="@color/white">
+        <TextView
              android:layout_height="100dip"
              android:layout_width="match_parent"
-	     android:text="个人信息"
-	     android:gravity="center"
-	     android:textSize="20dip"
-	     android:background="@color/white"
-	/>
+	     		android:text="个人信息"
+	     		android:gravity="center"
+	     		android:textSize="20dip"
+	     		android:background="@color/white"/>
+        <LinearLayout android:orientation="horizontal" 
+                      android:layout_width="fill_parent" 
+                       android:layout_height="40dip">
+                       <TextView 
+                           			android:id="@+id/login"
+									android:layout_width="wrap_content"
+                           		android:layout_height="wrap_content"
+                           			android:text="登陆"
+                           			android:clickable="true"
+                           				android:textSize="20dip"
+                           				android:gravity="center"
+                           			android:layout_weight="1" />
+                       <TextView android:id="@+id/register"
+                           android:layout_width="wrap_content"
+                           		android:layout_height="wrap_content"
+                           			android:text="注册" 
+                           				android:clickable="true"
+                           			android:textSize="20dip"
+                           				android:layout_weight="1"
+                           				android:gravity="center"/>
+       </LinearLayout>  
+     </LinearLayout>
      <LinearLayout android:orientation="vertical" 
                    android:layout_width="fill_parent" 
     		   android:layout_height="wrap_content"
@@ -53,7 +78,7 @@
              		      android:paddingLeft="15dip"
                               android:layout_weight="1"/>
                           <TextView 
-                              android:id="@+id/tv_account" 
+                              android:id="@+id/et_account" 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:layout_weight="3"
@@ -80,7 +105,7 @@
              		      android:paddingLeft="15dip"
                               android:layout_weight="1"/>
                           <TextView 
-                              android:id="@+id/tv_qq" 
+                              android:id="@+id/et_account" 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:layout_weight="3"
@@ -107,7 +132,7 @@
              		      android:paddingLeft="15dip"
                               android:layout_weight="1"/>
                           <TextView 
-                              android:id="@+id/tv_email" 
+                              android:id="@+id/et_account" 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:layout_weight="3"
@@ -135,11 +160,11 @@
              		      android:paddingLeft="15dip"
                               android:layout_weight="1"/>
                           <TextView 
-                              android:id="@+id/tv_topic" 
+                              android:id="@+id/et_account" 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:layout_weight="3"
-                              android:text=""
+                              android:text="754011181"
                        android:gravity="right|center_vertical"
                               	  android:paddingRight="10dip"
                               />

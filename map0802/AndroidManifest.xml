@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <application
-        android:name="com.example.base.BaseApp"
+        android:name="com.example.shareData.CustomerInfo"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -50,6 +50,19 @@
             android:name="com.example.map0802.CameraInfo"
             android:label="@string/title_activity_camera_info" >
         </activity>
+        <activity
+            android:name="com.example.map0802.ProfileActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>
+        <activity
+            android:name="com.example.map0802.RegisterActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>
+        <activity
+            android:name="com.example.map0802.AddCommentActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>
+        
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

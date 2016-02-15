@@ -16,6 +16,8 @@ import android.view.View.OnClickListener;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import com.example.shareData.CustomerInfo;
 
 
 import com.example.R;
@@ -33,6 +35,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.Overlay;
 
+import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,6 +62,7 @@ public class MainActivity extends BaseUi {
   private boolean flag = false;
   private ImageView image;
   private TextView addMark;
+  private TextView profile;
   private TextView tv;
   private Overlay cameraOverlay;
   private LatLng cameraLocation;
@@ -66,6 +70,15 @@ public class MainActivity extends BaseUi {
   private String et_addr;
   private String camera_typ;
   private String direction;
+  private TextView mZanCount;
+  private TextView mBuZanCount;
+  private int mCurrentZan;
+  private int mCurrentBuZan;
+  private ArrayList<Camera> cameraList;
+  private Camera mCurrentCamera;
+  private InfoWindow mInfoWindow;
+  private 	int share_zan;
+  private 	int share_buzan;
   int tag=0;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +93,17 @@ public class MainActivity extends BaseUi {
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
 	addMark=(TextView) findViewById(R.id.add_camera);
+	profile = (TextView) findViewById(R.id.profile);
+	profile.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View arg0) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent();
+        	intent.setClass(MainActivity.this, ProfileActivity.class);
+        	startActivity(intent);
+		}
+	});
 	tv.setOnClickListener(new OnClickListener(){
 
 		@Override
@@ -111,6 +135,7 @@ public class MainActivity extends BaseUi {
 	setOnclickListener();
 	initClickMap();
 	initMarkerClickEvent();
+	setCustomerInfo();
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
     } 
    
@@ -130,6 +155,23 @@ public class MainActivity extends BaseUi {
 		});
 	}
 
+   @SuppressLint("NewApi")
+private void setCustomerInfo() {
+	   SharedPreferences share = getSharedPreferences("customer", MODE_PRIVATE);
+	   String user = share.getString("user", "");
+	   if(!user.isEmpty()) {
+		   String username = share.getString("user", "");
+		   app.setUser(username);
+		   String sign = share.getString("sign", "");
+		   app.setSign(sign);
+		   String customerId = share.getString("customerId", "");
+		   app.setCustomerid(Integer.valueOf(customerId));
+		   String qq = share.getString("qq", "");
+		   app.setQQ(qq);
+		   String email = share.getString("email", "");
+		   app.setEmail(email);
+	   }
+   }
 /*	protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
         if (resultCode == RESULT_OK) {  
             Uri uri = data.getData();  
@@ -210,10 +252,18 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	switch(taskId){
 		case C.task.createCamera:
 			toast("create camera succefully");
+		Camera newCamera;
+		try {
+			newCamera = (Camera) message.getResult("Camera");
+			cameraList.add(newCamera);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 			break;
 		case C.task.getCamera:
 			Log.d("wang","entry getCamera");
-			ArrayList<Camera> cameraList;
 		try {
 			cameraList = (ArrayList<Camera>) message.getResultList("Camera");
 			Log.d("wang","camera list size is " + cameraList.size());
@@ -237,6 +287,43 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			e.printStackTrace();
 		}
 		break;
+		case C.task.zan:
+			if(message.getCode().equals("10000")) {
+				SharedPreferences share = getSharedPreferences("zan", MODE_PRIVATE);
+				toast(message.getMessage());
+				mCurrentZan = mCurrentZan + 1;
+				mZanCount.setText(String.valueOf(mCurrentZan));
+				SharedPreferences.Editor edit = share.edit();
+				edit.putInt(mCurrentCamera.getId(), 1);
+				edit.commit();
+			}
+			break;
+		case C.task.buzan:
+			if(message.getCode().equals("10000")) {
+				SharedPreferences share = getSharedPreferences("buzan", MODE_PRIVATE);
+				toast(message.getMessage());
+				mCurrentBuZan = mCurrentBuZan + 1;
+				mBuZanCount.setText(String.valueOf(mCurrentBuZan));
+				SharedPreferences.Editor edit = share.edit();
+				edit.putInt(mCurrentCamera.getId(), 1);
+				edit.commit();
+			}
+			break;
+		case C.task.getCameraById:
+			Camera camera;
+		try {
+			camera = (Camera) message.getResult("Camera");
+			 mCurrentCamera = camera;
+			 mCurrentZan = Integer.valueOf(mCurrentCamera.getZan());
+			 mZanCount.setText(String.valueOf(mCurrentZan));
+			 mCurrentBuZan = Integer.valueOf(mCurrentCamera.getBuzan());
+			 mBuZanCount.setText(String.valueOf(mCurrentBuZan));
+			 mBaiduMap.showInfoWindow(mInfoWindow);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			break;
 	}
 }
 private void showInfoWindow(LatLng ll) {
@@ -260,21 +347,87 @@ private void showInfoWindow(LatLng ll) {
                         @Override
                         public boolean onMarkerClick(final Marker marker)
                         {
-                        	InfoWindow mInfoWindow;
+                     
                      LatLng markerLat = marker.getPosition();
+                     judgeClickCamera(markerLat);
                      Point p = mBaiduMap.getProjection().toScreenLocation(markerLat);
              			//mMarkerInfoLy.setVisibility(View.VISIBLE);
                      View location = getPopCameraView();
                      p.y = -100;
                      mInfoWindow = new InfoWindow(location, markerLat,p.y);
-                     mBaiduMap.showInfoWindow(mInfoWindow);
+                     
              			flag = true;
                      return true;
                         }
                 });
         }
+ private void judgeClickCamera(LatLng location){
+	 for(Camera data : cameraList){
+		 if((location.latitude == Double.valueOf(data.getLatitude())) && (location.longitude == Double.valueOf(data.getLongitude()))) {
+			
+			 HashMap<String, String> locationParams = new HashMap<String, String>();				      
+				locationParams.put("cameraId", data.getId());
+				doTaskAsync(C.task.getCameraById,C.api.getCameraById,locationParams);
+				break;
+		 }
+	 }
+ }
  public View getPopCameraView(){
 		View v = View.inflate(getApplicationContext(),R.layout.pop_for_camera , null);
+		Button zan = (Button) v.findViewById(R.id.zan);
+		Button buzan = (Button) v.findViewById(R.id.buzan);
+		TextView comment = (TextView) v.findViewById(R.id.comment_camera);
+	
+		mZanCount = (TextView) v.findViewById(R.id.zan_count);
+		mBuZanCount = (TextView) v.findViewById(R.id.buzan_count);
+		final SharedPreferences share = getSharedPreferences("zan", MODE_PRIVATE);
+		final SharedPreferences share_no = getSharedPreferences("buzan", MODE_PRIVATE);
+		
+		zan.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				share_zan = share.getInt(mCurrentCamera.getId(), 0);
+				share_buzan = share_no.getInt(mCurrentCamera.getId(), 0);
+				if((share_zan == 0) && (share_buzan == 0)) {
+					HashMap<String, String> locationParams = new HashMap<String, String>();				      
+					locationParams.put("cameraId", mCurrentCamera.getId());
+					doTaskAsync(C.task.zan,C.api.zan,locationParams);
+				}
+				//mZanCount.setText(Integer.valueOf(mCurrentCamera.getZan()) + 1);
+			}
+		});
+		buzan.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				share_zan = share.getInt(mCurrentCamera.getId(), 0);
+				share_buzan = share_no.getInt(mCurrentCamera.getId(), 0);
+				if((share_buzan == 0) && (share_zan == 0)) {
+				   HashMap<String, String> locationParams = new HashMap<String, String>();				      
+					locationParams.put("cameraId", mCurrentCamera.getId());
+					doTaskAsync(C.task.buzan,C.api.buzan,locationParams);
+				}
+			}
+		});
+		comment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				MainActivity.this.app.setCameraName(mCurrentCamera.getName());
+				MainActivity.this.app.setCameraUptime(mCurrentCamera.getUptime());
+				MainActivity.this.app.setCameraAddress(mCurrentCamera.getAddress());
+				MainActivity.this.app.setCameraDirecton(mCurrentCamera.getDirection());
+				MainActivity.this.app.setCameraId(mCurrentCamera.getId());
+				Intent intent = new Intent();
+            	intent.setClass(MainActivity.this, CommentActivity.class);
+            	startActivity(intent);
+		mBaiduMap.hideInfoWindow();
+			}
+		});
 		return v;
  }
 public View getAddCameraView(){
@@ -308,32 +461,34 @@ public View getAddCameraView(){
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	// TODO Auto-generated method stub
-	String result = data.getExtras().getString("result");
-	if(!result.isEmpty()){
-	if(result.equals("ok")) {
-		et_desc = data.getExtras().getString("et_desc");
-		if(et_desc.isEmpty()){
-			et_desc = "拍外地摄像头";
+	if(data != null) {
+		String result = data.getExtras().getString("result");
+		if(!result.isEmpty()){
+		if(result.equals("ok")) {
+			et_desc = data.getExtras().getString("et_desc");
+			if(et_desc.isEmpty()){
+				et_desc = "拍外地摄像头";
+			}
+			et_addr = data.getExtras().getString("et_addr");
+			if(et_addr.isEmpty()){
+				et_addr = "该用户没有留下地址";
+			}
+			camera_typ = data.getExtras().getString("camera_typ");
+			if(camera_typ.isEmpty()){
+				camera_typ = "0";
+			}
+			direction = data.getExtras().getString("direction");
+			if(direction.isEmpty()){
+				direction = " ";
+			}
+			Log.d("wang","upload camera info:et_desc = " + et_desc + " et_addr = " + et_addr + " camera_typ = " + camera_typ + " direction = " + direction);
+	                mBaiduMap.hideInfoWindow();	
+	        	uploadCameraOverlay();
+		} else {
+			cameraOverlay.remove();
+	                mBaiduMap.hideInfoWindow();		
 		}
-		et_addr = data.getExtras().getString("et_addr");
-		if(et_addr.isEmpty()){
-			et_addr = "该用户没有留下地址";
 		}
-		camera_typ = data.getExtras().getString("camera_typ");
-		if(camera_typ.isEmpty()){
-			camera_typ = "0";
-		}
-		direction = data.getExtras().getString("direction");
-		if(direction.isEmpty()){
-			direction = " ";
-		}
-		Log.d("wang","upload camera info:et_desc = " + et_desc + " et_addr = " + et_addr + " camera_typ = " + camera_typ + " direction = " + direction);
-                mBaiduMap.hideInfoWindow();	
-        uploadCameraOverlay();
-	} else {
-		cameraOverlay.remove();
-                mBaiduMap.hideInfoWindow();		
-	}
 	}
 }
    public class Mylistern implements InfoWindow.OnInfoWindowClickListener {

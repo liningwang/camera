@@ -11,12 +11,12 @@
                           android:background="@color/red">
 
          <TextView
-             android:id="@+id/tv_register"
-             android:layout_width="57dp"
-             android:layout_height="match_parent"
-             android:paddingTop="3dip"
-             android:paddingBottom="3dip"
-             android:background="@drawable/back"
+             android:id="@+id/tv_return"
+             android:layout_width="36dp"
+             android:layout_height="fill_parent"
+	     android:layout_marginTop="9dip"
+             android:layout_marginBottom="9dip"
+             android:background="@drawable/icon_return"
              android:clickable="true" />
          <TextView
              android:layout_height="match_parent"
@@ -29,17 +29,21 @@
              />
 
      </LinearLayout>
-     <LinearLayout android:orientation="horizontal" 
+     <LinearLayout android:orientation="vertical" 
                           android:layout_width="fill_parent" 
-                          android:layout_height="40dip"
+                          android:layout_height="wrap_content"
                           android:layout_marginTop="20dip"
                           android:layout_marginBottom="20dip"
                           android:background="@drawable/camera_info_layout_background">
+     <LinearLayout android:orientation="horizontal" 
+                          android:layout_width="fill_parent" 
+                          android:layout_height="40dip">
                           <TextView 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:text="帐号"
-                              android:gravity="center"
+                              android:gravity="center|left"
+                              android:paddingLeft="20dip"
                               android:layout_weight="1"/>
                           <EditText 
                               android:id="@+id/et_account" 
@@ -48,6 +52,8 @@
                               android:layout_weight="3"
                               android:background="@null"
                               android:hint="注册帐号"
+                              android:gravity="center|right"
+                              android:paddingRight="15dip"
                               android:textSize="12dip"/>
                           <TextView 
                               android:layout_height="fill_parent"
@@ -59,17 +65,22 @@
                               />
 
     </LinearLayout>
+          <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.2dp"  
+            android:background="@color/gray"
+        />
+
     <LinearLayout android:orientation="horizontal" 
                           android:layout_width="fill_parent" 
                           android:layout_height="40dip"
-                          android:layout_marginTop="20dip"
-                          android:layout_marginBottom="20dip"
-                          android:background="@drawable/camera_info_layout_background">
+                          >
                           <TextView 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:text="密码"
-                              android:gravity="center"
+                              android:gravity="center|left"
+                              android:paddingLeft="20dip"
                               android:layout_weight="1"/>
                           <EditText 
                               android:id="@+id/account_code" 
@@ -78,6 +89,8 @@
                               android:layout_weight="3"
                               android:background="@null"
                               android:hint="帐号密码"
+                              android:gravity="center|right"
+                              android:paddingRight="15dip"
                               android:textSize="12dip"/>
                           <TextView 
                               android:layout_height="fill_parent"
@@ -90,17 +103,22 @@
 			      />
 
     </LinearLayout>
+      <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.2dp"  
+            android:background="@color/gray"
+        />
+
 <LinearLayout android:orientation="horizontal" 
                           android:layout_width="fill_parent" 
                           android:layout_height="40dip"
-                          android:layout_marginTop="20dip"
-                          android:layout_marginBottom="20dip"
-                          android:background="@drawable/camera_info_layout_background">
+                          >
                           <TextView 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:text="确认密码"
-                              android:gravity="center"
+                              android:gravity="center|left"
+                              android:paddingLeft="20dip"
                               android:layout_weight="1"/>
                           <EditText 
                               android:id="@+id/sure_code" 
@@ -109,6 +127,8 @@
                               android:layout_weight="3"
                               android:background="@null"
                               android:hint="确认帐号密码"
+                              android:gravity="center|right"
+                              android:paddingRight="15dip"
                               android:textSize="12dip"/>
                           <TextView 
                               android:layout_height="fill_parent"
@@ -120,30 +140,117 @@
 			      />
 
  </LinearLayout>
+      <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.2dp"  
+            android:background="@color/gray"
+        />
+
 <LinearLayout android:orientation="horizontal" 
                           android:layout_width="fill_parent" 
                           android:layout_height="40dip"
-                          android:layout_marginTop="20dip"
-                          android:layout_marginBottom="20dip"
-                          android:background="@drawable/camera_info_layout_background">
+                          >
+                          <TextView 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:text="昵称"
+                              android:gravity="center|left"
+                              android:paddingLeft="20dip"
+                              android:layout_weight="1"/>
+                          <EditText 
+                              android:id="@+id/sign" 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:layout_weight="3"
+                              android:background="@null"
+                              android:hint="添写你的昵称"
+                              android:gravity="center|right"
+                              android:paddingRight="15dip"
+                              android:textSize="12dip"/>
+                          <TextView 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:text=" "
+                              android:gravity="center"
+                              android:paddingRight="10dip"
+                              />
+
+ </LinearLayout>
+      <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.2dp"  
+            android:background="@color/gray"
+        />
+<LinearLayout android:orientation="horizontal" 
+                          android:layout_width="fill_parent" 
+                          android:layout_height="40dip"
+                          >
                           <TextView 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:text="qq号码"
-                              android:gravity="center"
+                              android:gravity="center|left"
+                              android:paddingLeft="20dip"
                               android:layout_weight="1"/>
                           <EditText 
-                              android:id="@+id/sure_code" 
+                              android:id="@+id/qq" 
                               android:layout_height="fill_parent"
                               android:layout_width="wrap_content"
                               android:layout_weight="3"
                               android:background="@null"
                               android:hint="建议写上，方便网友沟通"
+                              android:gravity="center|right"
+                              android:paddingRight="15dip"
                               android:textSize="12dip"/>
+                          <TextView 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:text=" "
+                              android:gravity="center"
+                              android:paddingRight="10dip"
+                              />
 
  </LinearLayout>
+     <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.2dp"  
+            android:background="@color/gray"
+        />
+<LinearLayout android:orientation="horizontal" 
+                          android:layout_width="fill_parent" 
+                          android:layout_height="40dip"
+                          >
+                          <TextView 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:text="email地址"
+                              android:gravity="center|left"
+                              android:paddingLeft="20dip"
+                              android:layout_weight="1"/>
+                          <EditText 
+                              android:id="@+id/email" 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:layout_weight="3"
+                              android:background="@null"
+                              android:hint="建议写上，方便网友沟通"
+                              android:gravity="center|right"
+                              android:paddingRight="15dip"
+                              android:textSize="12dip"/>
+                          <TextView 
+                              android:layout_height="fill_parent"
+                              android:layout_width="wrap_content"
+                              android:text=" "
+                              android:gravity="center"
+                              android:paddingRight="10dip"
+                              />
+
+ </LinearLayout>
+
+ </LinearLayout>
+
  <Button 
-         android:id="@+id/camera_button"
+         android:id="@+id/register"
          android:layout_width="140dip"
         android:layout_height="wrap_content" 
         android:layout_marginTop="30dip"

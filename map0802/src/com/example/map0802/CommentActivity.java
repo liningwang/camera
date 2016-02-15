@@ -12,13 +12,17 @@ import com.example.R;
 import com.example.base.BaseMessage;
 import com.example.base.BaseUi;
 import com.example.base.C;
+import com.example.list.CommentAdapter;
 import com.example.model.Camera;
 import com.example.model.Comment;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -28,29 +32,56 @@ import android.widget.TextView;
 public class CommentActivity extends BaseUi{
 		private TextView v;
 		private ListView lv;
-		SimpleAdapter adapter;
+		CommentAdapter adapter;
+		private String name;
+		private String time;
+		private String content;
+		List<Map<String, Object>> listItem;
 @Override
 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-	    setContentView(R.layout.activity_camera_comment);	
+	    setContentView(R.layout.activity_camera_comment);
+	    TextView name = (TextView) findViewById(R.id.cameraName);
+	    TextView address = (TextView) findViewById(R.id.cameraAddress);
+	    TextView time = (TextView) findViewById(R.id.cameraDatetime);
+	    name.setText(app.getCameraName());
+	    address.setText(app.getCameraAddress() + app.getCameraDirecton());
+	    time.setText(app.getCameraUptime());
 	    HashMap<String, String> commentParams = new HashMap<String, String>();
 	    
 	    lv = (ListView) findViewById(R.id.list);
-	   
-		commentParams.put("cameraId", String.valueOf(2));
+	    lv.setPadding(0, 0, 0, 0);
+	    View v = View.inflate(CommentActivity.this, R.layout.list_header,null);
+	     TextView add_com = (TextView) v.findViewById(R.id.add_comment);
+	     add_com.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(CommentActivity.this, AddCommentActivity.class);
+				CommentActivity.this.startActivityForResult(intent, 1);
+			}
+		});
+	     lv.addHeaderView(v);
+	     listItem = new ArrayList<Map<String, Object>>();
+	     /*adapter = new SimpleAdapter(this,listItem,R.layout.comment,
+					new String[]{"user","time","comment"},
+					new int[]{R.id.userName,R.id.time,R.id.content});*/
+	      adapter = new CommentAdapter(CommentActivity.this,listItem);
+			lv.setAdapter(adapter);
+		 commentParams.put("cameraId", app.getCameraId());
 	    doTaskAsync(C.task.commentList, C.api.commentList,commentParams);
     }
-private List<Map<String, Object>> getData(ArrayList<Comment> dataList) {
-	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+private void getData(ArrayList<Comment> dataList) {
 	Map<String, Object> map;
 	for(Comment data : dataList){
 		map = new HashMap<String, Object>();
 		map.put("user", data.getName());
 		map.put("time", data.getUptime());
 		map.put("comment", data.getContent());
-		list.add(map);
+		listItem.add(map);
 	}
-	return list;
 }
 public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
@@ -60,19 +91,49 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			break;
 		case C.task.commentList:
 			Log.d("wang","entry commentList");
-			ArrayList<Comment> commentList;
+			
 		try {
-			commentList = (ArrayList<Comment>) message.getResultList("Comment");
-		    adapter = new SimpleAdapter(this,getData(commentList),R.layout.comment,
-	                new String[]{"user","time","comment"},
-	                new int[]{R.id.userName,R.id.time,R.id.content});
-		    lv.setAdapter(adapter);
+			if(message.getCode().equals("10000")) {
+				ArrayList<Comment> commentList;
+				commentList = (ArrayList<Comment>) message.getResultList("Comment");
+				getData(commentList);
+				adapter.notifyDataSetChanged();
+			} else {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("comment", "目前没有任何评论，劳烦您为外地车贡献一个有用的评论");
+				listItem.add(map);
+				adapter.notifyDataSetChanged();
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			
 		break;
+	}
+}
+@SuppressLint("NewApi")
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	if(data != null) {
+		String result = data.getExtras().getString("result");
+		if(!result.isEmpty()){
+			if(result.equals("ok")) {
+				name = data.getExtras().getString("name");
+				if(name.isEmpty()) {
+					name = data.getExtras().getString("user");
+				}
+				content = data.getExtras().getString("content");
+				time = data.getExtras().getString("time");
+				Log.d("wang","CommentActivity name: " + name + " content: " + content + " time: " + time);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("comment", content);
+				map.put("user", name);
+				map.put("time", time);
+				listItem.add(0,map);
+				adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }
 }

@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.R;
@@ -54,6 +55,14 @@ public void onCreate(Bundle savedInstanceState) {
 	dir_e2w = (CheckBox) findViewById(R.id.dir_e2w);
 	dir_s2n = (CheckBox) findViewById(R.id.dir_s2n);
 	dir_n2s = (CheckBox) findViewById(R.id.dir_n2s);
+	TextView tv_return = (TextView) findViewById(R.id.re);
+        tv_return.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View arg0) {
+                        	CameraInfo.this.finish();
+                                }
+        });
+
 	CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
 
 		@Override

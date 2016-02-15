@@ -14,15 +14,15 @@ public final class C {
 	}
 	
 	public static final class api {
-		public static final String base				= "http://192.168.1.106:8003";
-		public static final String index			= "/index/index";
-		public static final String login			= "/index/login";
+		public static final String base				= "http://172.28.32.117:8003";
+		public static final String register			= "/customer/customerCreate";
+		public static final String login			= "/customer/login";
 		public static final String logout			= "/index/logout";
 		public static final String createCamera		= "/camera/cameraCreate";
 		public static final String getCamera 		= "/camera/getCamera";
-		public static final String blogList			= "/blog/blogList";
-		public static final String blogView			= "/blog/blogView";
-		public static final String blogCreate		= "/blog/blogCreate";
+		public static final String zan				= "/camera/cameraZan";
+		public static final String buzan			= "/camera/cameraBuzan";
+		public static final String getCameraById		= "/camera/getCameraById";
 		public static final String commentList		= "/comment/commentList";
 		public static final String commentCreate	= "/comment/commentCreate";
 		public static final String customerView		= "/customer/customerView";
@@ -33,14 +33,14 @@ public final class C {
 	}
 	
 	public static final class task {
-		public static final int index				= 1001;
+		public static final int register			= 1001;
 		public static final int login				= 1002;
 		public static final int logout				= 1003;
 		public static final int createCamera		= 1004;
 		public static final int getCamera			= 1005;
-		public static final int blogList			= 1006;
-		public static final int blogView			= 1007;
-		public static final int blogCreate			= 1008;
+		public static final int zan					= 1006;
+		public static final int buzan			= 1007;
+		public static final int getCameraById			= 1008;
 		public static final int commentList			= 1009;
 		public static final int commentCreate		= 1010;
 		public static final int customerView		= 1011;
@@ -51,9 +51,9 @@ public final class C {
 	}
 	
 	public static final class err {
-		public static final String network			= "Á¬½Ó´íÎó";
-		public static final String message			= "ÏûÏ¢´íÎó";
-		public static final String jsonFormat		= "ÏûÏ¢¸ñÊ½´íÎó";
+		public static final String network			= "ï¿½ï¿½ï¿½Ó´ï¿½ï¿½ï¿½";
+		public static final String message			= "ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½";
+		public static final String jsonFormat		= "ï¿½ï¿½Ï¢ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½";
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////

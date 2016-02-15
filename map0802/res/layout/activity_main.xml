@@ -37,7 +37,7 @@
                         android:layout_marginBottom="4dp"
            		/>
 		<TextView
-                    android:id="@+id/add_camera"
+                    android:id="@+id/camera_topic"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center" 
@@ -55,7 +55,7 @@
                         android:layout_marginBottom="4dp"
            		/>
 		<TextView
-                    android:id="@+id/add_camera"
+                    android:id="@+id/profile"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center" 

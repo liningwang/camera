@@ -1,6 +1,8 @@
 package com.example.base;
 
 import java.util.HashMap;
+
+import com.example.shareData.CustomerInfo;
 import com.example.util.AppCache;
 import com.example.util.AppUtil;
 
@@ -19,7 +21,7 @@ import android.widget.SimpleAdapter.ViewBinder;
 
 public class BaseUi extends Activity {
 	
-	protected BaseApp app;
+	protected CustomerInfo app;
 	protected BaseHandler handler;
 	protected BaseTaskPool taskPool;
 	protected boolean showLoadBar = false;
@@ -36,7 +38,7 @@ public class BaseUi extends Activity {
 		// init task pool
 		this.taskPool = new BaseTaskPool(this);
 		// init application
-		this.app = (BaseApp) this.getApplicationContext();
+		this.app = (CustomerInfo) getApplicationContext();
 	}
 	
 	@Override
