@@ -23,6 +23,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -64,6 +66,23 @@ public void onCreate(Bundle savedInstanceState) {
 			}
 		});
 	     lv.addHeaderView(v);
+	     lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				if((listItem.get(arg2-1).get("commentId")) != null) {
+					Intent intent = new Intent();
+					intent.putExtra("user",listItem.get(arg2-1).get("user").toString());
+					intent.putExtra("time", listItem.get(arg2-1).get("time").toString());
+					intent.putExtra("comment", listItem.get(arg2-1).get("comment").toString());
+					intent.putExtra("commentId", listItem.get(arg2-1).get("commentId").toString());
+					intent.setClass(CommentActivity.this, ReplyActivity.class);
+					startActivity(intent);
+				}
+			}
+		});
 	     listItem = new ArrayList<Map<String, Object>>();
 	     /*adapter = new SimpleAdapter(this,listItem,R.layout.comment,
 					new String[]{"user","time","comment"},
@@ -80,6 +99,7 @@ private void getData(ArrayList<Comment> dataList) {
 		map.put("user", data.getName());
 		map.put("time", data.getUptime());
 		map.put("comment", data.getContent());
+		map.put("commentId", data.getId());
 		listItem.add(map);
 	}
 }
@@ -100,6 +120,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 				adapter.notifyDataSetChanged();
 			} else {
 				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("empty","1");
 				map.put("comment", "目前没有任何评论，劳烦您为外地车贡献一个有用的评论");
 				listItem.add(map);
 				adapter.notifyDataSetChanged();
@@ -125,6 +146,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				}
 				content = data.getExtras().getString("content");
 				time = data.getExtras().getString("time");
+				if((listItem.get(0).get("empty") != null)&&(listItem.get(0).get("empty").equals("1"))){
+					listItem.remove(0);
+				}
 				Log.d("wang","CommentActivity name: " + name + " content: " + content + " time: " + time);
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("comment", content);

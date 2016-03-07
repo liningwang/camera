@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical" >
+
+    <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="44dip"
+        		  android:background="@color/red">
+
+       	 <TextView
+       	     android:id="@+id/re"
+       	     android:layout_width="25dip"
+       	     android:layout_height="fill_parent"
+       	     android:background="@drawable/icon_return"
+       	          android:layout_weight="2"
+       	     	  android:layout_marginTop="9dip"
+       	     	  android:layout_marginBottom="9dip"
+       	     android:clickable="true" />
+       	 <TextView
+       	     android:layout_height="match_parent"
+       	     android:layout_width="wrap_content"
+       	     android:text="添加路线"
+       	     android:textColor="@color/white"
+       	      android:layout_weight="20"
+       	     android:gravity="center"
+       	     android:textSize="20dip"
+       	     />
+
+	         <TextView
+             android:id="@+id/submit"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:textColor="@color/white"
+                android:layout_weight="1"
+                  android:paddingRight="15dip"
+	      			android:text="提交"
+	      			android:textSize="15dip"
+	      			android:gravity="center"
+	      			
+             android:clickable="true" />
+
+     </LinearLayout>
+
+    <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.5dip"  
+       	    android:layout_marginTop="20dip"
+            android:background="@color/red"
+        />
+    
+    <LinearLayout android:orientation="horizontal" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="100dip"
+			  android:padding="5dip"
+        		  android:background="@color/white">
+        		  <EditText 
+			      android:id="@+id/add_content" 
+			           android:paddingLeft="10dip"
+			           android:paddingTop="10dip"
+        		      android:layout_height="200dip"
+        		      android:layout_width="fill_parent"
+        		      android:layout_weight="1"
+        		      android:background="@null"
+        		      android:hint="安全路线描述..."
+        		       android:gravity="top"
+        		      android:textSize="12dip"/>
+		<ImageView 
+			android:id="@+id/image"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+			android:layout_weight="3"
+			android:background="@drawable/upload_image_background"
+			/>
+    </LinearLayout>
+         <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.5dp"  
+            android:background="@color/gray"
+        />  
+    <LinearLayout android:orientation="vertical" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="wrap_content"
+        		  android:paddingBottom="5dip"
+        		  android:paddingTop="5dip"
+			  android:gravity="center_horizontal|bottom"
+			 android:background="@color/white"
+        		  >
+	         <TextView
+             		android:id="@+id/upload"
+             		android:layout_width="wrap_content"
+             		android:layout_height="wrap_content"
+			android:text="上传照片"
+			android:padding="5dip"
+		
+			android:background="@drawable/add_road_background"
+		/>
+
+
+    </LinearLayout>
+
+
+         <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.5dp"  
+            android:background="@color/red"
+        />  
+            <LinearLayout
+        		  android:id="@+id/picture"
+			   android:orientation="vertical" 
+        		  android:layout_width="fill_parent" 
+        		  android:layout_height="wrap_content"
+        		  android:layout_marginTop="20dip"
+			  android:gravity="center"
+        		  >
+    <com.example.list.MyHorizontalScrollView
+        android:id="@+id/id_horizontalScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+  
+        android:background="@android:color/white"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:id="@+id/id_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </com.example.list.MyHorizontalScrollView>
+        <TextView 
+         android:id="@+id/upload_button"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+         android:padding="5dip"
+        android:layout_marginTop="30dip"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="确认上传"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background"/> 
+    </LinearLayout>
+</LinearLayout>

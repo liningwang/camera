@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="#CCCCCC"
+     android:orientation="vertical"
+    >
+      <LinearLayout
+          android:id="@+id/title" 
+          android:orientation="horizontal" 
+                          android:layout_width="fill_parent" 
+                          android:layout_height="44dip"
+                          android:background="@color/red">
+
+         <TextView
+             android:id="@+id/tv_return"
+             android:layout_width="36dp"
+             android:layout_height="fill_parent"
+	     android:layout_marginTop="9dip"
+             android:layout_marginBottom="9dip"
+             android:background="@drawable/icon_return"
+             android:clickable="true" />
+         <TextView
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:text="摄像头评论"
+             android:textColor="@color/white"
+             android:gravity="center"
+             android:textSize="20dip"
+             />
+
+     </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+     android:background="#BFBFBF"
+     android:orientation="vertical"
+    >
+
+
+
+          <ListView 
+         android:id="@+id/list"
+         android:layout_width="fill_parent" 
+         android:layout_height="fill_parent" 
+         android:drawSelectorOnTop="false"
+         android:layout_marginBottom="50dip"
+         android:scrollbars="vertical"
+         />   
+
+
+   <LinearLayout android:orientation="horizontal" 
+                          android:layout_width="fill_parent" 
+                          android:layout_height="50dip"
+			  android:padding="10dip"
+                          android:background="@color/white"
+                          android:layout_alignParentBottom="true"
+                             >
+<LinearLayout android:orientation="horizontal" 
+                          android:layout_width="fill_parent" 
+                          android:layout_height="fill_parent"
+			  android:padding="5dip"
+                          android:background="@drawable/reply_background"
+                          android:layout_weight="1">
+    <ImageView 
+        android:layout_width="22dip"
+        android:layout_height="22dip"
+         android:layout_marginRight="5dip"
+         android:layout_gravity="top"
+        android:background="@drawable/iconfont_xiepinglun"
+        />
+   <EditText 
+       android:id="@+id/add_reply" 
+       android:layout_height="fill_parent"
+       android:layout_width="fill_parent"
+       android:layout_weight="3"
+       android:background="@null"
+       android:hint="写回复..."
+        android:gravity="left|center_vertical"
+       android:textSize="12dip"/>
+</LinearLayout>
+<TextView 
+    android:id="@+id/reply_submit"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:text="发表"
+    android:gravity="center"
+    android:layout_weight="4"
+    android:background="@drawable/reply_button_background"
+    android:layout_marginLeft="8dip"
+    android:clickable="true"/>
+</LinearLayout>
+
+</RelativeLayout> 
+
+
+</LinearLayout>

@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+  <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+  <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/safe_road_background"
+    android:orientation="vertical"
+    android:padding="8dip" 
+    android:layout_margin="5dip"
+    >
+    <TextView 
+      android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="公告"
+    android:gravity="center"
+    android:textStyle="bold"
+    />
+  <TextView 
+      android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+     android:text="劳烦您把你知道的，在北京经常走的，不会拍外地车的安全路线提交，来供其他的外地车参考。只有每个外地车都贡献自己的力量，才能更好的方便我们外地车"
+     android:gravity="center"
+     android:padding="5dip"
+     android:textColor="@color/white"
+      />
+  </LinearLayout>
+    <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.5dip"  
+            android:background="@color/red"
+        />
+  <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingTop="10dip" 
+    android:paddingBottom="10dip">
+  <TextView 
+      android:id="@+id/comment"
+      android:layout_width="70dip"
+    android:layout_height="30dip"
+     android:text="话题"
+     android:gravity="center"
+      android:layout_marginLeft="10dip"
+      />
+ <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:gravity="right" >
+  <TextView
+      android:id="@+id/add_saferoad"
+      android:layout_width="100dip"
+      android:layout_height="30dip"
+      android:background="@drawable/button_comment"
+      android:clickable="true"
+      android:gravity="center"
+      android:text="添加路线"
+       android:layout_marginRight="10dip"
+      android:textColor="@color/red" />
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>

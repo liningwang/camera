@@ -1,5 +1,6 @@
 package com.example.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -24,6 +25,10 @@ public class AppCache {
 	
 	public static Bitmap getImage (String url) {
 		String cacheKey = AppUtil.md5(url);
-		return SDUtil.getImage(cacheKey);
+		return SDUtil.getSample(cacheKey);
+	}
+	public static Bitmap getImageAsScreen (Activity activity,String url) {
+		String cacheKey = AppUtil.md5(url);
+		return SDUtil.getImagefromPath(activity,cacheKey);
 	}
 }

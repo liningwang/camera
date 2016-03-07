@@ -62,7 +62,31 @@
             android:name="com.example.map0802.AddCommentActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>
-        
+        <activity
+            android:name="com.example.map0802.SafeRoadActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity> 
+        <activity
+            android:name="com.example.map0802.ReplyActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>       
+        <activity
+            android:name="com.example.map0802.UploadActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>       
+        <activity
+            android:name="com.example.map0802.AddRoadActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>  
+        <activity
+            android:name="com.example.map0802.ScaleImageActivity"
+            android:label="@string/title_activity_camera_info">
+        </activity>      
+        <activity
+            android:name="com.example.map0802.ReplyRoadActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>       
+      
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

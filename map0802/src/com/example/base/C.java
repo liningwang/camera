@@ -15,6 +15,7 @@ public final class C {
 	
 	public static final class api {
 		public static final String base				= "http://172.28.32.117:8003";
+		public static final String imageUrl 			= "http://172.28.32.117:8004/faces/road/";
 		public static final String register			= "/customer/customerCreate";
 		public static final String login			= "/customer/login";
 		public static final String logout			= "/index/logout";
@@ -25,11 +26,11 @@ public final class C {
 		public static final String getCameraById		= "/camera/getCameraById";
 		public static final String commentList		= "/comment/commentList";
 		public static final String commentCreate	= "/comment/commentCreate";
-		public static final String customerView		= "/customer/customerView";
-		public static final String customerEdit		= "/customer/customerEdit";
-		public static final String fansAdd			= "/customer/fansAdd";
-		public static final String fansDel			= "/customer/fansDel";
-		public static final String notice			= "/notify/notice";
+		public static final String replyList		= "/reply/replyList";
+		public static final String replyCreate		= "/reply/replyCreate";
+		public static final String upload			= "/upload/upload";
+		public static final String safeRoadCreate			= "/safeRoad/safeRoadCreate";
+		public static final String safeRoadList			= "/safeRoad/safeRoadList";
 	}
 	
 	public static final class task {
@@ -43,11 +44,11 @@ public final class C {
 		public static final int getCameraById			= 1008;
 		public static final int commentList			= 1009;
 		public static final int commentCreate		= 1010;
-		public static final int customerView		= 1011;
-		public static final int customerEdit		= 1012;
-		public static final int fansAdd				= 1013;
-		public static final int fansDel				= 1014;
-		public static final int notice				= 1015;
+		public static final int replyList		= 1011;
+		public static final int replyCreate		= 1012;
+		public static final int upload				= 1013;
+		public static final int safeRoadCreate				= 1014;
+		public static final int safeRoadList				= 1015;
 	}
 	
 	public static final class err {

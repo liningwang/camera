@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+     >
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dip"
+     >
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+     android:gravity="center"
+     >
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time" />
+</LinearLayout>
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="10dip"
+        android:text="content"/>
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dip"
+    android:clickable="true"
+     >
+<LinearLayout 
+    android:id="@+id/private_cus"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+     >
+    <ImageView 
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+         android:layout_marginRight="4dip"
+        android:background="@drawable/iconfont_geren"
+        />
+   <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="username" />
+   </LinearLayout>
+   <LinearLayout 
+      android:id="@+id/reply"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+     android:paddingRight="10dip"
+     android:clickable="true"
+     >
+       <ImageView 
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+         android:layout_marginRight="4dip"
+         android:layout_marginTop="1dip"
+        android:background="@drawable/iconfont_pinglun"
+        />
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="回复"
+         android:clickable="true"
+         />
+     </LinearLayout>
+</LinearLayout>
+</LinearLayout>
+    <ImageView   
+            android:layout_width="fill_parent"  
+            android:layout_height="0.5dip"  
+            android:background="@color/black"
+        />
+</LinearLayout>

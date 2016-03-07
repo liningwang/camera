@@ -248,6 +248,19 @@ public class BaseUi extends Activity {
 		}, 0);
 	}
 	
+	public void doTaskAsync (int taskId, String taskUrl, HashMap<String, String> taskArgs,boolean isFile) {
+		taskPool.addTask(taskId, taskUrl, taskArgs, isFile,new BaseTask(){
+			@Override
+			public void onComplete (String httpResult) {
+				sendMessage(BaseTask.TASK_COMPLETE, this.getId(), httpResult);
+			}
+			@Override
+			public void onError (String error) {
+				sendMessage(BaseTask.NETWORK_ERROR, this.getId(), null);
+			}
+		}, 0);
+	}
+
 	public void onTaskComplete (int taskId, BaseMessage message) {
 		
 	}

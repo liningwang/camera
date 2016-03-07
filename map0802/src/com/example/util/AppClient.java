@@ -31,7 +31,7 @@ import com.example.base.C;
 import android.util.Log;
 
 @SuppressWarnings("rawtypes")
-public class AppClient {
+public class AppClient implements IntenetHttp{
 	
 	// compress strategy
 	final private static int CS_NONE = 0;
@@ -47,7 +47,8 @@ public class AppClient {
 	
 	// charset default utf8
 	private String charset = HTTP.UTF_8;
-	
+	AppClient () {
+	}
 	public AppClient (String url) {
 		initClient(url);
 	}

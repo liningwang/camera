@@ -79,6 +79,7 @@ public class MainActivity extends BaseUi {
   private InfoWindow mInfoWindow;
   private 	int share_zan;
   private 	int share_buzan;
+  private TextView safeRoad;
   int tag=0;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,18 @@ public class MainActivity extends BaseUi {
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
 	addMark=(TextView) findViewById(R.id.add_camera);
 	profile = (TextView) findViewById(R.id.profile);
+	safeRoad = (TextView) findViewById(R.id.camera_topic);
+	safeRoad.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                        // TODO Auto-generated method stub
+                        Intent intent = new Intent();
+                intent.setClass(MainActivity.this, SafeRoadActivity.class);
+                startActivity(intent);
+                }
+        });
+
 	profile.setOnClickListener(new OnClickListener() {
 		
 		@Override
