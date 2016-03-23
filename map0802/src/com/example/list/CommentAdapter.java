@@ -38,7 +38,7 @@ public class CommentAdapter extends BaseAdapter {
 		public TextView time;
 		public TextView username;
 		public LinearLayout private_cus;
-		public LinearLayout reply;
+		public TextView reply;
 	}
 	@Override
 	public int getCount() {
@@ -71,7 +71,7 @@ public class CommentAdapter extends BaseAdapter {
 			zujian.time=(TextView)arg1.findViewById(R.id.time);
 			zujian.private_cus=(LinearLayout)arg1.findViewById(R.id.private_cus);
 			zujian.username=(TextView)arg1.findViewById(R.id.userName);
-			zujian.reply=(LinearLayout)arg1.findViewById(R.id.reply);
+			zujian.reply=(TextView)arg1.findViewById(R.id.reply);
 			zujian.private_cus.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -90,6 +90,7 @@ public class CommentAdapter extends BaseAdapter {
 		zujian.content.setText((String)data.get(arg0).get("comment"));
 		zujian.time.setText((String)data.get(arg0).get("time"));
 		zujian.username.setText((String)data.get(arg0).get("user"));
+		zujian.reply.setText((String)data.get(arg0).get("replycount"));
 		return arg1;
 	}
 

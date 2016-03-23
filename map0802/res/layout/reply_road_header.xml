@@ -8,7 +8,7 @@
 <LinearLayout 
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="130dip"
+    android:layout_height="160dip"
     android:padding="8dip"
     android:clickable="true"
      >
@@ -57,7 +57,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
 			android:layout_weight="3"
-			android:scaleType="matrix"
 			android:background="@drawable/upload_image_background"
     			android:clickable="true"
 			/>

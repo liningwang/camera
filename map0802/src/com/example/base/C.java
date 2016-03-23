@@ -28,9 +28,13 @@ public final class C {
 		public static final String commentCreate	= "/comment/commentCreate";
 		public static final String replyList		= "/reply/replyList";
 		public static final String replyCreate		= "/reply/replyCreate";
+		public static final String replyRoadList	= "/replyRoad/replyRoadList";
+		public static final String replyRoadCreate		= "/replyRoad/replyRoadCreate";
 		public static final String upload			= "/upload/upload";
 		public static final String safeRoadCreate			= "/safeRoad/safeRoadCreate";
 		public static final String safeRoadList			= "/safeRoad/safeRoadList";
+		public static final String safeRoadCount			= "/safeRoad/safeRoadCount";
+		public static final String commentCount			= "/comment/commentCount";
 	}
 	
 	public static final class task {
@@ -49,6 +53,10 @@ public final class C {
 		public static final int upload				= 1013;
 		public static final int safeRoadCreate				= 1014;
 		public static final int safeRoadList				= 1015;
+		public static final int replyRoadCreate				= 1016;
+		public static final int replyRoadList				= 1017;
+		public static final int safeRoadCount			= 1018;
+		public static final int commentCount			= 1019;
 	}
 	
 	public static final class err {

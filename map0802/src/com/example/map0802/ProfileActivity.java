@@ -35,8 +35,8 @@ public class ProfileActivity extends BaseUi{
 			// TODO Auto-generated method stub
 			super.onCreate(savedInstanceState);
 			if(app.isLogin()){
-			//	loginView();
-				unLoginView();
+				loginView();
+				//unLoginView();
 			}else {
 				unLoginView();
 			}

@@ -60,6 +60,14 @@ public void onCreate(Bundle savedInstanceState) {
 	rd_jjz = (RadioButton) findViewById(R.id.radio_jjz);
 	zan = (RadioButton) findViewById(R.id.radio_rushour);
 	buzan = (RadioButton) findViewById(R.id.radio_tailno);
+	TextView v_return = (TextView) findViewById(R.id.re);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+
 	share = getSharedPreferences("zan", MODE_PRIVATE);
 	share_no = getSharedPreferences("buzan", MODE_PRIVATE);
 	share_zan = share.getInt(app.getCameraId(), 0);

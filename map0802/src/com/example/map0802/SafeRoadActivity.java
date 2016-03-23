@@ -48,6 +48,7 @@ public class SafeRoadActivity extends BaseUi {
 	private ArrayList<Map<String, Object>> listItem;
 	private String name;
 	private String safeid;
+	private String replycount;
         private String time;
         private String content;
         private String url;
@@ -66,6 +67,14 @@ public class SafeRoadActivity extends BaseUi {
 		faceImageUrl = "http://172.28.32.117:8004/faces/default/face.png";
 		loadImage(faceImageUrl);
 		imageView.setOnTouchListener(new TouchListener());*/  	
+	        TextView v_return = (TextView) findViewById(R.id.tv_return);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+
 		View v = View.inflate(SafeRoadActivity.this, R.layout.safe_road_header,null);
 		add_road = (TextView)v.findViewById(R.id.add_saferoad);
 		add_road.setOnClickListener(new OnClickListener() {
@@ -94,6 +103,7 @@ public class SafeRoadActivity extends BaseUi {
                                         intent.putExtra("comment", listItem.get(arg2-1).get("comment").toString());
                                         intent.putExtra("url", listItem.get(arg2-1).get("url").toString());
                                         intent.putExtra("safeId", listItem.get(arg2-1).get("safeId").toString());
+                                        intent.putExtra("count", listItem.get(arg2-1).get("replycount").toString());
                                         intent.setClass(SafeRoadActivity.this, ReplyRoadActivity.class);
                                         startActivity(intent);
                                 }
@@ -135,6 +145,7 @@ private void getData(ArrayList<SafeRoad> dataList) {
                 map.put("comment", data.getContent());
                 map.put("url", data.getUrl());
                 map.put("safeId", data.getId());
+                map.put("replycount", data.getReplycount());
                 listItem.add(map);
         }
 }
@@ -177,6 +188,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                                 time = data.getExtras().getString("time");
 				name = data.getExtras().getString("username");
 				safeid = data.getExtras().getString("safeid");
+				replycount = data.getExtras().getString("replycount");
 				url = data.getExtras().getString("url");
                                 if((listItem.get(0).get("empty") != null)&&(listItem.get(0).get("empty").equals("1"))){
                                         listItem.remove(0);
@@ -188,106 +200,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                                 map.put("time", time);
                                 map.put("url", url);
                                 map.put("safeId", safeid);
+                		map.put("replycount", replycount);
                                 listItem.add(0,map);
                                 adapter.notifyDataSetChanged();
                         }
                 }
         }
 }
-                    
-   private final class TouchListener implements OnTouchListener {
-
-        /** 记录是拖拉照片模式还是放大缩小照片模式 */
-        private int mode = 0;// 初始状态    
-        /** 拖拉照片模式 */
-        private static final int MODE_DRAG = 1;
-        /** 放大缩小照片模式 */
-        private static final int MODE_ZOOM = 2;
-
-        /** 用于记录开始时候的坐标位置 */
-        private PointF startPoint = new PointF();
-        /** 用于记录拖拉图片移动的坐标位置 */
-        private Matrix matrix = new Matrix();
-        /** 用于记录图片要进行拖拉时候的坐标位置 */
-        private Matrix currentMatrix = new Matrix();
-
-        /** 两个手指的开始距离 */
-        private float startDis;
-        /** 两个手指的中间点 */
-        private PointF midPoint;
-
-        @Override
-        public boolean onTouch(View arg0, MotionEvent arg1) {
-            /** 通过与运算保留最后八位 MotionEvent.ACTION_MASK = 255 */
-            switch (arg1.getAction() & MotionEvent.ACTION_MASK) {
-            // 手指压下屏幕  
-            case MotionEvent.ACTION_DOWN:
-                mode = MODE_DRAG;
-                // 记录ImageView当前的移动位置  
-                currentMatrix.set(imageView.getImageMatrix());
-                startPoint.set(arg1.getX(), arg1.getY());
-                break;
-            // 手指在屏幕上移动，改事件会被不断触发  
-            case MotionEvent.ACTION_MOVE:
-                // 拖拉图片  
-                if (mode == MODE_DRAG) {
-                    float dx = arg1.getX() - startPoint.x; // 得到x轴的移动距离  
-                    float dy = arg1.getY() - startPoint.y; // 得到x轴的移动距离  
-                    // 在没有移动之前的位置上进行移动  
-                    matrix.set(currentMatrix);
-                    matrix.postTranslate(dx, dy);
-                }
-                // 放大缩小图片  
-                else if (mode == MODE_ZOOM) {
-                    float endDis = distance(arg1);// 结束距离  
-                    if (endDis > 10f) { // 两个手指并拢在一起的时候像素大于10  
-                        float scale = endDis / startDis;// 得到缩放倍数  
-                        matrix.set(currentMatrix);
-                        matrix.postScale(scale, scale,midPoint.x,midPoint.y);
-                    }
-                                                                                                                                                                                          
-                }
-                break;
-            // 手指离开屏幕  
-            case MotionEvent.ACTION_UP:
-                // 当触点离开屏幕，但是屏幕上还有触点(手指)  
-            case MotionEvent.ACTION_POINTER_UP:
-                mode = 0;
-                break;
-            // 当屏幕上已经有触点(手指)，再有一个触点压下屏幕  
-            case MotionEvent.ACTION_POINTER_DOWN:
-                mode = MODE_ZOOM;
-                /** 计算两个手指间的距离 */
-                startDis = distance(arg1);
-                /** 计算两个手指间的中间点 */
-                if (startDis > 10f) { // 两个手指并拢在一起的时候像素大于10  
-                    midPoint = mid(arg1);
-                    //记录当前ImageView的缩放倍数  
-                    currentMatrix.set(imageView.getImageMatrix());
-                }
-                break;
-            }
-            imageView.setImageMatrix(matrix);
-            return true;
-        }
-
-        /** 计算两个手指间的距离 */
-        private float distance(MotionEvent event) {
-            float dx = event.getX(1) - event.getX(0);
-            float dy = event.getY(1) - event.getY(0);
-            /** 使用勾股定理返回两点之间的距离 */
-            return FloatMath.sqrt(dx * dx + dy * dy);
-        }
-
-        /** 计算两个手指间的中间点 */
-        private PointF mid(MotionEvent event) {
-            float midX = (event.getX(1) + event.getX(0)) / 2;
-            float midY = (event.getY(1) + event.getY(0)) / 2;
-            return new PointF(midX, midY);
-        }
-
-
-    }
-
-
 }
+                    

@@ -86,10 +86,19 @@ public void onCreate(Bundle savedInstanceState) {
 	    image = (ImageView) findViewById(R.id.image);
 	    upload = (TextView) findViewById(R.id.upload);
 	    lv = (ListView) findViewById(R.id.list);
+	    SDUtil.computeScreenSize(AddRoadActivity.this);
             layout = (LinearLayout) findViewById(R.id.picture);
 	    layout.setVisibility(View.GONE);
 	    //listItem = new ArrayList<Map<String, Object>>();
 	   mDatas = new ArrayList<String>();
+	    TextView v_return = (TextView) findViewById(R.id.re);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+
 	    upload.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -130,6 +139,7 @@ public void onCreate(Bundle savedInstanceState) {
 				commentParams.put("username",app.getUser());
 				commentParams.put("content", content);
 				commentParams.put("customerid",customerId);
+				commentParams.put("replycount","0");
 				commentParams.put("url",url);
 				doTaskAsync(C.task.safeRoadCreate, C.api.safeRoadCreate,commentParams);
 			}
@@ -224,7 +234,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		try {
 			safeid = (SafeId) message.getResult("SafeId");
 		
-			Log.d("wang","entry addRoad List safeid is " + safeid.getId());
+			Log.d("wang","entry addRoad List safeid is " + safeid.getId() + "username is " + app.getUser());
 			Intent intent = new Intent();
 			intent.putExtra("content",AddRoadActivity.this.addContent.getText().toString());
 			intent.putExtra("hasPicture", hasPicture);
@@ -233,6 +243,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			intent.putExtra("result","ok");
 			intent.putExtra("safeid",safeid.getId());
 			intent.putExtra("username",app.getUser());
+			intent.putExtra("replycount","0");
 			intent.putExtra("url",url);
 			setResult(RESULT_OK, intent);
 			finish();

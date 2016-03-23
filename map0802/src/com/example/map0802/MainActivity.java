@@ -403,6 +403,7 @@ private void showInfoWindow(LatLng ll) {
 				// TODO Auto-generated method stub
 				share_zan = share.getInt(mCurrentCamera.getId(), 0);
 				share_buzan = share_no.getInt(mCurrentCamera.getId(), 0);
+				Log.d("wang","zan button, zan " + share_zan + " share_buzan " + share_buzan);
 				if((share_zan == 0) && (share_buzan == 0)) {
 					HashMap<String, String> locationParams = new HashMap<String, String>();				      
 					locationParams.put("cameraId", mCurrentCamera.getId());
@@ -418,6 +419,7 @@ private void showInfoWindow(LatLng ll) {
 				// TODO Auto-generated method stub
 				share_zan = share.getInt(mCurrentCamera.getId(), 0);
 				share_buzan = share_no.getInt(mCurrentCamera.getId(), 0);
+				Log.d("wang","buzan button, zan " + share_zan + " share_buzan " + share_buzan);
 				if((share_buzan == 0) && (share_zan == 0)) {
 				   HashMap<String, String> locationParams = new HashMap<String, String>();				      
 					locationParams.put("cameraId", mCurrentCamera.getId());

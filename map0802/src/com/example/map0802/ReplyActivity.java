@@ -50,6 +50,7 @@ public class ReplyActivity extends BaseUi{
 		private TextView replySubmit;
 		private EditText replyContent;
 		private String commentId;
+		private int count;
 		private List<Map<String, Object>> listItem;
 @Override
 public void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,19 @@ public void onCreate(Bundle savedInstanceState) {
 		reply=(LinearLayout)v.findViewById(R.id.reply);
 		replyContent = (EditText)findViewById(R.id.add_reply);
 		replySubmit = (TextView)findViewById(R.id.reply_submit);
+		TextView v_return = (TextView) findViewById(R.id.tv_return);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+
 		username.setText(getIntent().getExtras().get("user").toString());
 		time_tv.setText(getIntent().getExtras().get("time").toString());
 		content_tv.setText(getIntent().getExtras().get("comment").toString());
 		commentId = getIntent().getExtras().get("commentId").toString();
+		count = Integer.valueOf(getIntent().getExtras().get("count").toString());
 		replySubmit.setOnClickListener(new OnClickListener() {
 
                         @SuppressLint("NewApi")
@@ -138,6 +148,15 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 map.put("time", time);
                                 listItem.add(0,map);
                                 adapter.notifyDataSetChanged();
+
+			HashMap<String, String> commentParams = new HashMap<String, String>();
+                         commentParams.put("commentId", commentId);
+                         count = count + 1;
+                         commentParams.put("count", String.valueOf(count));
+                         doTaskAsync(C.task.commentCount, C.api.commentCount,commentParams);
+			break;
+		case C.task.commentCount:
+			Log.d("wang","comment count successfully");
 			break;
 		case C.task.replyList:
 			Log.d("wang","entry commentList");

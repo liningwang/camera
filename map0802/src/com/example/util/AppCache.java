@@ -31,4 +31,8 @@ public class AppCache {
 		String cacheKey = AppUtil.md5(url);
 		return SDUtil.getImagefromPath(activity,cacheKey);
 	}
+	public static Bitmap getImageAsSize (String url,int dw,int dh) {
+		String cacheKey = AppUtil.md5(url);
+		return SDUtil.getImageCacheforSize(cacheKey,dw,dh);
+	}
 }

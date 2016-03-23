@@ -2,15 +2,13 @@ package com.example.model;
 
 import com.example.base.BaseModel;
 
-public class Comment extends BaseModel{
+public class ReplyRoad extends BaseModel{
 	private String uptime;
 	private String id;
-	private String customerid;
+	private String safeid;
 	private String name;
 	private String content;
-	private String cameraid;
-	private String replycount;
-	public Comment() {
+	public ReplyRoad() {
 		// TODO Auto-generated constructor stub
 	}
 	public String getUptime(){
@@ -25,11 +23,11 @@ public class Comment extends BaseModel{
 	public void setId(String id){
 		this.id = id;
 	}
-	public String getCustomerid(){
-		return customerid;
+	public String getSafeid(){
+		return safeid;
 	}
-	public void setCustomerid(String customerid){
-		this.customerid = customerid;
+	public void setSafeid(String safeId){
+		this.safeid = safeId;
 	}
 	public String getName(){
 		return name;
@@ -43,17 +41,4 @@ public class Comment extends BaseModel{
 	public void setContent(String content){
 		this.content = content;
 	}
-	public String getCameraid(){
-		return cameraid;
-	}
-	public void setCameraid(String cameraid){
-		this.cameraid = cameraid;
-	}
-	public String getReplycount(){
-                return replycount;
-        }
-        public void setReplycount(String replycount){
-                this.replycount = replycount;
-        }
-
 }

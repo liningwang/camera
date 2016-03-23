@@ -1,9 +1,12 @@
 package com.example.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +31,8 @@ public class SDUtil {
 	private static double MB = 1024;
 	private static double FREE_SD_SPACE_NEEDED_TO_CACHE = 10;
 	private static double IMAGE_EXPIRE_TIME = 10;
+	public static int displayh;
+	public static int displayw;
 
 	public static Bitmap getImage(String fileName) {
 		// check image file exists
@@ -61,7 +66,58 @@ public class SDUtil {
 		bitmap = BitmapFactory.decodeFile(realFileName, options);
 		return bitmap;
 	}
-	
+
+	public static void computeScreenSize(Activity activity) {
+		Display display = activity.getWindowManager().getDefaultDisplay();
+                displayw = display.getWidth();
+                displayh = display.getHeight();
+	}	
+	public static InputStream Bitmap2InputStream(Bitmap bm, int quality) {
+        	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        	bm.compress(Bitmap.CompressFormat.PNG, quality, baos);
+        	InputStream is = new ByteArrayInputStream(baos.toByteArray());
+        	return is;
+    }
+
+	public static InputStream getImageStreamfromPath(String path) {
+
+                // check image file exists
+		InputStream is;
+                File file = new File(path);
+                if (!file.exists()) {
+                        return null;
+               	}
+                /*File file = new File(realFileName);
+                if (!file.exists()) {
+                        return null;
+                }*/
+                int dw = displayw;
+                int dh = displayh;
+                BitmapFactory.Options op = new BitmapFactory.Options();
+                op.inJustDecodeBounds = true;
+                Bitmap pic = BitmapFactory.decodeFile(path, op);
+                //Bitmap pic = BitmapFactory.decodeStream(this
+                //        .getContentResolver().openInputStream(imageFilePath),
+                //       null, op);
+		int wRatio = (int) Math.round(op.outWidth / (float) dw);
+                int hRatio = (int) Math.round(op.outHeight / (float) dh);
+                Log.d("wang", "getImageStreamfromPath dw = " + dw + " wRatio = " + wRatio + " outWidth = " + op.outWidth);
+                Log.d("wang", "getImageStreamfromPath dh = " + dh + "hRatio = " + hRatio + " outHeight = " + op.outHeight);
+                if (wRatio > 1 && hRatio > 1) {
+                    if (wRatio > hRatio) {
+                        op.inSampleSize = wRatio;
+                    } else {
+                        op.inSampleSize = hRatio;
+                    }
+                }
+                op.inJustDecodeBounds = false;
+                Bitmap pic1 = BitmapFactory.decodeFile(path, op);
+		is = Bitmap2InputStream(pic1,100);
+                //pic = BitmapFactory.decodeStream(this.getContentResolver()
+                 //       .openInputStream(imageFilePath), null, op);
+                return is;
+        }
+
 	public static Bitmap getImagefromPath(Activity activity,String path) {
 		
 		// check image file exists
@@ -132,7 +188,43 @@ public class SDUtil {
 
                 return pic1;
         }
-	
+public static Bitmap getImageCacheforSize(String path,int dw,int dh) {
+
+                // check image file exists
+                /*File file = new File(path);
+                if (!file.exists()) {
+                        return null;
+                }*/
+		String realFileName = faces + "/" + path;
+                File file = new File(realFileName);
+                if (!file.exists()) {
+                        return null;
+                }
+
+                BitmapFactory.Options op = new BitmapFactory.Options();
+                op.inJustDecodeBounds = true;
+                Bitmap pic = BitmapFactory.decodeFile(realFileName, op);
+                //Bitmap pic = BitmapFactory.decodeStream(this
+                //        .getContentResolver().openInputStream(imageFilePath),
+                //       null, op);
+                int wRatio = (int) Math.floor(op.outWidth / (float) dw);
+                int hRatio = (int) Math.floor(op.outHeight / (float) dh);
+                Log.d("wang", "dw = " + dw + " wRatio = " + wRatio + " outWidth = " + op.outWidth);
+                Log.d("wang", "dh = " + dh + "hRatio = " + hRatio + " outHeight = " + op.outHeight);
+                if (wRatio > 1 && hRatio > 1) {
+                    if (wRatio > hRatio) {
+                        op.inSampleSize = wRatio;
+                    } else {
+                        op.inSampleSize = wRatio;
+                    }
+                }
+                op.inJustDecodeBounds = false;
+                Bitmap pic1 = BitmapFactory.decodeFile(realFileName, op);
+                //pic = BitmapFactory.decodeStream(this.getContentResolver()
+                 //       .openInputStream(imageFilePath), null, op);
+
+                return pic1;
+        }	
 	public static void measureMyView(View view, ViewSize op) {
 		int width =View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
 		int height =View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);

@@ -21,6 +21,7 @@ import com.example.list.ReplyAdapter;
 import com.example.model.Camera;
 import com.example.model.Comment;
 import com.example.model.Reply;
+import com.example.model.ReplyRoad;
 import com.example.util.AppCache;
 
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class ReplyRoadActivity extends BaseUi{
 		private TextView replySubmit;
 		private EditText replyContent;
 		private String safeId;
+		private int count;
 		private List<Map<String, Object>> listItem;
 		private String url;
 		private ImageView image;
@@ -81,6 +83,14 @@ public void onCreate(Bundle savedInstanceState) {
 		image = (ImageView)v.findViewById(R.id.image);
 		replyContent = (EditText)findViewById(R.id.add_reply);
 		replySubmit = (TextView)findViewById(R.id.reply_submit);
+		TextView v_return = (TextView) findViewById(R.id.tv_return);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+
 		
 
 		username.setText(getIntent().getExtras().get("user").toString());
@@ -88,6 +98,7 @@ public void onCreate(Bundle savedInstanceState) {
 		content_tv.setText(getIntent().getExtras().get("comment").toString());
 		safeId = getIntent().getExtras().get("safeId").toString();
 		url = getIntent().getExtras().get("url").toString();
+		count = Integer.valueOf(getIntent().getExtras().get("count").toString());
 		Log.d("wang","image url is " + url);
 
 		this.setHandler(new ConfigHandler(this));
@@ -105,7 +116,7 @@ public void onCreate(Bundle savedInstanceState) {
 				String user = app.getUser();
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                         	time = df.format(new Date());// new Date()为获取当前系统时间
-				//commentParams.put("commentId", commentId);	
+				commentParams.put("safeId", safeId);	
 				commentParams.put("content", content);	
 				if(sign.isEmpty()) {
 					name = user;
@@ -114,7 +125,7 @@ public void onCreate(Bundle savedInstanceState) {
 					name = sign;
 					commentParams.put("name", sign);
 				}	
-	    			doTaskAsync(C.task.replyCreate, C.api.replyCreate,commentParams);
+	    			doTaskAsync(C.task.replyRoadCreate, C.api.replyRoadCreate,commentParams);
                         }
                 });
 	
@@ -147,8 +158,8 @@ public void onCreate(Bundle savedInstanceState) {
 					new int[]{R.id.userName,R.id.time,R.id.content});*/
 	      adapter = new ReplyAdapter(ReplyRoadActivity.this,listItem);
 			lv.setAdapter(adapter);
-		 //commentParams.put("commentId", commentId);
-	    doTaskAsync(C.task.replyList, C.api.replyList,commentParams);
+	    commentParams.put("safeId", safeId);
+	    doTaskAsync(C.task.replyRoadList, C.api.replyRoadList,commentParams);
     }
  private class ConfigHandler extends BaseHandler {
                 public ConfigHandler(BaseUi ui) {
@@ -161,8 +172,9 @@ public void onCreate(Bundle savedInstanceState) {
                                 switch (msg.what) {
                                         case BaseTask.LOAD_IMAGE:
 						Log.d("wang","BaseTask.LOAD_IMAGE");
-                                                Bitmap face = AppCache.getImage(url);
-                                                image.setImageBitmap(face);
+						int w = image.getWidth();
+                        			int h = image.getHeight();
+                        			image.setImageBitmap(AppCache.getImageAsSize(url,w,h));
                                                 break;
                                 }
                         } catch (Exception e) {
@@ -172,9 +184,9 @@ public void onCreate(Bundle savedInstanceState) {
                 }
         }
 
-private void getData(ArrayList<Reply> dataList) {
+private void getData(ArrayList<ReplyRoad> dataList) {
 	Map<String, Object> map;
-	for(Reply data : dataList){
+	for(ReplyRoad data : dataList){
 		map = new HashMap<String, Object>();
 		map.put("user", data.getName());
 		map.put("time", data.getUptime());
@@ -185,26 +197,37 @@ private void getData(ArrayList<Reply> dataList) {
 public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
-		case C.task.replyCreate:
+		case C.task.replyRoadCreate:
 			toast("create comment reply succefully");
+			if((listItem.get(0).get("empty") != null)&&(listItem.get(0).get("empty").equals("1"))){
+                                        listItem.remove(0);
+                                }
 			 Map<String, Object> map = new HashMap<String, Object>();
                                 map.put("comment", content);
                                 map.put("user", name);
                                 map.put("time", time);
                                 listItem.add(0,map);
                                 adapter.notifyDataSetChanged();
+			 HashMap<String, String> commentParams = new HashMap<String, String>();
+			 commentParams.put("safeId", safeId);	
+			 count = count + 1;
+			 commentParams.put("count", String.valueOf(count));	
+			 doTaskAsync(C.task.safeRoadCount, C.api.safeRoadCount,commentParams);
 			break;
-		case C.task.replyList:
-			Log.d("wang","entry commentList");
+		case C.task.safeRoadCount:
+			break;
+		case C.task.replyRoadList:
+			Log.d("wang","entry reply road commentList");
 			
 		try {
 			if(message.getCode().equals("10000")) {
-				ArrayList<Reply> replyList;
-				replyList = (ArrayList<Reply>) message.getResultList("Reply");
+				ArrayList<ReplyRoad> replyList;
+				replyList = (ArrayList<ReplyRoad>) message.getResultList("ReplyRoad");
 				getData(replyList);
 				adapter.notifyDataSetChanged();
 			} else {
 				Map<String, Object> map1 = new HashMap<String, Object>();
+				map1.put("empty","1");
 				map1.put("comment", "目前没有任何回复，劳烦您为外地车贡献一个有用的回复");
 				listItem.add(map1);
 				adapter.notifyDataSetChanged();

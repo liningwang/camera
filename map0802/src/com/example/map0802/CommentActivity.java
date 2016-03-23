@@ -46,6 +46,14 @@ public void onCreate(Bundle savedInstanceState) {
 	    TextView name = (TextView) findViewById(R.id.cameraName);
 	    TextView address = (TextView) findViewById(R.id.cameraAddress);
 	    TextView time = (TextView) findViewById(R.id.cameraDatetime);
+	    TextView v_return = (TextView) findViewById(R.id.tv_return);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+
 	    name.setText(app.getCameraName());
 	    address.setText(app.getCameraAddress() + app.getCameraDirecton());
 	    time.setText(app.getCameraUptime());
@@ -78,6 +86,7 @@ public void onCreate(Bundle savedInstanceState) {
 					intent.putExtra("time", listItem.get(arg2-1).get("time").toString());
 					intent.putExtra("comment", listItem.get(arg2-1).get("comment").toString());
 					intent.putExtra("commentId", listItem.get(arg2-1).get("commentId").toString());
+					intent.putExtra("count", listItem.get(arg2-1).get("replycount").toString());
 					intent.setClass(CommentActivity.this, ReplyActivity.class);
 					startActivity(intent);
 				}
@@ -100,6 +109,7 @@ private void getData(ArrayList<Comment> dataList) {
 		map.put("time", data.getUptime());
 		map.put("comment", data.getContent());
 		map.put("commentId", data.getId());
+		map.put("replycount", data.getReplycount());
 		listItem.add(map);
 	}
 }

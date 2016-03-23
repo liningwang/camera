@@ -62,12 +62,26 @@ public String post(HashMap urlParams) {
                     fileName + "\"" + end);
             ds.writeBytes(end);
           /* 取得文件的FileInputStream */
-            FileInputStream fStream = new FileInputStream(uploadFile);
+            InputStream fStream = SDUtil.getImageStreamfromPath(uploadFile);
           /* 设置每次写入8192bytes */
             int bufferSize = 8192;
             byte[] buffer = new byte[bufferSize];   //8k
             int length = -1;
+	    //byte b;
           /* 从文件读取数据至缓冲区 */
+	   /*while(b != -1) {
+	  	 for(int i = 0; i < bufferSize; i++)
+	  	 {
+	  	      b = bStream.read();
+	  	      if(b == -1) 
+		      {
+			 break;
+		      }
+	  	      buffer[i] = b;
+	  	 }
+		 length = 
+          	 ds.write(buffer, 0, length);
+	    }*/
             while ((length = fStream.read(buffer)) != -1)
             {
             /* 将资料写入DataOutputStream中 */

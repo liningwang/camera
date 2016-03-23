@@ -9,6 +9,7 @@ public class SafeRoad extends BaseModel{
 	private String url;
 	private String content;
 	private String username;
+	private String replycount;
 	public SafeRoad() {
 		// TODO Auto-generated constructor stub
 	}
@@ -47,5 +48,11 @@ public class SafeRoad extends BaseModel{
 	}
 	public String getUsername(){
 		return username;
+	} 
+	public String getReplycount(){
+		return replycount;
+	} 
+	public void setReplycount(String replycount){
+		this.replycount = replycount;
 	} 
 }

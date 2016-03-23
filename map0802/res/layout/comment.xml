@@ -48,7 +48,6 @@
         android:text="username" />
    </LinearLayout>
    <LinearLayout 
-      android:id="@+id/reply"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -64,6 +63,7 @@
         android:background="@drawable/iconfont_pinglun"
         />
      <TextView
+      android:id="@+id/reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
         android:text="回复"
