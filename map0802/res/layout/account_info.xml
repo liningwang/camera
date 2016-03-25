@@ -135,16 +135,28 @@
                               android:gravity="center_vertical"
              		      android:paddingLeft="15dip"
                               android:layout_weight="1"/>
+			    <LinearLayout android:orientation="horizontal" 
+                          android:layout_width="wrap_content" 
+                          android:layout_height="fill_parent"
+                          android:layout_weight="1"
+                                  android:gravity="right|center_vertical"
+                          >
+
                           <TextView 
-                              android:id="@+id/tv_topic" 
-                              android:layout_height="fill_parent"
-                              android:layout_width="wrap_content"
-                              android:layout_weight="3"
-                              android:text=""
-                       android:gravity="right|center_vertical"
-                              	  android:paddingRight="10dip"
+                                                     android:id="@+id/news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                       android:paddingLeft="4dip"
+                       android:paddingRight="4dip"
+                       android:paddingTop="1dip"
+                       android:paddingBottom="1dip"
+                    android:text="0"
+                    android:background="@drawable/news_background_red"
+                                                android:layout_marginRight="20dip"
+                              
                               />
-  
+</LinearLayout>
 </LinearLayout>
 </LinearLayout>
 </LinearLayout>

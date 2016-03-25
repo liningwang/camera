@@ -34,6 +34,7 @@ public final class C {
 		public static final String safeRoadCreate			= "/safeRoad/safeRoadCreate";
 		public static final String safeRoadList			= "/safeRoad/safeRoadList";
 		public static final String safeRoadCount			= "/safeRoad/safeRoadCount";
+		public static final String safeRoadCountById			= "/safeRoad/safeRoadCountById";
 		public static final String commentCount			= "/comment/commentCount";
 	}
 	
@@ -57,6 +58,7 @@ public final class C {
 		public static final int replyRoadList				= 1017;
 		public static final int safeRoadCount			= 1018;
 		public static final int commentCount			= 1019;
+		public static final int safeRoadCountById		= 1020;
 	}
 	
 	public static final class err {

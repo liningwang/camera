@@ -25,7 +25,7 @@
                     android:gravity="center" 
                     android:text="添加摄像头"
                     android:textColor="@color/white"
-                    android:layout_weight="1"
+                    android:layout_weight="11"
                     android:clickable="true"
 		   android:textSize="12dip"
 		    />
@@ -43,7 +43,7 @@
                     android:gravity="center" 
                     android:text="路线讨论"
                     android:textColor="@color/white"
-                    android:layout_weight="1"
+                    android:layout_weight="11"
                     android:clickable="true"
 		   android:textSize="12dip"
 		    />
@@ -54,17 +54,38 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
            		/>
+		<LinearLayout
+                    	android:id="@+id/profile"
+                	android:layout_width="fill_parent"
+                	android:orientation="horizontal" 
+                    	android:layout_height="fill_parent"
+                    	android:layout_weight="10"
+                    	android:gravity="center"
+                    	android:clickable="true"
+			>
 		<TextView
-                    android:id="@+id/profile"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:gravity="center" 
+                     
                     android:text="个人信息"
+           			android:gravity="center"
                     android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:clickable="true"
 		   android:textSize="12dip"
 		    />
+		<TextView
+		    		   android:id="@+id/news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                       android:paddingLeft="2dip"
+                       android:paddingRight="2dip"
+                       android:paddingTop="1dip"
+                       android:paddingBottom="1dip"
+                    android:text="0"
+                    	android:layout_marginLeft="7dip"
+                    android:background="@drawable/news_background"
+		/>
+     		</LinearLayout>
 		
 			
      </LinearLayout>

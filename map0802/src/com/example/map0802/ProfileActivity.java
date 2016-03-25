@@ -30,11 +30,13 @@ public class ProfileActivity extends BaseUi{
 		private View layout;
 		AlertDialog.Builder build;
 		private AlertDialog dialog;
+		private String newsCount;
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			// TODO Auto-generated method stub
 			super.onCreate(savedInstanceState);
 			if(app.isLogin()){
+				newsCount = getIntent().getExtras().get("newsCount").toString();
 				loginView();
 				//unLoginView();
 			}else {
@@ -63,6 +65,8 @@ public class ProfileActivity extends BaseUi{
 			qq.setText(app.getQQ());
 			TextView email = (TextView) findViewById(R.id.tv_email);
 			email.setText(app.getEmail());
+			TextView news = (TextView) findViewById(R.id.news);
+			news.setText(newsCount);
 		}
 		private void unLoginView(){
 			setContentView(R.layout.login_register);

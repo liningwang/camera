@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -39,14 +40,18 @@ import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
 import com.example.base.BaseUi;
 import com.example.base.C;
 import com.example.list.CameraComment;
+import com.example.model.AllRoadCount;
 import com.example.model.Camera;
 
 import android.graphics.Bitmap;
@@ -62,7 +67,7 @@ public class MainActivity extends BaseUi {
   private boolean flag = false;
   private ImageView image;
   private TextView addMark;
-  private TextView profile;
+  private LinearLayout profile;
   private TextView tv;
   private Overlay cameraOverlay;
   private LatLng cameraLocation;
@@ -80,6 +85,9 @@ public class MainActivity extends BaseUi {
   private 	int share_zan;
   private 	int share_buzan;
   private TextView safeRoad;
+  private TextView news;
+  private String newsCount;
+  private ProgressDialog progressDialog = null;
   int tag=0;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -94,8 +102,10 @@ public class MainActivity extends BaseUi {
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
 	addMark=(TextView) findViewById(R.id.add_camera);
-	profile = (TextView) findViewById(R.id.profile);
+	profile = (LinearLayout) findViewById(R.id.profile);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
+	news = (TextView) findViewById(R.id.news);
+	
 	safeRoad.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -113,6 +123,7 @@ public class MainActivity extends BaseUi {
 		public void onClick(View arg0) {
 			// TODO Auto-generated method stub
 			Intent intent = new Intent();
+		intent.putExtra("newsCount",newsCount);
         	intent.setClass(MainActivity.this, ProfileActivity.class);
         	startActivity(intent);
 		}
@@ -149,6 +160,17 @@ public class MainActivity extends BaseUi {
 	initClickMap();
 	initMarkerClickEvent();
 	setCustomerInfo();
+	int customerId = app.getCustomerid();
+	if(customerId != 0) 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+        	params.put("customerId", String.valueOf(customerId));
+		Log.d("wang","customerId is" + customerId);
+		progressDialog = ProgressDialog.show(MainActivity.this, "请稍等...", "加载中....", true);
+   		doTaskAsync(C.task.safeRoadCountById, C.api.safeRoadCountById,params);
+	} else {
+		news.setText("0");	
+	}	
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
     } 
    
@@ -263,6 +285,20 @@ private void uploadCameraOverlay() {
 public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
+		case C.task.safeRoadCountById:
+			AllRoadCount roadCount;
+		try {
+			roadCount = (AllRoadCount) message.getResult("AllRoadCount");
+			newsCount = roadCount.getCount();	
+			news.setText(newsCount);	
+			progressDialog.dismiss();
+			Toast.makeText(MainActivity.this, "您有 " + newsCount + " 条新评论，请点击个人信息查看", Toast.LENGTH_LONG).show();
+			//toast("您有 " + newsCount + " 条新评论，请点击个人信息查看");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			break;
 		case C.task.createCamera:
 			toast("create camera succefully");
 		Camera newCamera;

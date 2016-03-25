@@ -6,7 +6,7 @@ import android.app.Application;
 public class CustomerInfo extends Application {
 	private String user = "";
 	private String sign = "";
-	private int customerId;
+	private int customerId = 0;
 	private String qq = "";
 	private String email = "";
 	private String cameraName = "";

@@ -140,7 +140,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView implements
 		{
 			return;
 		}
-		//Log.d("wang","loadNextImg mCurrentIndex  is " + mCurrentIndex + "mAdapter.getCount is " + mAdapter.getCount());
+		Log.d("wang","loadNextImg mCurrentIndex  is " + mCurrentIndex + "mAdapter.getCount is " + mAdapter.getCount());
 		loadBitmap(++mCurrentIndex,false);
 		/*	//移除第一张图片，且将水平滚动位置置0
 		scrollTo(0, 0);
@@ -312,13 +312,14 @@ public class MyHorizontalScrollView extends HorizontalScrollView implements
 	}
 @SuppressLint("NewApi")
 private void initLruCache() {
-	int maxMemory = (int) Runtime.getRuntime().maxMemory();  
-        int cacheSize = maxMemory / 8;  
+	int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);  
+        int cacheSize = maxMemory / 17;  
         // 设置图片缓存大小为程序最大可用内存的1/8  
+	Log.d("wang","cacheSize is " + cacheSize);
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {  
             @Override  
             protected int sizeOf(String key, Bitmap bitmap) {  
-                return bitmap.getByteCount();  
+                return bitmap.getByteCount() / 1024;  
             }  
         };  
 }
@@ -417,7 +418,8 @@ public Bitmap getBitmapFromMemoryCache(String key) {
          */  
         private String imageUrl;  
   
-        @Override  
+        @SuppressLint("NewApi")
+		@Override  
         protected Bitmap doInBackground(String... params) {  
             imageUrl = params[0];  
             // 在后台开始下载图片  
@@ -426,6 +428,7 @@ public Bitmap getBitmapFromMemoryCache(String key) {
             if (bitmap != null) {  
                 // 图片下载完成后缓存到LrcCache中  
                 addBitmapToMemoryCache(params[0], bitmap);  
+                Log.d("wang","mMemoryCache  is " + mMemoryCache.size());
             }  
             return bitmap;  
         }  

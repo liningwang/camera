@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -75,6 +76,7 @@ public class AddRoadActivity extends BaseUi{
 	private int position;
 	private ImageView image;
 	private String url;
+	private ProgressDialog progressDialog = null;
 
 @Override
 public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +128,7 @@ public void onCreate(Bundle savedInstanceState) {
 				// TODO Auto-generated method stub
 				String content = AddRoadActivity.this.addContent.getText().toString();
 				String customerId = String.valueOf(app.getCustomerid());
+				Log.d("wang"," AddRoadActivity customerId is " + customerId);
 				if(!mDatas.isEmpty()) {
 					String uploadFile = mDatas.get(position);
 					File file1 = new File(uploadFile);
@@ -138,7 +141,7 @@ public void onCreate(Bundle savedInstanceState) {
 				HashMap<String, String> commentParams = new HashMap<String, String>();
 				commentParams.put("username",app.getUser());
 				commentParams.put("content", content);
-				commentParams.put("customerid",customerId);
+				commentParams.put("customerId",customerId);
 				commentParams.put("replycount","0");
 				commentParams.put("url",url);
 				doTaskAsync(C.task.safeRoadCreate, C.api.safeRoadCreate,commentParams);
@@ -157,6 +160,7 @@ public void onCreate(Bundle savedInstanceState) {
 				AddRoadActivity.this.position = position;
 				 HashMap<String, String> commentParams = new HashMap<String, String>();
 				 commentParams.put("file", mDatas.get(position));
+				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "请稍等...", "图片上传中...", true);
 			    	doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
                         }
                 });
@@ -179,6 +183,7 @@ public void onCreate(Bundle savedInstanceState) {
 							if(isChecked) {
 								 HashMap<String, String> commentParams = new HashMap<String, String>();
 							 	commentParams.put("file", mDatas.get( AddRoadActivity.this.position));
+				 				progressDialog = ProgressDialog.show(AddRoadActivity.this, "请稍等...", "图片上传中...", true);
 						    		doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
 							} else {
 								toast("请先选择照片");
@@ -215,6 +220,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
 		case C.task.upload:
+			progressDialog.dismiss();
 			toast("upload succefully");
 			//mHorizontalScrollView.setVisibility(View.GONE);
 			//mHorizontalScrollView.removeAllViews();
