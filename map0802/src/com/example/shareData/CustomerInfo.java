@@ -14,6 +14,7 @@ public class CustomerInfo extends Application {
 	private String cameraDirecton = "";
 	private String cameraAddress = "";
 	private String cameraId = "";
+	private int count = 1;
 	public void setCameraId(String cameraId) {
 		this.cameraId = cameraId;
 	}
@@ -77,6 +78,12 @@ public class CustomerInfo extends Application {
 	}
 	public String getEmail() {
 		return this.email;
+	}
+	public void setAllCount(int count) {
+		this.count = count;
+	}
+	public int getAllCount() {
+		return count;
 	}
 	
 	@SuppressLint("NewApi")

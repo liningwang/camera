@@ -86,6 +86,10 @@
             android:name="com.example.map0802.ReplyRoadActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>       
+        <activity
+            android:name="com.example.map0802.MySafeRoadActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>       
       
     </application>
 

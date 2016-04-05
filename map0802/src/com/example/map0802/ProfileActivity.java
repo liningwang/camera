@@ -31,6 +31,7 @@ public class ProfileActivity extends BaseUi{
 		AlertDialog.Builder build;
 		private AlertDialog dialog;
 		private String newsCount;
+		private TextView news;
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			// TODO Auto-generated method stub
@@ -52,6 +53,10 @@ public class ProfileActivity extends BaseUi{
         		v_return.setOnClickListener(new OnClickListener() {
                         	@Override
                         	public void onClick(View arg0) {
+					Intent intent = new Intent();
+				        intent.putExtra("result","ok1");
+        				setResult(RESULT_OK, intent);
+
                                 	finish();
                                 }
         		});
@@ -65,7 +70,16 @@ public class ProfileActivity extends BaseUi{
 			qq.setText(app.getQQ());
 			TextView email = (TextView) findViewById(R.id.tv_email);
 			email.setText(app.getEmail());
-			TextView news = (TextView) findViewById(R.id.news);
+			TextView roadTopic = (TextView) findViewById(R.id.road_topic);
+        		roadTopic.setOnClickListener(new OnClickListener() {
+                        	@Override
+                        	public void onClick(View arg0) {
+					Intent intent = new Intent();
+                			intent.setClass(ProfileActivity.this, MySafeRoadActivity.class);
+					startActivityForResult(intent,1);
+                                }
+        		});
+			news = (TextView) findViewById(R.id.news);
 			news.setText(newsCount);
 		}
 		private void unLoginView(){
@@ -152,4 +166,32 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		toast(message.getMessage());
 	}
 }		
+@SuppressLint("NewApi")
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("wang","MyRoad onActivityResult");
+        if(data != null) {
+                String result = data.getExtras().getString("result");
+                if(!result.isEmpty()){
+                        if(result.equals("ok1")) {
+                                Log.d("wang","result is ok1");
+				int flag;
+				flag = app.getAllCount();
+				if(flag == 0) {
+					news.setVisibility(View.GONE);
+				} else {
+					news.setText(String.valueOf(flag));
+				}
+                        }
+		}
+	}
+}
+@Override
+public void onBackPressed() {
+// TODO Auto-generated method stub
+        Intent intent = new Intent();
+        intent.putExtra("result","ok1");
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+}
+
 }

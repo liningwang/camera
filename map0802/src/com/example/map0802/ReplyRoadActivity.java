@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent.OnFinished;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -87,6 +88,9 @@ public void onCreate(Bundle savedInstanceState) {
                         v_return.setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View arg0) {
+					Intent intent = new Intent();
+        				intent.putExtra("result","ok1");
+        				setResult(RESULT_OK, intent);
                                         finish();
                                 }
                         });
@@ -191,6 +195,7 @@ private void getData(ArrayList<ReplyRoad> dataList) {
 		map.put("user", data.getName());
 		map.put("time", data.getUptime());
 		map.put("comment", data.getContent());
+		Log.d("wang","reply road comment is " + data.getContent());
 		listItem.add(map);
 	}
 }
@@ -223,6 +228,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			if(message.getCode().equals("10000")) {
 				ArrayList<ReplyRoad> replyList;
 				replyList = (ArrayList<ReplyRoad>) message.getResultList("ReplyRoad");
+				Log.d("wang","reply list size is " + replyList.size());
 				getData(replyList);
 				adapter.notifyDataSetChanged();
 			} else {
@@ -239,5 +245,13 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			
 		break;
 	}
+}
+@Override
+public void onBackPressed() {
+// TODO Auto-generated method stub
+	Intent intent = new Intent();
+	intent.putExtra("result","ok1");
+	setResult(RESULT_OK, intent);
+	super.onBackPressed();
 }
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dip" >
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+     android:gravity="center"
+     >
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time" />
+</LinearLayout>
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dip"
+     >
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        
+        android:layout_weight="14"
+        android:text="content"/>
+   <LinearLayout android:orientation="horizontal" 
+        android:layout_width="wrap_content" 
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+                android:gravity="right|center_vertical"
+        >
+
+        <TextView 
+        android:id="@+id/news"
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:textColor="@color/white"
+        android:paddingLeft="4dip"
+        android:paddingRight="4dip"
+        android:paddingTop="1dip"
+        android:paddingBottom="1dip"
+  	android:text="0"
+  	android:background="@drawable/news_background_red"
+        android:layout_marginRight="20dip"
+       />
+</LinearLayout>
+</LinearLayout>
+
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dip"
+    android:clickable="true"
+     >
+<LinearLayout 
+    android:id="@+id/private_cus"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+     >
+    <ImageView 
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+         android:layout_marginRight="4dip"
+        android:background="@drawable/iconfont_geren"
+        />
+   <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="username" />
+   </LinearLayout>
+   <LinearLayout 
+     
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+     android:paddingRight="10dip"
+     android:clickable="true"
+     >
+       <ImageView 
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+         android:layout_marginRight="4dip"
+         android:layout_marginTop="1dip"
+        android:background="@drawable/iconfont_pinglun"
+        />
+     <TextView
+          android:id="@+id/reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="回复"
+         android:clickable="true"
+         />
+     </LinearLayout>
+</LinearLayout>
+</LinearLayout>

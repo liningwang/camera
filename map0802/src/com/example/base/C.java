@@ -14,7 +14,7 @@ public final class C {
 	}
 	
 	public static final class api {
-		public static final String base				= "http://172.28.32.117:8003";
+		public static final String base				= "http://172.28.32.177:8003";
 		public static final String imageUrl 			= "http://172.28.32.117:8004/faces/road/";
 		public static final String register			= "/customer/customerCreate";
 		public static final String login			= "/customer/login";
@@ -35,6 +35,7 @@ public final class C {
 		public static final String safeRoadList			= "/safeRoad/safeRoadList";
 		public static final String safeRoadCount			= "/safeRoad/safeRoadCount";
 		public static final String safeRoadCountById			= "/safeRoad/safeRoadCountById";
+		public static final String safeRoadEachCountById			= "/safeRoad/safeRoadEachCountById";
 		public static final String commentCount			= "/comment/commentCount";
 	}
 	
@@ -59,6 +60,7 @@ public final class C {
 		public static final int safeRoadCount			= 1018;
 		public static final int commentCount			= 1019;
 		public static final int safeRoadCountById		= 1020;
+		public static final int safeRoadEachCountById		= 1021;
 	}
 	
 	public static final class err {

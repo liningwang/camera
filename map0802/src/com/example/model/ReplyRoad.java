@@ -8,6 +8,7 @@ public class ReplyRoad extends BaseModel{
 	private String safeid;
 	private String name;
 	private String content;
+	private String scan;
 	public ReplyRoad() {
 		// TODO Auto-generated constructor stub
 	}
@@ -40,5 +41,11 @@ public class ReplyRoad extends BaseModel{
 	}
 	public void setContent(String content){
 		this.content = content;
+	}
+	public String getScan(){
+		return scan;
+	}
+	public void setScan(String scan){
+		this.scan = scan;
 	}
 }

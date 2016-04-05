@@ -125,7 +125,7 @@ public class MainActivity extends BaseUi {
 			Intent intent = new Intent();
 		intent.putExtra("newsCount",newsCount);
         	intent.setClass(MainActivity.this, ProfileActivity.class);
-        	startActivity(intent);
+		startActivityForResult(intent,1);
 		}
 	});
 	tv.setOnClickListener(new OnClickListener(){
@@ -170,6 +170,7 @@ public class MainActivity extends BaseUi {
    		doTaskAsync(C.task.safeRoadCountById, C.api.safeRoadCountById,params);
 	} else {
 		news.setText("0");	
+                news.setVisibility(View.GONE);
 	}	
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
     } 
@@ -515,29 +516,41 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	if(data != null) {
 		String result = data.getExtras().getString("result");
 		if(!result.isEmpty()){
-		if(result.equals("ok")) {
-			et_desc = data.getExtras().getString("et_desc");
-			if(et_desc.isEmpty()){
-				et_desc = "拍外地摄像头";
+                if(result.equals("ok1")) {
+                                Log.d("wang","MainActivity result is ok1");
+                                int flag;
+                                flag = app.getAllCount();
+                                if(flag == 0) {
+                                        news.setVisibility(View.GONE);
+                                } else {
+                                		  newsCount = String.valueOf(flag);
+                                        news.setText(String.valueOf(flag));
+                                }
+                } else {
+			if(result.equals("ok")) {
+				et_desc = data.getExtras().getString("et_desc");
+				if(et_desc.isEmpty()){
+					et_desc = "拍外地摄像头";
+				}
+				et_addr = data.getExtras().getString("et_addr");
+				if(et_addr.isEmpty()){
+					et_addr = "该用户没有留下地址";
+				}
+				camera_typ = data.getExtras().getString("camera_typ");
+				if(camera_typ.isEmpty()){
+					camera_typ = "0";
+				}
+				direction = data.getExtras().getString("direction");
+				if(direction.isEmpty()){
+					direction = " ";
+				}
+				Log.d("wang","upload camera info:et_desc = " + et_desc + " et_addr = " + et_addr + " camera_typ = " + camera_typ + " direction = " + direction);
+		                mBaiduMap.hideInfoWindow();	
+		        	uploadCameraOverlay();
+			} else {
+				cameraOverlay.remove();
+		                mBaiduMap.hideInfoWindow();		
 			}
-			et_addr = data.getExtras().getString("et_addr");
-			if(et_addr.isEmpty()){
-				et_addr = "该用户没有留下地址";
-			}
-			camera_typ = data.getExtras().getString("camera_typ");
-			if(camera_typ.isEmpty()){
-				camera_typ = "0";
-			}
-			direction = data.getExtras().getString("direction");
-			if(direction.isEmpty()){
-				direction = " ";
-			}
-			Log.d("wang","upload camera info:et_desc = " + et_desc + " et_addr = " + et_addr + " camera_typ = " + camera_typ + " direction = " + direction);
-	                mBaiduMap.hideInfoWindow();	
-	        	uploadCameraOverlay();
-		} else {
-			cameraOverlay.remove();
-	                mBaiduMap.hideInfoWindow();		
 		}
 		}
 	}
