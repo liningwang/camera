@@ -85,6 +85,7 @@ public class MainActivity extends BaseUi {
   private 	int share_zan;
   private 	int share_buzan;
   private TextView safeRoad;
+  private TextView about;
   private TextView news;
   private String newsCount;
   private ProgressDialog progressDialog = null;
@@ -104,6 +105,7 @@ public class MainActivity extends BaseUi {
 	addMark=(TextView) findViewById(R.id.add_camera);
 	profile = (LinearLayout) findViewById(R.id.profile);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
+	about = (TextView) findViewById(R.id.about);
 	news = (TextView) findViewById(R.id.news);
 	
 	safeRoad.setOnClickListener(new OnClickListener() {
@@ -113,6 +115,17 @@ public class MainActivity extends BaseUi {
                         // TODO Auto-generated method stub
                         Intent intent = new Intent();
                 intent.setClass(MainActivity.this, SafeRoadActivity.class);
+                startActivity(intent);
+                }
+        });
+
+	about.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                        // TODO Auto-generated method stub
+                        Intent intent = new Intent();
+                intent.setClass(MainActivity.this, UpdateApkActivity.class);
                 startActivity(intent);
                 }
         });

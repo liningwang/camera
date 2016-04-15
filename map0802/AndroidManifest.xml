@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="MHEtp8ukYFySvOQiKLnxjVLh" />
+            android:value="awnmaIGOjjyAw1H8E8R9xyNnpVPHb78E" />
 
         <activity
             android:name="com.example.map0802.MainActivity"
@@ -89,8 +89,11 @@
         <activity
             android:name="com.example.map0802.MySafeRoadActivity"
             android:label="@string/title_activity_camera_info" >
-        </activity>       
-      
+        </activity> 
+         <activity
+            android:name="com.example.map0802.UpdateApkActivity"
+            android:label="@string/title_activity_camera_info" >
+        </activity>      
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
