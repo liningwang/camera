@@ -1,7 +1,14 @@
 package com.example.shareData;
 
+import com.baidu.lbsapi.BMapManager;
+import com.baidu.lbsapi.MKGeneralListener;
+
+
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 public class CustomerInfo extends Application {
 	private String user = "";
@@ -15,6 +22,33 @@ public class CustomerInfo extends Application {
 	private String cameraAddress = "";
 	private String cameraId = "";
 	private int count = 1;
+	private static CustomerInfo mInstance = null;
+    public BMapManager mBMapManager = null;
+	 @Override
+	    public void onCreate() {
+	        super.onCreate();
+	        mInstance = this;
+	        initEngineManager(this);
+	    }
+
+	    public void initEngineManager(Context context) {
+	        if (mBMapManager == null) {
+	            mBMapManager = new BMapManager(context);
+	        }
+
+	        if (!mBMapManager.init(new MyGeneralListener())) {
+	            Toast.makeText(CustomerInfo.getInstance().getApplicationContext(), "BMapManager  鍒濆鍖栭敊璇�",
+	                    Toast.LENGTH_LONG).show();
+	        }
+	        Log.d("ljx", "initEngineManager");
+	    }
+
+	    public static CustomerInfo getInstance() {
+	        return mInstance;
+	    }
+
+
+	
 	public void setCameraId(String cameraId) {
 		this.cameraId = cameraId;
 	}
@@ -94,4 +128,20 @@ public class CustomerInfo extends Application {
 			return true;
 		}
 	}
+	public static class MyGeneralListener implements MKGeneralListener {
+
+
+	       @Override
+	        public void onGetPermissionState(int iError) {
+	            // 闈為浂鍊艰〃绀簁ey楠岃瘉鏈�杩�
+	            if (iError != 0) {
+	                // 鎺堟潈Key閿欒锛�
+	                Toast.makeText(CustomerInfo.getInstance().getApplicationContext(),
+	                        "璇峰湪AndoridManifest.xml涓緭鍏ユ纭殑鎺堟潈Key,骞舵鏌ユ偍鐨勭綉缁滆繛鎺ユ槸鍚︽甯革紒error: " + iError, Toast.LENGTH_LONG).show();
+	            } else {
+	                Toast.makeText(CustomerInfo.getInstance().getApplicationContext(), "key璁よ瘉鎴愬姛", Toast.LENGTH_LONG)
+	                        .show();
+	            }
+	        }
+	    }
 }

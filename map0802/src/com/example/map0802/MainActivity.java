@@ -29,6 +29,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.BDNotifyListener;//假如用到位置提醒功能，需要import该类
 import com.baidu.location.Poi;
+import com.baidu.lbsapi.panoramaview.*;
 
 import com.example.R;
 import com.example.base.BaseMessage;
@@ -106,7 +107,7 @@ public class MainActivity extends BaseUi {
   private String newsCount;
   private LocationClient mLocClient;
   private ProgressDialog progressDialog = null;
-  public MyLocationListenner myListener = new MyLocationListenner();
+  private MyLocationListenner myListener;
   private boolean isFirstLoc = true;
   private LocationMode mCurrentMode;
   private BitmapDescriptor mCurrentMarker;
@@ -217,6 +218,7 @@ public class MainActivity extends BaseUi {
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
    	initLocation();
    	initTTS();
+   //	initPanorama();
     } 
    
     private void setOnclickListener() {
@@ -260,6 +262,10 @@ private void initTTS(){
 	tts = new TextToSpeech(this, listener);
 	
 }
+private void initPanorama(){
+	//PanoramaView mPanoView = (PanoramaView)findViewById(R.id.panorama);
+	//mPanoView.setPanorama("0100220000130817164838355J5");
+}
 class TtsListener implements OnInitListener
 {
 	public void onInit(int status) {  
@@ -286,6 +292,7 @@ private void initLocation() {
     mBaiduMap.setMyLocationEnabled(true);
     // 定位初始化
     mLocClient = new LocationClient(this);
+    myListener = new MyLocationListenner();
     mLocClient.registerLocationListener(myListener);
     LocationClientOption option = new LocationClientOption();
     option.setOpenGps(true); // 打开gps
@@ -416,14 +423,18 @@ private void addCameraOverlay(LatLng arg0) {
 			cameraLocation = arg0;
                         tag = 0;
         } else if(tag_location == 1){
-            OverlayOptions overlayOptions = null;
+        	Intent intent = new Intent();
+        	intent.setClass(MainActivity.this, PanoramaMView.class);
+        	startActivity(intent);
+        	
+ /*           OverlayOptions overlayOptions = null;
             overlayOptions = new MarkerOptions().position(arg0)
                        .icon(mIconMaker).zIndex(5);
            locationOverlay = mBaiduMap.addOverlay(overlayOptions);
            overlayArray.add(locationOverlay);
            locationMark = arg0;
            latArray.add(locationMark);
-           tag_location = 0;
+           tag_location = 0;*/
         }
 
 }

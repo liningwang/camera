@@ -98,7 +98,12 @@
          <activity
             android:name="com.example.map0802.UpdateApkActivity"
             android:label="@string/title_activity_camera_info" >
-        </activity>      
+        </activity>   
+        <activity
+            android:name="com.example.map0802.PanoramaMView"
+            android:label="@string/title_activity_camera_info" >
+        </activity>       
+        
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
