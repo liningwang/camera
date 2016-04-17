@@ -131,7 +131,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			} else {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("empty","1");
-				map.put("comment", "目前没有任何评论，劳烦您为外地车贡献一个有用的评论");
+				map.put("comment", "no momment,please add a comment");
 				listItem.add(map);
 				adapter.notifyDataSetChanged();
 			}

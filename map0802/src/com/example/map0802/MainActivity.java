@@ -3,13 +3,17 @@ package com.example.map0802;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -19,7 +23,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import com.example.shareData.CustomerInfo;
-
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.BDNotifyListener;//假如用到位置提醒功能，需要import该类
+import com.baidu.location.Poi;
 
 import com.example.R;
 import com.example.base.BaseMessage;
@@ -28,12 +37,16 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Overlay;
 
 import android.webkit.WebChromeClient.CustomViewCallback;
@@ -46,6 +59,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
+import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
 import com.example.base.BaseUi;
@@ -70,7 +84,9 @@ public class MainActivity extends BaseUi {
   private LinearLayout profile;
   private TextView tv;
   private Overlay cameraOverlay;
+  private Overlay locationOverlay;
   private LatLng cameraLocation;
+  private LatLng locationMark;
   private String et_desc;
   private String et_addr;
   private String camera_typ;
@@ -88,8 +104,19 @@ public class MainActivity extends BaseUi {
   private TextView about;
   private TextView news;
   private String newsCount;
+  private LocationClient mLocClient;
   private ProgressDialog progressDialog = null;
+  public MyLocationListenner myListener = new MyLocationListenner();
+  private boolean isFirstLoc = true;
+  private LocationMode mCurrentMode;
+  private BitmapDescriptor mCurrentMarker;
+  private TextView addLocation;
+  private TextView removeLocation;
+  private int tag_location = 0;
+  private ArrayList<LatLng> latArray = new ArrayList<LatLng>();
+  private ArrayList<Overlay> overlayArray = new ArrayList<Overlay>();
   int tag=0;
+  private TextToSpeech tts;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +130,8 @@ public class MainActivity extends BaseUi {
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
 	addMark=(TextView) findViewById(R.id.add_camera);
+	addLocation = (TextView) findViewById(R.id.add_location);
+	removeLocation = (TextView) findViewById(R.id.remove_location);
 	profile = (LinearLayout) findViewById(R.id.profile);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
 	about = (TextView) findViewById(R.id.about);
@@ -186,6 +215,8 @@ public class MainActivity extends BaseUi {
                 news.setVisibility(View.GONE);
 	}	
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
+   	initLocation();
+   	initTTS();
     } 
    
     private void setOnclickListener() {
@@ -202,7 +233,111 @@ public class MainActivity extends BaseUi {
 					tag = 1;
 				}
 		});
+		addLocation.setOnClickListener(new OnClickListener() {
+			
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+					tag_location = 1;
+				}
+		});
+		removeLocation.setOnClickListener(new OnClickListener() {
+			
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+					for(Overlay over : overlayArray) {
+						over.remove();
+						latArray.clear();
+					}
+				}
+		});
 	}
+private void initTTS(){
+	OnInitListener listener = new TtsListener();
+	tts = new TextToSpeech(this, listener);
+	
+}
+class TtsListener implements OnInitListener
+{
+	public void onInit(int status) {  
+        //如果装载TTS引擎成功  
+        if(status == TextToSpeech.SUCCESS)  
+        {  
+            //设置使用美式英语朗读(虽然设置里有中文选项Locale.Chinese,但并不支持中文)  
+            int result = tts.setLanguage(Locale.CHINESE);  
+            //如果不支持设置的语言  
+            if(result != TextToSpeech.LANG_COUNTRY_AVAILABLE   
+                    && result != TextToSpeech.LANG_AVAILABLE)  
+            {  
+                Toast.makeText(MainActivity.this, "TTS暂时不支持这种语言朗读", 50000).show();  
+            }  
+        }  
+    }
+}
+private void initLocation() {
+    // 开启定位图层
+	mCurrentMode = LocationMode.NORMAL;
+	 mBaiduMap
+     .setMyLocationConfigeration(new MyLocationConfiguration(
+             mCurrentMode, true, null));
+    mBaiduMap.setMyLocationEnabled(true);
+    // 定位初始化
+    mLocClient = new LocationClient(this);
+    mLocClient.registerLocationListener(myListener);
+    LocationClientOption option = new LocationClientOption();
+    option.setOpenGps(true); // 打开gps
+    option.setCoorType("bd09ll"); // 设置坐标类型
+    option.setScanSpan(5000);
+    mLocClient.setLocOption(option);
+    mLocClient.start();
+}
+public class MyLocationListenner implements BDLocationListener {
+
+    @Override
+    public void onReceiveLocation(BDLocation location) {
+        // map view 销毁后不在处理新接收的位置
+        Log.d("wang","onReceiveLocation successfully");
+    	if (location == null || mMapView == null) {
+            return;
+        }
+    	Log.d("wang","onReceiveLocation location is null");
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(location.getRadius())
+                        // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(100).latitude(location.getLatitude())
+                .longitude(location.getLongitude()).build();
+        mBaiduMap.setMyLocationData(locData);
+        //mMapView.refreshDrawableState();
+        if(latArray.size() != 0) {
+        	float[] distance = new float[1];
+        	for(int i = 0; i < latArray.size();i++) {
+        		LatLng loc = latArray.get(i);
+        		Location.distanceBetween(loc.latitude, loc.longitude, location.getLatitude(), location.getLongitude(), distance);
+        		Log.d("wang","distance is " + distance[0]);
+        		if(distance[0] <= 200.0){
+        			toast("200 distance is bigger " + Math.round(distance[0]));
+        			tts.speak("距离标记位置" + i + "还有" + Math.round(distance[0]) + "米", TextToSpeech.QUEUE_ADD, null);
+        		} else {
+        			//toast("200 distance is smaller " + distance[0]);
+        		}
+        	}
+    	}
+        if (isFirstLoc) {
+            isFirstLoc = false;
+            LatLng ll = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(18.0f);
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }
+    }
+
+    public void onReceivePoi(BDLocation poiLocation) {
+    }
+}
 
    @SuppressLint("NewApi")
 private void setCustomerInfo() {
@@ -280,7 +415,16 @@ private void addCameraOverlay(LatLng arg0) {
                         cameraOverlay = mBaiduMap.addOverlay(overlayOptions);
 			cameraLocation = arg0;
                         tag = 0;
-                       }
+        } else if(tag_location == 1){
+            OverlayOptions overlayOptions = null;
+            overlayOptions = new MarkerOptions().position(arg0)
+                       .icon(mIconMaker).zIndex(5);
+           locationOverlay = mBaiduMap.addOverlay(overlayOptions);
+           overlayArray.add(locationOverlay);
+           locationMark = arg0;
+           latArray.add(locationMark);
+           tag_location = 0;
+        }
 
 }
 private void uploadCameraOverlay() {
@@ -521,6 +665,29 @@ public View getAddCameraView(){
 	});
 	return v;
 }
+public View getSureLocationView(){
+	View v = View.inflate(getApplicationContext(),R.layout.sure_location , null);
+	Button bt = (Button) v.findViewById(R.id.ok);
+        Button cancel = (Button) v.findViewById(R.id.cancel);
+	cancel.setOnClickListener(new OnClickListener() {
+		@Override
+       public void onClick(View arg0) {
+                        // TODO Auto-generated method stub
+			locationOverlay.remove();
+			mBaiduMap.hideInfoWindow();
+			locationMark = null;
+		}
+	});
+	bt.setOnClickListener(new OnClickListener() {
+
+		@Override
+		public void onClick(View arg0) {
+			// TODO Auto-generated method stub
+		}
+		
+	});
+	return v;
+}
 
 @SuppressLint("NewApi")
 @Override
@@ -578,8 +745,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
    }
     @Override 
     protected void onDestroy() {
-        super.onDestroy();
+       
+        // 退出时销毁定位
+        mLocClient.stop();
+        // 关闭定位图层
+        mBaiduMap.setMyLocationEnabled(false);
         mMapView.onDestroy();
+        super.onDestroy();
     }  
     @Override 
     protected void onResume() {

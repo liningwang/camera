@@ -91,8 +91,8 @@ public void onCreate(Bundle savedInstanceState) {
 				content = ReplyActivity.this.replyContent.getText().toString();
 				String sign = app.getSign();
 				String user = app.getUser();
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        	time = df.format(new Date());// new Date()为获取当前系统时间
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//璁剧疆鏃ユ湡鏍煎紡
+                        	time = df.format(new Date());// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
 				commentParams.put("commentId", commentId);	
 				commentParams.put("content", content);	
 				if(sign.isEmpty()) {
@@ -169,7 +169,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 				adapter.notifyDataSetChanged();
 			} else {
 				Map<String, Object> map1 = new HashMap<String, Object>();
-				map1.put("comment", "目前没有任何回复，劳烦您为外地车贡献一个有用的回复");
+				map1.put("comment", "no comment,please add a new comment");
 				listItem.add(map1);
 				adapter.notifyDataSetChanged();
 			}

@@ -103,7 +103,7 @@ public void onCreate(Bundle savedInstanceState) {
 						Toast.makeText(AddCommentActivity.this, "radio id:" + buzan.getId() + " text: " + buzan.getText(), Toast.LENGTH_LONG).show();
 					}	
 				} else {
-					toast("您已经选过了，不能重复选择");
+					toast("no select");
 				}
 			}
 			
@@ -136,7 +136,7 @@ public void onCreate(Bundle savedInstanceState) {
 				 commentParams.put("content",content);
 			    doTaskAsync(C.task.commentCreate, C.api.commentCreate,commentParams);
 			} else {
-			  toast("请先选择是否拍外地车");	
+			  toast("璇峰厛閫夋嫨鏄惁鎷嶅鍦拌溅");	
 			}
 			}
 		});
@@ -155,8 +155,8 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			intent.putExtra("customerId",String.valueOf(app.getCustomerid()));
 			intent.putExtra("name",app.getSign());
 			intent.putExtra("user",app.getUser());
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-			intent.putExtra("time",df.format(new Date()));// new Date()为获取当前系统时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//璁剧疆鏃ユ湡鏍煎紡
+			intent.putExtra("time",df.format(new Date()));// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
 			intent.putExtra("result","ok");
 			setResult(RESULT_OK, intent);
 			finish();

@@ -88,21 +88,21 @@ public class UpdateApkActivity extends BaseUi {
 		int verCode = Common.getVerCode(getApplicationContext());  
 	    String verName = Common.getVerName(getApplicationContext());  
 	    
-	    String str= "当前版本"+verName+" Code:"+verCode+" ,发现新版本:"+m_newVerName+
-	    		" Code:"+m_newVerCode+" ,是否更新？";  
-	    Dialog dialog = new AlertDialog.Builder(this).setTitle("软件更新").setMessage(str)  
+	    String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
+	    		" Code:"+m_newVerCode+" ,is ready";  
+	    Dialog dialog = new AlertDialog.Builder(this).setTitle("杞欢鏇存柊").setMessage(str)  
 	   
-	            .setPositiveButton("更新", 
+	            .setPositiveButton("鏇存柊", 
 	                    new DialogInterface.OnClickListener() {  
 	                        @Override  
 	                        public void onClick(DialogInterface dialog,  
 	                                int which) { 
-	                            m_progressDlg.setTitle("正在下载");  
-	                            m_progressDlg.setMessage("请稍后...");  
+	                            m_progressDlg.setTitle("姝ｅ湪涓嬭浇");  
+	                            m_progressDlg.setMessage("璇风◢鍚�..");  
 	                            downFile(C.api.apkUrl);  
 	                        }  
 	                    })  
-	            .setNegativeButton("暂不更新",  
+	            .setNegativeButton("鏆備笉鏇存柊",  
 	                    new DialogInterface.OnClickListener() {  
 	                        public void onClick(DialogInterface dialog,  
 	                                int whichButton) {  
@@ -116,10 +116,10 @@ public class UpdateApkActivity extends BaseUi {
 		{
 			int verCode = Common.getVerCode(this);  
 		    String verName = Common.getVerName(this); 
-		    String str="verName:"+verName+" Code:"+verCode+",/n已是最新版本，无需更新";
-		    Dialog dialog = new AlertDialog.Builder(this).setTitle("软件更新")  
+		    String str="verName:"+verName+" Code:"+verCode+",/n no new version for apk";
+		    Dialog dialog = new AlertDialog.Builder(this).setTitle("杞欢鏇存柊")  
 		            .setMessage(str) 
-		            .setPositiveButton("确定",
+		            .setPositiveButton("纭畾",
 		                    new DialogInterface.OnClickListener() {  
 		                        @Override  
 		                        public void onClick(DialogInterface dialog,  
