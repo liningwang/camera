@@ -16,6 +16,7 @@ import com.example.shareData.CustomerInfo.MyGeneralListener;
 import com.example.util.SDUtil;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 
@@ -48,6 +49,9 @@ public class PanoramaMView extends Activity
 		//private void initPanorama(){
 			PanoramaView mPanoView = (PanoramaView)findViewById(R.id.panorama);
 			mPanoView.setShowTopoLink(true);
+			double lat = (Double) getIntent().getExtras().get("latitude");
+			double lon = (Double) getIntent().getExtras().get("longitude");
+			Log.d("wang","lat is " + lat + ", lon is " + lon);
 			//mPanoView.setArrowTextureByUrl("http://d.lanrentuku.com/down/png/0907/system-cd-disk/arrow-up.png");
 			 
 			//设置全景图片的显示级别
@@ -57,8 +61,8 @@ public class PanoramaMView extends Activity
 			//较高清晰度 ImageDefinationHigh
 			mPanoView.setPanoramaImageLevel(PanoramaView.ImageDefinition.ImageDefinitionMiddle);
 			//mPanoView. setPanoramaImageLevel(ImageDefinationMiddle);
-            double lat = 39.945;
-            double lon = 116.404;
+            //double lat = 39.945;
+            //double lon = 116.404;
             mPanoView.setPanoramaViewListener(new PanoramaViewListener() {
 
 				@Override
@@ -108,5 +112,17 @@ public class PanoramaMView extends Activity
             app.mBMapManager.init(new CustomerInfo.MyGeneralListener());
         }
     }
+@Override
+public void onBackPressed() {
+// TODO Auto-generated method stub
+        Intent intent = new Intent();
+        intent.putExtra("result","panorama");
+	intent.putExtra("latitude",point.y);
+	intent.putExtra("longitude",point.x);
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+}
+
+
 
 }

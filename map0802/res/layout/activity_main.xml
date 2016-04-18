@@ -36,6 +36,20 @@
 		   android:textSize="12dip"
 		   android:background="@color/red"
          />
+       <TextView
+           android:id="@+id/panorama_location"
+           android:layout_width="40dip"
+           android:layout_height="50dip"
+           android:gravity="center" 
+           android:text="全景"
+           android:textColor="@color/white"
+           android:layout_weight="11"
+           android:layout_marginTop="140dip"
+           android:layout_marginLeft="20dip"
+           android:clickable="true"
+		   android:textSize="12dip"
+		   android:background="@color/red"
+         />
      <LinearLayout
                 android:layout_width="fill_parent"
                 android:orientation="horizontal" 

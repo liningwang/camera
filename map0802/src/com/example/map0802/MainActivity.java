@@ -86,8 +86,10 @@ public class MainActivity extends BaseUi {
   private TextView tv;
   private Overlay cameraOverlay;
   private Overlay locationOverlay;
+  private Overlay panoramaOverlay;
   private LatLng cameraLocation;
   private LatLng locationMark;
+  private LatLng panoramaLocation;
   private String et_desc;
   private String et_addr;
   private String camera_typ;
@@ -113,10 +115,14 @@ public class MainActivity extends BaseUi {
   private BitmapDescriptor mCurrentMarker;
   private TextView addLocation;
   private TextView removeLocation;
+  private TextView panorama;
   private int tag_location = 0;
+  private int panorama_location = 0;
   private ArrayList<LatLng> latArray = new ArrayList<LatLng>();
   private ArrayList<Overlay> overlayArray = new ArrayList<Overlay>();
-  int tag=0;
+  private int tag=0;
+  private double lati; 
+  private double longi; 
   private TextToSpeech tts;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -133,6 +139,7 @@ public class MainActivity extends BaseUi {
 	addMark=(TextView) findViewById(R.id.add_camera);
 	addLocation = (TextView) findViewById(R.id.add_location);
 	removeLocation = (TextView) findViewById(R.id.remove_location);
+	panorama = (TextView) findViewById(R.id.panorama_location);
 	profile = (LinearLayout) findViewById(R.id.profile);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
 	about = (TextView) findViewById(R.id.about);
@@ -254,6 +261,15 @@ public class MainActivity extends BaseUi {
 						over.remove();
 						latArray.clear();
 					}
+				}
+		});
+		panorama.setOnClickListener(new OnClickListener() {
+			
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+					panorama_location = 1;
 				}
 		});
 	}
@@ -423,19 +439,24 @@ private void addCameraOverlay(LatLng arg0) {
 			cameraLocation = arg0;
                         tag = 0;
         } else if(tag_location == 1){
-        	Intent intent = new Intent();
-        	intent.setClass(MainActivity.this, PanoramaMView.class);
-        	startActivity(intent);
-        	
- /*           OverlayOptions overlayOptions = null;
+            OverlayOptions overlayOptions = null;
             overlayOptions = new MarkerOptions().position(arg0)
                        .icon(mIconMaker).zIndex(5);
            locationOverlay = mBaiduMap.addOverlay(overlayOptions);
            overlayArray.add(locationOverlay);
            locationMark = arg0;
            latArray.add(locationMark);
-           tag_location = 0;*/
-        }
+           tag_location = 0;
+        } else if(panorama_location == 1) {
+                        //showInfoWindow(arg0);
+			showInfoWindowForPanorama(arg0);
+                        OverlayOptions overlayOptions = null;
+                         overlayOptions = new MarkerOptions().position(arg0)
+                                    .icon(mIconMaker).zIndex(5);
+                        panoramaOverlay = mBaiduMap.addOverlay(overlayOptions);
+			panoramaLocation = arg0;
+                        panorama_location = 0;
+	}
 
 }
 private void uploadCameraOverlay() {
@@ -548,6 +569,21 @@ private void showInfoWindow(LatLng ll) {
 
              InfoWindow mInfoWindow;
              View location = getAddCameraView();
+             //final LatLng ll = marker.getPosition();
+             Point p = mBaiduMap.getProjection().toScreenLocation(ll);
+             Log.d("wang","haha x = " + p.x + "y = " + p.y);
+             LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
+             //LatLng llInfo = new LatLng(34.242652, 108.971171);
+             Log.d("wang","latitude = " + llInfo.latitude + " longitude" + llInfo.longitude);
+             p.y = -100;
+             mInfoWindow = new InfoWindow(location, llInfo,p.y);
+             mBaiduMap.showInfoWindow(mInfoWindow);
+}
+private void showInfoWindowForPanorama(LatLng ll) {
+
+             InfoWindow mInfoWindow;
+             //View location = getAddCameraView();
+	     View location = getPanoramaView();
              //final LatLng ll = marker.getPosition();
              Point p = mBaiduMap.getProjection().toScreenLocation(ll);
              Log.d("wang","haha x = " + p.x + "y = " + p.y);
@@ -699,11 +735,30 @@ public View getSureLocationView(){
 	});
 	return v;
 }
+public View getPanoramaView(){
+        View v = View.inflate(getApplicationContext(),R.layout.panorama_layout , null);
+        LinearLayout bt = (LinearLayout) v.findViewById(R.id.bt_panorama);
+        bt.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                        // TODO Auto-generated method stub
+        		Intent intent = new Intent();
+			intent.putExtra("latitude",panoramaLocation.latitude);
+			intent.putExtra("longitude",panoramaLocation.longitude);
+        		intent.setClass(MainActivity.this, PanoramaMView.class);
+                	startActivityForResult(intent,1);
+                }
+
+        });
+        return v;
+}
 
 @SuppressLint("NewApi")
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	// TODO Auto-generated method stub
+	Log.d("wang","mainactivity onActivityResult data is " + data);
 	if(data != null) {
 		String result = data.getExtras().getString("result");
 		if(!result.isEmpty()){
@@ -717,6 +772,21 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                                 		  newsCount = String.valueOf(flag);
                                         news.setText(String.valueOf(flag));
                                 }
+                } else if(result.equals("panorama")) {
+                		lati = data.getExtras().getDouble("latitude");
+                		longi = data.getExtras().getDouble("longitude");
+				Log.d("wang","mainActivity panorama lati is " + lati + ", longi is " + longi);
+				LatLng latlng = new LatLng(lati, longi);
+
+				panoramaOverlay.remove();	
+				mBaiduMap.hideInfoWindow();
+
+				panoramaLocation = latlng;
+ 				showInfoWindowForPanorama(latlng);
+        	                OverlayOptions overlayOptions = null;
+                	        overlayOptions = new MarkerOptions().position(latlng)
+                                    .icon(mIconMaker).zIndex(5);
+                       		panoramaOverlay = mBaiduMap.addOverlay(overlayOptions);
                 } else {
 			if(result.equals("ok")) {
 				et_desc = data.getExtras().getString("et_desc");
@@ -742,7 +812,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				cameraOverlay.remove();
 		                mBaiduMap.hideInfoWindow();		
 			}
-		}
+		} 
 		}
 	}
 }
