@@ -78,6 +78,8 @@ public class MainActivity extends BaseUi {
     MapView mMapView = null;
    private BaiduMap mBaiduMap;
    private BitmapDescriptor mIconMaker; 
+   private BitmapDescriptor mPanoramaMaker; 
+   private BitmapDescriptor mbiaojiMaker; 
   private RelativeLayout mMarkerInfoLy;
   private boolean flag = false;
   private ImageView image;
@@ -113,9 +115,11 @@ public class MainActivity extends BaseUi {
   private boolean isFirstLoc = true;
   private LocationMode mCurrentMode;
   private BitmapDescriptor mCurrentMarker;
-  private TextView addLocation;
-  private TextView removeLocation;
-  private TextView panorama;
+  private LinearLayout addLocation;
+  private LinearLayout removeLocation;
+  private LinearLayout panorama;
+  private LinearLayout global;
+  private ImageView panorama_imag;
   private int tag_location = 0;
   private int panorama_location = 0;
   private ArrayList<LatLng> latArray = new ArrayList<LatLng>();
@@ -133,13 +137,17 @@ public class MainActivity extends BaseUi {
 	mMarkerInfoLy = (RelativeLayout) findViewById(R.id.id_marker_info);
        
 	mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.maker);
+	mPanoramaMaker = BitmapDescriptorFactory.fromResource(R.drawable.quanjing_biao);
+	mbiaojiMaker = BitmapDescriptorFactory.fromResource(R.drawable.biaoji);
 	mBaiduMap = mMapView.getMap();
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
 	addMark=(TextView) findViewById(R.id.add_camera);
-	addLocation = (TextView) findViewById(R.id.add_location);
-	removeLocation = (TextView) findViewById(R.id.remove_location);
-	panorama = (TextView) findViewById(R.id.panorama_location);
+	addLocation = (LinearLayout) findViewById(R.id.add_location);
+	removeLocation = (LinearLayout) findViewById(R.id.remove_location);
+	global = (LinearLayout) findViewById(R.id.global);
+	panorama = (LinearLayout) global.findViewById(R.id.panorama_location);
+	panorama_imag = (ImageView) panorama.findViewById(R.id.panorama_image);
 	profile = (LinearLayout) findViewById(R.id.profile);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
 	about = (TextView) findViewById(R.id.about);
@@ -269,7 +277,15 @@ public class MainActivity extends BaseUi {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-					panorama_location = 1;
+					if(panorama_location == 0) {
+						panorama_imag.setBackgroundResource(R.drawable.quanjing1);
+						panorama_location = 1;
+					} else if(panorama_location == 1) {
+						panorama_imag.setBackgroundResource(R.drawable.quanjing);
+						panoramaOverlay.remove();	
+						mBaiduMap.hideInfoWindow();
+						panorama_location = 0;
+					}
 				}
 		});
 	}
@@ -441,7 +457,7 @@ private void addCameraOverlay(LatLng arg0) {
         } else if(tag_location == 1){
             OverlayOptions overlayOptions = null;
             overlayOptions = new MarkerOptions().position(arg0)
-                       .icon(mIconMaker).zIndex(5);
+                       .icon(mbiaojiMaker).zIndex(5);
            locationOverlay = mBaiduMap.addOverlay(overlayOptions);
            overlayArray.add(locationOverlay);
            locationMark = arg0;
@@ -449,13 +465,17 @@ private void addCameraOverlay(LatLng arg0) {
            tag_location = 0;
         } else if(panorama_location == 1) {
                         //showInfoWindow(arg0);
+			if(panoramaOverlay != null ) {
+				panoramaOverlay.remove();	
+				mBaiduMap.hideInfoWindow();
+			}
 			showInfoWindowForPanorama(arg0);
                         OverlayOptions overlayOptions = null;
                          overlayOptions = new MarkerOptions().position(arg0)
-                                    .icon(mIconMaker).zIndex(5);
+                                    .icon(mPanoramaMaker).zIndex(5);
                         panoramaOverlay = mBaiduMap.addOverlay(overlayOptions);
 			panoramaLocation = arg0;
-                        panorama_location = 0;
+                        //panorama_location = 0;
 	}
 
 }
@@ -785,7 +805,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
  				showInfoWindowForPanorama(latlng);
         	                OverlayOptions overlayOptions = null;
                 	        overlayOptions = new MarkerOptions().position(latlng)
-                                    .icon(mIconMaker).zIndex(5);
+                                    .icon(mPanoramaMaker).zIndex(5);
                        		panoramaOverlay = mBaiduMap.addOverlay(overlayOptions);
                 } else {
 			if(result.equals("ok")) {
