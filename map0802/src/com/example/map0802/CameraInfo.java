@@ -85,13 +85,13 @@ public void onCreate(Bundle savedInstanceState) {
 		public void onCheckedChanged(RadioGroup arg0, int arg1) {
 			// TODO Auto-generated method stub
 			if(arg1 == rd_jjz.getId()) {
-				radioId = arg1;
+				radioId = 0;
 				Toast.makeText(CameraInfo.this, "radio id:" + rd_jjz.getId() + " text: " + rd_jjz.getText(), Toast.LENGTH_LONG).show();
 			} else if(arg1 == rd_gfq.getId()) {
-				radioId = arg1;
+				radioId = 1;
 				Toast.makeText(CameraInfo.this, "radio id:" + rd_gfq.getId() + " text: " + rd_gfq.getText(), Toast.LENGTH_LONG).show();
 			} else if(arg1 == rd_wh.getId()) {
-				radioId = arg1;
+				radioId = 2;
 				Toast.makeText(CameraInfo.this, "radio id:" + rd_wh.getId() + " text: " + rd_wh.getText(), Toast.LENGTH_LONG).show();
 			}	
 		}

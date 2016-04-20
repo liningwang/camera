@@ -136,7 +136,7 @@ public class MainActivity extends BaseUi {
         mMapView = (MapView) findViewById(R.id.bmapView); 
 	mMarkerInfoLy = (RelativeLayout) findViewById(R.id.id_marker_info);
        
-	mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.maker);
+	mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.jinjingmarker);
 	mPanoramaMaker = BitmapDescriptorFactory.fromResource(R.drawable.quanjing_biao);
 	mbiaojiMaker = BitmapDescriptorFactory.fromResource(R.drawable.biaoji);
 	mBaiduMap = mMapView.getMap();
@@ -532,6 +532,13 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			for(Camera data : cameraList){
 			    Log.d("wang","camera addr = " + data.getAddress() + "name = " + data.getName() + "direction = " + data.getDirection());
 				latLng = new LatLng(Double.valueOf(data.getLatitude()),Double.valueOf(data.getLongitude()));
+				if(data.getType().equals("0")) {
+                    mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.jinjingmarker);
+				} else if(data.getType().equals("1")) {
+	                     mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.weihaomarker);
+			         }else if (data.getType().equals("2")) {
+	                     mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.gaofengmarker);
+			         }
 				overlayOptions = new MarkerOptions().position(latLng)
                          .icon(mIconMaker).zIndex(5);
                 marker = (Marker) (mBaiduMap.addOverlay(overlayOptions));
@@ -827,7 +834,21 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				}
 				Log.d("wang","upload camera info:et_desc = " + et_desc + " et_addr = " + et_addr + " camera_typ = " + camera_typ + " direction = " + direction);
 		                mBaiduMap.hideInfoWindow();	
-		        	uploadCameraOverlay();
+		         if(camera_typ.equals("1")) {
+                     BitmapDescriptor iconMaker = BitmapDescriptorFactory.fromResource(R.drawable.weihaomarker);
+                     OverlayOptions overlayOptions = null;
+                      overlayOptions = new MarkerOptions().position(cameraLocation)
+                                 .icon(iconMaker).zIndex(5);
+                     cameraOverlay = mBaiduMap.addOverlay(overlayOptions);
+             
+		         }else if (camera_typ.equals("2")) {
+                     BitmapDescriptor iconMaker = BitmapDescriptorFactory.fromResource(R.drawable.gaofengmarker);
+                     OverlayOptions overlayOptions = null;
+                      overlayOptions = new MarkerOptions().position(cameraLocation)
+                                 .icon(iconMaker).zIndex(5);
+                     cameraOverlay = mBaiduMap.addOverlay(overlayOptions);
+		         }
+		        uploadCameraOverlay();
 			} else {
 				cameraOverlay.remove();
 		                mBaiduMap.hideInfoWindow();		
