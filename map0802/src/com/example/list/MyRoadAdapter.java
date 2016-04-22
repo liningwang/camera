@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.example.R;
 import com.example.map0802.ProfileActivity;
+import com.jauker.widget.BadgeView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +43,7 @@ public class MyRoadAdapter extends BaseAdapter {
 		public TextView username;
 		public LinearLayout private_cus;
 		public TextView reply;
-		public TextView news;
+		public BadgeView news;
 	}
 	@Override
 	public int getCount() {
@@ -77,7 +78,7 @@ public class MyRoadAdapter extends BaseAdapter {
 			zujian.time=(TextView)arg1.findViewById(R.id.time);
 			zujian.private_cus=(LinearLayout)arg1.findViewById(R.id.private_cus);
 			zujian.username=(TextView)arg1.findViewById(R.id.userName);
-			zujian.news=(TextView)arg1.findViewById(R.id.news);
+			zujian.news=(BadgeView)arg1.findViewById(R.id.news);
 			zujian.reply=(TextView)arg1.findViewById(R.id.reply);
 			zujian.private_cus.setOnClickListener(new OnClickListener() {
 				
@@ -111,7 +112,7 @@ public class MyRoadAdapter extends BaseAdapter {
 	Log.d("wang","visibleFirstPosi " + visibleFirstPosi + " visibleLastPosi " + visibleLastPosi + " posi " + posi);
         if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {  
             View view = listView.getChildAt(posi - visibleFirstPosi);  
-	    TextView news=(TextView)view.findViewById(R.id.news);
+	    TextView news=(BadgeView)view.findViewById(R.id.news);
 	    news.setVisibility(View.GONE);
 	    //listView.addView(view, posi);
         }  

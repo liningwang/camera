@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.example.shareData.CustomerInfo;
 import com.example.util.AppCache;
 import com.example.util.AppUtil;
+import com.jauker.widget.BadgeView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +27,7 @@ public class BaseUi extends Activity {
 	protected BaseTaskPool taskPool;
 	protected boolean showLoadBar = false;
 	protected boolean showDebugMsg = true;
+	protected BadgeView badgeView;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -39,6 +41,7 @@ public class BaseUi extends Activity {
 		this.taskPool = new BaseTaskPool(this);
 		// init application
 		this.app = (CustomerInfo) getApplicationContext();
+		badgeView = new BadgeView(this);
 	}
 	
 	@Override

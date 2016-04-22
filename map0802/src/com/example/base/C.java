@@ -14,8 +14,8 @@ public final class C {
 	}
 	
 	public static final class api {
-		//public static final String base				= "http://172.28.32.177:8003";
-		public static final String base				= "http://192.168.1.107:8003";
+		public static final String base				= "http://172.28.32.177:8003";
+		//public static final String base				= "http://192.168.1.107:8003";
 		public static final String imageUrl 			= "http://172.28.32.177:8004/faces/road/";
 		public static final String apkUrl 			= "http://172.28.32.177:8004/apk/update.apk";
 		public static final String register			= "/customer/customerCreate";

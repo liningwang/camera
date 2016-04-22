@@ -143,18 +143,12 @@
                                   android:gravity="right|center_vertical"
                           >
 
-                          <TextView 
-                                                     android:id="@+id/news"
+                          <com.jauker.widget.BadgeView 
+                    android:id="@+id/news"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                       android:paddingLeft="4dip"
-                       android:paddingRight="4dip"
-                       android:paddingTop="1dip"
-                       android:paddingBottom="1dip"
                     android:text="0"
-                    android:background="@drawable/news_background_red"
-                                                android:layout_marginRight="20dip"
+                    android:layout_marginRight="20dip"
                               
                               />
 </LinearLayout>

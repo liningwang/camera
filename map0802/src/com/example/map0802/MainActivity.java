@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,6 +69,7 @@ import com.example.base.C;
 import com.example.list.CameraComment;
 import com.example.model.AllRoadCount;
 import com.example.model.Camera;
+import com.jauker.widget.BadgeView;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -83,8 +85,10 @@ public class MainActivity extends BaseUi {
   private RelativeLayout mMarkerInfoLy;
   private boolean flag = false;
   private ImageView image;
-  private TextView addMark;
+  private ImageView weizhang_imag;
+  private LinearLayout addMark;
   private LinearLayout profile;
+  private LinearLayout nave;
   private TextView tv;
   private Overlay cameraOverlay;
   private Overlay locationOverlay;
@@ -107,7 +111,6 @@ public class MainActivity extends BaseUi {
   private 	int share_buzan;
   private TextView safeRoad;
   private TextView about;
-  private TextView news;
   private String newsCount;
   private LocationClient mLocClient;
   private ProgressDialog progressDialog = null;
@@ -142,16 +145,21 @@ public class MainActivity extends BaseUi {
 	mBaiduMap = mMapView.getMap();
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
-	addMark=(TextView) findViewById(R.id.add_camera);
 	addLocation = (LinearLayout) findViewById(R.id.add_location);
 	removeLocation = (LinearLayout) findViewById(R.id.remove_location);
 	global = (LinearLayout) findViewById(R.id.global);
+	addMark=(LinearLayout) global.findViewById(R.id.add_camera);
+	weizhang_imag = (ImageView) addMark.findViewById(R.id.weizhang_image);
 	panorama = (LinearLayout) global.findViewById(R.id.panorama_location);
 	panorama_imag = (ImageView) panorama.findViewById(R.id.panorama_image);
 	profile = (LinearLayout) findViewById(R.id.profile);
+	nave = (LinearLayout) findViewById(R.id.nave);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
 	about = (TextView) findViewById(R.id.about);
-	news = (TextView) findViewById(R.id.news);
+	
+    	badgeView.setTargetView(nave);
+	badgeView.setBadgeGravity(Gravity.TOP | Gravity.RIGHT);
+
 	
 	safeRoad.setOnClickListener(new OnClickListener() {
 
@@ -227,8 +235,8 @@ public class MainActivity extends BaseUi {
 		progressDialog = ProgressDialog.show(MainActivity.this, "请稍等...", "加载中....", true);
    		doTaskAsync(C.task.safeRoadCountById, C.api.safeRoadCountById,params);
 	} else {
-		news.setText("0");	
-                news.setVisibility(View.GONE);
+		badgeView.setBadgeCount(0);
+		badgeView.setVisibility(View.GONE);
 	}	
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
    	initLocation();
@@ -247,7 +255,13 @@ public class MainActivity extends BaseUi {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				if(tag == 0) {
+					weizhang_imag.setBackgroundResource(R.drawable.weizhangdi);
 					tag = 1;
+				} else if(tag == 1) {
+					weizhang_imag.setBackgroundResource(R.drawable.weizhangdi1);
+					tag = 0;
+				}
 				}
 		});
 		addLocation.setOnClickListener(new OnClickListener() {
@@ -282,8 +296,10 @@ public class MainActivity extends BaseUi {
 						panorama_location = 1;
 					} else if(panorama_location == 1) {
 						panorama_imag.setBackgroundResource(R.drawable.quanjing);
-						panoramaOverlay.remove();	
-						mBaiduMap.hideInfoWindow();
+						if(panoramaOverlay != null) {
+							panoramaOverlay.remove();	
+							mBaiduMap.hideInfoWindow();
+						}
 						panorama_location = 0;
 					}
 				}
@@ -453,7 +469,7 @@ private void addCameraOverlay(LatLng arg0) {
                                     .icon(mIconMaker).zIndex(5);
                         cameraOverlay = mBaiduMap.addOverlay(overlayOptions);
 			cameraLocation = arg0;
-                        tag = 0;
+			Log.d("wang","addCameraOverlay cameraLocation latitude " + cameraLocation.latitude + " longitude " + cameraLocation.longitude);
         } else if(tag_location == 1){
             OverlayOptions overlayOptions = null;
             overlayOptions = new MarkerOptions().position(arg0)
@@ -492,6 +508,14 @@ private void uploadCameraOverlay() {
         doTaskAsync(C.task.createCamera, C.api.createCamera, locationParams);
 	Log.d("wang","uploadCamera info successfully!!!");
 }
+public void onNetworkError (int taskId) {
+	super.onNetworkError(taskId);
+	switch(taskId){
+		case C.task.safeRoadCountById:
+			progressDialog.dismiss();
+	}
+}
+
 public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
@@ -500,7 +524,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		try {
 			roadCount = (AllRoadCount) message.getResult("AllRoadCount");
 			newsCount = roadCount.getCount();	
-			news.setText(newsCount);	
+			badgeView.setBadgeCount(Integer.valueOf(newsCount));
 			progressDialog.dismiss();
 			Toast.makeText(MainActivity.this, "您有 " + newsCount + " 条新评论，请点击个人信息查看", Toast.LENGTH_LONG).show();
 			//toast("您有 " + newsCount + " 条新评论，请点击个人信息查看");
@@ -511,10 +535,16 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			break;
 		case C.task.createCamera:
 			toast("create camera succefully");
+	 	Log.d("wang","cameraList size is " + cameraList.size());
 		Camera newCamera;
 		try {
+			
 			newCamera = (Camera) message.getResult("Camera");
+			newCamera.setLongitude(String.valueOf(cameraLocation.longitude));
+			newCamera.setLatitude(String.valueOf(cameraLocation.latitude));
 			cameraList.add(newCamera);
+			weizhang_imag.setBackgroundResource(R.drawable.weizhangdi1);
+                        tag = 0;
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -643,9 +673,11 @@ private void showInfoWindowForPanorama(LatLng ll) {
                 });
         }
  private void judgeClickCamera(LatLng location){
+	 Log.d("wang","cameraList judgeClickCamera size is " + cameraList.size());
 	 for(Camera data : cameraList){
 		 if((location.latitude == Double.valueOf(data.getLatitude())) && (location.longitude == Double.valueOf(data.getLongitude()))) {
 			
+	 		Log.d("wang","judgeClickCamera find camera " + data.getId());
 			 HashMap<String, String> locationParams = new HashMap<String, String>();				      
 				locationParams.put("cameraId", data.getId());
 				doTaskAsync(C.task.getCameraById,C.api.getCameraById,locationParams);
@@ -789,15 +821,16 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	if(data != null) {
 		String result = data.getExtras().getString("result");
 		if(!result.isEmpty()){
-                if(result.equals("ok1")) {
+                	if(result.equals("ok1")) {
                                 Log.d("wang","MainActivity result is ok1");
                                 int flag;
                                 flag = app.getAllCount();
                                 if(flag == 0) {
-                                        news.setVisibility(View.GONE);
+                			badgeView.setVisibility(View.GONE);
+                                	newsCount = String.valueOf(flag);
                                 } else {
-                                		  newsCount = String.valueOf(flag);
-                                        news.setText(String.valueOf(flag));
+                                	newsCount = String.valueOf(flag);
+					badgeView.setBadgeCount(flag);
                                 }
                 } else if(result.equals("panorama")) {
                 		lati = data.getExtras().getDouble("latitude");

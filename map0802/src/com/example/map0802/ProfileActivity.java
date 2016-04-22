@@ -9,6 +9,7 @@ import com.example.base.C;
 import com.example.base.C.action.edittext;
 import com.example.model.Customer;
 import com.example.shareData.CustomerInfo;
+import com.jauker.widget.BadgeView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,11 +32,12 @@ public class ProfileActivity extends BaseUi{
 		AlertDialog.Builder build;
 		private AlertDialog dialog;
 		private String newsCount;
-		private TextView news;
+		private BadgeView news;
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			// TODO Auto-generated method stub
 			super.onCreate(savedInstanceState);
+
 			if(app.isLogin()){
 				newsCount = getIntent().getExtras().get("newsCount").toString();
 				loginView();
@@ -71,6 +73,7 @@ public class ProfileActivity extends BaseUi{
 			TextView email = (TextView) findViewById(R.id.tv_email);
 			email.setText(app.getEmail());
 			TextView roadTopic = (TextView) findViewById(R.id.road_topic);
+			news = (BadgeView) findViewById(R.id.news);
         		roadTopic.setOnClickListener(new OnClickListener() {
                         	@Override
                         	public void onClick(View arg0) {
@@ -79,8 +82,10 @@ public class ProfileActivity extends BaseUi{
 					startActivityForResult(intent,1);
                                 }
         		});
-			news = (TextView) findViewById(R.id.news);
-			news.setText(newsCount);
+			//news.setTargetView(roadTopic);
+		        //badgeView.setBadgeGravity(Gravity.CENTER | Gravity.RIGHT);
+			//badgeView.setBadgeCount(Integer.valueOf(newsCount));
+			news.setBadgeCount(Integer.valueOf(newsCount));
 		}
 		private void unLoginView(){
 			setContentView(R.layout.login_register);
@@ -179,7 +184,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				if(flag == 0) {
 					news.setVisibility(View.GONE);
 				} else {
-					news.setText(String.valueOf(flag));
+					news.setBadgeCount(flag);
 				}
                         }
 		}

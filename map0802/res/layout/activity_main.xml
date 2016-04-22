@@ -97,58 +97,93 @@
 		   android:textSize="7dip"
          />
      </LinearLayout>
+          <LinearLayout
+                android:id="@+id/add_camera"
+                android:layout_width="fill_parent"
+                android:layout_height="34dip" 
+                android:orientation="vertical" 
+                android:padding = "2dip"
+                android:background="#88323232"
+                android:layout_marginTop="10dip"
+                android:clickable="true"
+                android:gravity="center" 
+                >
+                <ImageView   
+                        android:id="@+id/weizhang_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+                        android:background="@drawable/weizhangdi1"
+                        android:layout_marginBottom="1dp"
+                        />
+       <TextView
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center" 
+           android:text="违章地"
+           android:textColor="@color/white"
+                   android:textSize="7dip"
+         />
      </LinearLayout>
+     </LinearLayout>
+     <LinearLayout
+		android:id="@+id/nave"
+                android:layout_width="fill_parent"
+                android:orientation="horizontal" 
+                android:layout_height="wrap_content"
+		android:padding="3dip"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="25dip"
+                android:layout_marginLeft="28dip"
+                android:layout_marginRight="48dip"
+                android:background="@android:color/transparent"
+	>
      <LinearLayout
                 android:layout_width="fill_parent"
                 android:orientation="horizontal" 
                 android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="25dip"
-                android:layout_marginLeft="25dip"
-                android:layout_marginRight="40dip"
-                android:background="@drawable/navegation_menu">
-		<TextView
-                    android:id="@+id/add_camera"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center" 
-                    android:text="添加摄像头"
-                    android:textColor="@color/white"
-                    android:layout_weight="11"
-                    android:clickable="true"
-		   android:textSize="12dip"
-		    />
-                <ImageView   
-            		android:layout_width="0.2dp"  
-           		android:layout_height="fill_parent"  
-           		android:background="@color/white"  
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-           		/>
+                android:background="@drawable/navegation_menu1">
 		<TextView
                     android:id="@+id/camera_topic"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center" 
                     android:text="路线讨论"
-                    android:textColor="@color/white"
-                    android:layout_weight="11"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
                     android:clickable="true"
 		   android:textSize="12dip"
 		    />
                 <ImageView   
             		android:layout_width="0.2dp"  
            		android:layout_height="fill_parent"  
-           		android:background="@color/white"  
+           		android:background="@color/gray"  
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
            		/>
+                <TextView
+                    android:id="@+id/about"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center" 
+                    android:text="关于"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                   android:textSize="12dip"
+                    />
+		<ImageView   
+                        android:layout_width="0.2dp"  
+                        android:layout_height="fill_parent"  
+                        android:background="@color/gray"  
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        />
 		<LinearLayout
                     	android:id="@+id/profile"
                 	android:layout_width="fill_parent"
                 	android:orientation="horizontal" 
                     	android:layout_height="fill_parent"
-                    	android:layout_weight="10"
+                    	android:layout_weight="1"
                     	android:gravity="center"
                     	android:clickable="true"
 			>
@@ -158,41 +193,11 @@
                      
                     android:text="个人信息"
            			android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
 		   android:textSize="12dip"
 		    />
-		<TextView
-		    		   android:id="@+id/news"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                       android:paddingLeft="2dip"
-                       android:paddingRight="2dip"
-                       android:paddingTop="1dip"
-                       android:paddingBottom="1dip"
-                    android:text="0"
-                    	android:layout_marginLeft="7dip"
-                    android:background="@drawable/news_background"
-		/>
      		</LinearLayout>
-		<ImageView   
-                        android:layout_width="0.2dp"  
-                        android:layout_height="fill_parent"  
-                        android:background="@color/white"  
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        />
-                <TextView
-                    android:id="@+id/about"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center" 
-                    android:text="关于"
-                    android:textColor="@color/white"
-                    android:layout_weight="11"
-                    android:clickable="true"
-                   android:textSize="12dip"
-                    />
+     </LinearLayout>
      </LinearLayout>
    <RelativeLayout
         android:id="@+id/id_marker_info"
