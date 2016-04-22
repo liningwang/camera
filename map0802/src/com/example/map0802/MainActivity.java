@@ -660,13 +660,13 @@ private void showInfoWindowForPanorama(LatLng ll) {
                         {
                      
                      LatLng markerLat = marker.getPosition();
-                     judgeClickCamera(markerLat);
                      Point p = mBaiduMap.getProjection().toScreenLocation(markerLat);
              			//mMarkerInfoLy.setVisibility(View.VISIBLE);
                      View location = getPopCameraView();
                      p.y = -100;
                      mInfoWindow = new InfoWindow(location, markerLat,p.y);
-                     
+		     mBaiduMap.showInfoWindow(mInfoWindow);
+                     judgeClickCamera(markerLat);
              			flag = true;
                      return true;
                         }
