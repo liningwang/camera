@@ -26,7 +26,7 @@ public class Common {
         try {
         	
             verCode = context.getPackageManager().getPackageInfo(
-                    "com.example.try_downloadfile_progress", 0).versionCode;
+                    "com.example", 0).versionCode;
         } catch (NameNotFoundException e) {
         	Log.e("msg",e.getMessage());
         }
@@ -37,7 +37,7 @@ public class Common {
         String verName = "";
         try {
             verName = context.getPackageManager().getPackageInfo(
-                    "com.example.try_downloadfile_progress", 0).versionName;
+                    "com.example", 0).versionName;
         } catch (NameNotFoundException e) {
         	Log.e("msg",e.getMessage());
         }

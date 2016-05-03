@@ -777,12 +777,12 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 updateA = (UpdateApk) message.getResult("UpdateApk");
                                 m_newVerName = updateA.getVerName();
                                 m_newVerCode = Integer.valueOf(updateA.getVerCode());
-                                Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName());
                                 int vercode = Common.getVerCode(getApplicationContext());
+                                Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName() + "local vercode is " + vercode);
                          if (m_newVerCode > vercode) {
                                         doNewVersionUpdate();
                          } else {
-                                        notNewVersionDlgShow();
+                                //        notNewVersionDlgShow();
                          }
                         } catch (Exception e1) {
                                 // TODO Auto-generated catch block
