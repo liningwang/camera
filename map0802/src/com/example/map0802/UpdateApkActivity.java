@@ -90,19 +90,19 @@ public class UpdateApkActivity extends BaseUi {
 	    
 	    String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
 	    		" Code:"+m_newVerCode+" ,is ready";  
-	    Dialog dialog = new AlertDialog.Builder(this).setTitle("杞欢鏇存柊").setMessage(str)  
+	    Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)  
 	   
-	            .setPositiveButton("鏇存柊", 
+	            .setPositiveButton("ok", 
 	                    new DialogInterface.OnClickListener() {  
 	                        @Override  
 	                        public void onClick(DialogInterface dialog,  
 	                                int which) { 
-	                            m_progressDlg.setTitle("姝ｅ湪涓嬭浇");  
-	                            m_progressDlg.setMessage("璇风◢鍚�..");  
+	                            m_progressDlg.setTitle("update apk");  
+	                            m_progressDlg.setMessage("download..");  
 	                            downFile(C.api.apkUrl);  
 	                        }  
 	                    })  
-	            .setNegativeButton("鏆備笉鏇存柊",  
+	            .setNegativeButton("cancel",  
 	                    new DialogInterface.OnClickListener() {  
 	                        public void onClick(DialogInterface dialog,  
 	                                int whichButton) {  
@@ -117,9 +117,9 @@ public class UpdateApkActivity extends BaseUi {
 			int verCode = Common.getVerCode(this);  
 		    String verName = Common.getVerName(this); 
 		    String str="verName:"+verName+" Code:"+verCode+",/n no new version for apk";
-		    Dialog dialog = new AlertDialog.Builder(this).setTitle("杞欢鏇存柊")  
+		    Dialog dialog = new AlertDialog.Builder(this).setTitle("can not find new version")  
 		            .setMessage(str) 
-		            .setPositiveButton("纭畾",
+		            .setPositiveButton("ok",
 		                    new DialogInterface.OnClickListener() {  
 		                        @Override  
 		                        public void onClick(DialogInterface dialog,  

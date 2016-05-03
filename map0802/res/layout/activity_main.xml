@@ -30,9 +30,10 @@
            	android:gravity="center" 
 		> 
                 <ImageView   
+			android:id="@+id/tianjia"
             		android:layout_width="15dip"  
            		android:layout_height="15dip"  
-		   	android:background="@drawable/tianjia"
+		   	android:background="@drawable/notianjia"
                         android:layout_marginBottom="1dp"
            		/>
      <TextView

@@ -1,15 +1,30 @@
 package com.example.map0802;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
@@ -21,6 +36,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import com.example.shareData.CustomerInfo;
@@ -69,6 +85,7 @@ import com.example.base.C;
 import com.example.list.CameraComment;
 import com.example.model.AllRoadCount;
 import com.example.model.Camera;
+import com.example.model.UpdateApk;
 import com.jauker.widget.BadgeView;
 
 import android.graphics.Bitmap;
@@ -123,6 +140,7 @@ public class MainActivity extends BaseUi {
   private LinearLayout panorama;
   private LinearLayout global;
   private ImageView panorama_imag;
+  private ImageView tianjia;
   private int tag_location = 0;
   private int panorama_location = 0;
   private ArrayList<LatLng> latArray = new ArrayList<LatLng>();
@@ -131,6 +149,11 @@ public class MainActivity extends BaseUi {
   private double lati; 
   private double longi; 
   private TextToSpeech tts;
+  private int m_newVerCode;
+  private String m_newVerName;
+  private String m_appNameStr;
+  private Handler m_mainHandler;
+  private ProgressDialog m_progressDlg;
     @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +169,7 @@ public class MainActivity extends BaseUi {
 	image = (ImageView) mMarkerInfoLy.findViewById(R.id.info_img);
 	tv = (TextView) mMarkerInfoLy.findViewById(R.id.info_name);
 	addLocation = (LinearLayout) findViewById(R.id.add_location);
+	tianjia	= (ImageView) addLocation.findViewById(R.id.tianjia);
 	removeLocation = (LinearLayout) findViewById(R.id.remove_location);
 	global = (LinearLayout) findViewById(R.id.global);
 	addMark=(LinearLayout) global.findViewById(R.id.add_camera);
@@ -225,6 +249,7 @@ public class MainActivity extends BaseUi {
 	setOnclickListener();
 	initClickMap();
 	initMarkerClickEvent();
+	initVariable();
 	setCustomerInfo();
 	int customerId = app.getCustomerid();
 	if(customerId != 0) 
@@ -270,7 +295,13 @@ public class MainActivity extends BaseUi {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				if(tag_location == 0) {
+					tianjia.setBackgroundResource(R.drawable.tianjia);
 					tag_location = 1;
+				} else if(tag_location == 1) {
+					tianjia.setBackgroundResource(R.drawable.notianjia);
+					tag_location = 0;
+				}
 				}
 		});
 		removeLocation.setOnClickListener(new OnClickListener() {
@@ -478,6 +509,7 @@ private void addCameraOverlay(LatLng arg0) {
            overlayArray.add(locationOverlay);
            locationMark = arg0;
            latArray.add(locationMark);
+	   tianjia.setBackgroundResource(R.drawable.notianjia);
            tag_location = 0;
         } else if(panorama_location == 1) {
                         //showInfoWindow(arg0);
@@ -515,6 +547,124 @@ public void onNetworkError (int taskId) {
 			progressDialog.dismiss();
 	}
 }
+        private void initVariable()
+        {
+                m_mainHandler = new Handler();
+                m_progressDlg =  new ProgressDialog(this);
+                m_progressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+                m_progressDlg.setIndeterminate(false);
+                m_appNameStr = "haha.apk";
+        }
+       private void doNewVersionUpdate() {
+                int verCode = Common.getVerCode(getApplicationContext());
+            String verName = Common.getVerName(getApplicationContext());
+
+            String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
+                        " Code:"+m_newVerCode+" ,is ready";
+            Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)
+
+                    .setPositiveButton("ok",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                        int which) {
+                                    m_progressDlg.setTitle("update apk");
+                                    m_progressDlg.setMessage("download..");
+                                    downFile(C.api.apkUrl);
+                                }
+                            })
+                    .setNegativeButton("cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                        int whichButton) {
+
+                                    //finish();
+                                }
+                            }).create();
+            dialog.show();
+        }
+
+               private void notNewVersionDlgShow()
+                {
+                        int verCode = Common.getVerCode(this);
+                    String verName = Common.getVerName(this);
+                    String str="verName:"+verName+" Code:"+verCode+",/n no new version for apk";
+                    Dialog dialog = new AlertDialog.Builder(this).setTitle("can not find new version")
+                            .setMessage(str)
+                            .setPositiveButton("ok",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog,
+                                                int which) {
+                                            finish();
+                                        }
+                                    }).create();
+                    dialog.show();
+                }
+
+                private void downFile(final String url)
+                {
+                        m_progressDlg.show();
+                    new Thread() {
+                        public void run() {
+                            HttpClient client = new DefaultHttpClient();
+                            HttpGet get = new HttpGet(url);
+                            HttpResponse response;
+                            try {
+                                response = client.execute(get);
+                                HttpEntity entity = response.getEntity();
+                                long length = entity.getContentLength();
+
+                                m_progressDlg.setMax((int)length);
+
+                                InputStream is = entity.getContent();
+                                FileOutputStream fileOutputStream = null;
+                                if (is != null) {
+                                    File file = new File(
+                                            Environment.getExternalStorageDirectory(),
+                                            m_appNameStr);
+                                    fileOutputStream = new FileOutputStream(file);
+                                    byte[] buf = new byte[1024];
+                                    int ch = -1;
+                                    int count = 0;
+                                    while ((ch = is.read(buf)) != -1) {
+                                        fileOutputStream.write(buf, 0, ch);
+                                        count += ch;
+                                        if (length > 0) {
+                                                 m_progressDlg.setProgress(count);
+                                        }
+                                    }
+                                }
+                                fileOutputStream.flush();
+                                if (fileOutputStream != null) {
+                                    fileOutputStream.close();
+                                }
+                                down();
+                            } catch (ClientProtocolException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+                }
+
+      private void down() {
+                m_mainHandler.post(new Runnable() {
+                    public void run() {
+                        m_progressDlg.cancel();
+                        update();
+                    }
+                });
+        }
+        void update() {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.fromFile(new File(Environment
+                        .getExternalStorageDirectory(), m_appNameStr)),
+                        "application/vnd.android.package-archive");
+                startActivity(intent);
+            }
 
 public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
@@ -528,6 +678,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			progressDialog.dismiss();
 			Toast.makeText(MainActivity.this, "您有 " + newsCount + " 条新评论，请点击个人信息查看", Toast.LENGTH_LONG).show();
 			//toast("您有 " + newsCount + " 条新评论，请点击个人信息查看");
+			doTaskAsync(C.task.update, C.api.update);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -620,6 +771,24 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			e.printStackTrace();
 		}
 			break;
+		case C.task.update:
+                        UpdateApk updateA;
+                        try {
+                                updateA = (UpdateApk) message.getResult("UpdateApk");
+                                m_newVerName = updateA.getVerName();
+                                m_newVerCode = Integer.valueOf(updateA.getVerCode());
+                                Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName());
+                                int vercode = Common.getVerCode(getApplicationContext());
+                         if (m_newVerCode > vercode) {
+                                        doNewVersionUpdate();
+                         } else {
+                                        notNewVersionDlgShow();
+                         }
+                        } catch (Exception e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                        }
+                break;
 	}
 }
 private void showInfoWindow(LatLng ll) {
