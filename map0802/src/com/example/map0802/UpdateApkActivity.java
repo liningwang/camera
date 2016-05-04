@@ -43,6 +43,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class UpdateApkActivity extends BaseUi {
 
@@ -53,6 +54,7 @@ public class UpdateApkActivity extends BaseUi {
 	
 	Handler m_mainHandler;
 	ProgressDialog m_progressDlg;
+	private TextView ver;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +68,8 @@ public class UpdateApkActivity extends BaseUi {
 	private void initVariable()
 	{
 		m_btnCheckNewestVersion = (Button)findViewById(R.id.chek_newest_version);
+		ver = (TextView)findViewById(R.id.version);
+		ver.setText(Common.getVerName(getApplicationContext()));
 		m_mainHandler = new Handler();
 		m_progressDlg =  new ProgressDialog(this);
 		m_progressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -107,7 +111,6 @@ public class UpdateApkActivity extends BaseUi {
 	                        public void onClick(DialogInterface dialog,  
 	                                int whichButton) {  
 	                          
-	                            finish();  
 	                        }  
 	                    }).create(); 
 	    dialog.show();  
@@ -124,7 +127,6 @@ public class UpdateApkActivity extends BaseUi {
 		                        @Override  
 		                        public void onClick(DialogInterface dialog,  
 		                                int which) {  
-		                            finish();  
 		                        }  
 		                    }).create();
 		    dialog.show();  

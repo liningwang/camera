@@ -1,14 +1,176 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
+     <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="25dip"
+                android:gravity="center|left" 
+                >
+                <ImageView   
+                        android:id="@+id/panorama_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+			android:background="@drawable/tianjia"
+                        />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="点击该图标后，可以在地图上添加一个标记，当到达标记位置2km，就开始语音播放您距离该标记位置的距离，直到离开该标记位置的2km外，才会停止播报"
+         />
+     </LinearLayout>
 
+     <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center|left" 
+                >
+                <ImageView   
+                        android:id="@+id/panorama_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+			android:background="@drawable/yichu"
+                        />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="移除所有在地图上添加的标记"
+         />
+     </LinearLayout>
+     <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center|left" 
+                >
+                <ImageView   
+                        android:id="@+id/panorama_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+			android:background="@drawable/weizhangdi"
+                        />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="点击该图标后，可以在地图上添加违章地点"
+         />
+     </LinearLayout>
+     <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center|left" 
+                >
+                <ImageView   
+                        android:id="@+id/panorama_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+			android:background="@drawable/weihaomarker"
+                        />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="尾号限行地"
+         />
+     </LinearLayout>
+     <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center|left" 
+                >
+                <ImageView   
+                        android:id="@+id/panorama_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+			android:background="@drawable/jinjingmarker"
+                        />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="进京证违章地"
+         />
+     </LinearLayout>
+     <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center|left" 
+                >
+                <ImageView   
+                        android:id="@+id/panorama_image"
+                        android:layout_width="15dip"  
+                        android:layout_height="15dip"  
+			android:background="@drawable/gaofengmarker"
+                        />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="高峰期违章地"
+         />
+     </LinearLayout>
+     <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:padding = "7dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center" 
+                >
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="version:"
+         />
+       <TextView
+	   android:id="@+id/version"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="center|left" 
+           android:layout_marginLeft="6dp"
+           android:text="1.0"
+         />
+     </LinearLayout>
     <Button 
         android:id="@+id/chek_newest_version"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
+        android:layout_marginTop="20dp"
         android:text="检测最新版本"/>
-
-</RelativeLayout>
+</LinearLayout>
