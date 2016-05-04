@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:background="@color/gray"
+    android:gravity="center"
+     >
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:text="登陆后可以查看更多路线"
+	android:gravity="center"
+         />
+    <TextView
+	android:id="@+id/login"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:paddingLeft="5dip"
+	android:paddingRight="5dip"
+	android:paddingTop="3dip"
+	android:paddingBottom="3dip"
+         android:layout_marginRight="10dip"	
+         android:layout_marginLeft="5dip"	
+         android:layout_marginTop="3dip"	
+         android:layout_marginBottom="3dip"	
+	android:gravity="center"
+        android:text="登陆"
+        android:clickable="true"
+	android:background="@drawable/reply_button_background"
+         />
+
+</LinearLayout>

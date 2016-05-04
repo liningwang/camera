@@ -82,10 +82,17 @@ public class SafeRoadActivity extends BaseUi {
                         @Override
                         public void onClick(View arg0) {
                                 // TODO Auto-generated method stub
-                                Intent intent = new Intent();
-                                intent.setClass(SafeRoadActivity.this, AddRoadActivity.class);
+				if(app.isLogin()) {
+                                	Intent intent = new Intent();
+                                	intent.setClass(SafeRoadActivity.this, AddRoadActivity.class);
 				
-                                SafeRoadActivity.this.startActivityForResult(intent, 1);
+                                	SafeRoadActivity.this.startActivityForResult(intent, 1);
+				} else {
+					toast("please login!");
+                                	Intent intent = new Intent();
+                                	intent.setClass(SafeRoadActivity.this, ProfileActivity.class);
+					startActivity(intent);
+				}
                         }
                 });
 
@@ -115,7 +122,12 @@ public class SafeRoadActivity extends BaseUi {
 		doTaskAsync(C.task.safeRoadList, C.api.safeRoadList);
 	}
 	
-	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//listItem.clear();
+	}
 	private class ConfigHandler extends BaseHandler {
 		public ConfigHandler(BaseUi ui) {
 			super(ui);
@@ -138,7 +150,27 @@ public class SafeRoadActivity extends BaseUi {
 	}
 private void getData(ArrayList<SafeRoad> dataList) {
         Map<String, Object> map;
-        for(SafeRoad data : dataList){
+        int length;
+	if(app.isLogin()){
+		length = dataList.size();
+	} else {
+		length = 3;
+		View v = View.inflate(SafeRoadActivity.this, R.layout.saferoad_foot,null);
+		TextView login = (TextView) v.findViewById(R.id.login);
+		      login.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+					Intent intent = new Intent();
+                                        intent.setClass(SafeRoadActivity.this, ProfileActivity.class);
+					startActivityForResult(intent, 1);
+                                }
+                        });
+
+		lv.addFooterView(v);
+	}
+	SafeRoad data;
+	for(int i = 0;i < length; i++) {
+		data = dataList.get(i);
                 map = new HashMap<String, Object>();
                 map.put("user", data.getUsername());
                 map.put("time", data.getUptime());
@@ -181,6 +213,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 @SuppressLint("NewApi")
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(data != null) {
+    
                 String result = data.getExtras().getString("result");
                 if(!result.isEmpty()){
                         if(result.equals("ok")) {
@@ -203,7 +236,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                 		map.put("replycount", replycount);
                                 listItem.add(0,map);
                                 adapter.notifyDataSetChanged();
-                        }
+                        } else if(result.equals("ok1")) {
+				toast("please reflash!!!");
+			}
                 }
         }
 }

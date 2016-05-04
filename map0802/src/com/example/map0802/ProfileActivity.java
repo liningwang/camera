@@ -39,9 +39,12 @@ public class ProfileActivity extends BaseUi{
 			super.onCreate(savedInstanceState);
 
 			if(app.isLogin()){
-				newsCount = getIntent().getExtras().get("newsCount").toString();
-				loginView();
-				//unLoginView();
+				if((getIntent() != null) && (getIntent().getExtras() != null)) {
+					newsCount = getIntent().getExtras().get("newsCount").toString();
+					loginView();
+				} else {
+					unLoginView();
+				}	
 			}else {
 				unLoginView();
 			}
