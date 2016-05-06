@@ -31,9 +31,11 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -72,6 +74,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +95,8 @@ import com.jauker.widget.BadgeView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 
 
 public class MainActivity extends BaseUi {
@@ -204,6 +210,7 @@ public class MainActivity extends BaseUi {
                         Intent intent = new Intent();
                 intent.setClass(MainActivity.this, UpdateApkActivity.class);
                 startActivity(intent);
+		
                 }
         });
 
@@ -268,6 +275,50 @@ public class MainActivity extends BaseUi {
    	initTTS();
    //	initPanorama();
     } 
+    private void showPop() {
+            	popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
+		PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.FILL_PARENT,
+                                LayoutParams.FILL_PARENT, true);
+                popupWindow.showAtLocation(mMapView, Gravity.CENTER
+                                | Gravity.CENTER, 0, 0);
+                popupWindow.setAnimationStyle(R.style.PopupAnimation);
+                // 加上下面两行可以用back键关闭popupwindow，否则必须调用dismiss();
+                ColorDrawable dw = new ColorDrawable(-00000);
+                popupWindow.setBackgroundDrawable(dw);
+                popupWindow.update();
+    }
+    private void showCusPopUp()
+    {
+	View popupView;
+	PopupWindow window = null;
+	TextView cusPopupBtn1 = null;
+	
+        if(window == null)
+        {
+            popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
+            cusPopupBtn1=(TextView)popupView.findViewById(R.id.pop_button);
+            window =new PopupWindow(popupView,LayoutParams.FILL_PARENT,300);
+        }
+        //window.setAnimationStyle(R.style.AnimBottom);
+        window.setFocusable(true);
+	 ColorDrawable color = new ColorDrawable(-00000);
+ 	window.setBackgroundDrawable(color);
+        //window.setBackgroundDrawable(new BitmapDrawable());
+        window.update();
+	    //设置背景颜色变暗
+            //  WindowManager.LayoutParams lp=getWindow().getAttributes();
+            //    lp.alpha=0.3f;
+             // getWindow().setAttributes(lp);
+        window.showAtLocation(mMapView, Gravity.CENTER_VERTICAL, 0, 0);
+        cusPopupBtn1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+		toast("click ok!");
+            }
+        });
+    }
+
    
     private void setOnclickListener() {
 		// TODO Auto-generated method stub
@@ -788,6 +839,13 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
                         }
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable(){
+				@Override
+				public void run() {
+					showCusPopUp();
+				}}, 4000);
+
                 break;
 	}
 }

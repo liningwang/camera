@@ -21,7 +21,7 @@ public class CustomerInfo extends Application {
 	private String cameraDirecton = "";
 	private String cameraAddress = "";
 	private String cameraId = "";
-	private int count = 1;
+	private int count = 0;
 	private static CustomerInfo mInstance = null;
     public BMapManager mBMapManager = null;
 	 @Override
