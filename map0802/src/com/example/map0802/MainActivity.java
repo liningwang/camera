@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -35,12 +36,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import com.example.shareData.CustomerInfo;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -49,7 +52,6 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.BDNotifyListener;//假如用到位置提醒功能，需要import该类
 import com.baidu.location.Poi;
 import com.baidu.lbsapi.panoramaview.*;
-
 import com.example.R;
 import com.example.base.BaseMessage;
 import com.baidu.mapapi.map.MapView;
@@ -144,6 +146,9 @@ public class MainActivity extends BaseUi {
   private LinearLayout addLocation;
   private LinearLayout removeLocation;
   private LinearLayout panorama;
+  private View layout;
+  AlertDialog.Builder build;
+  private AlertDialog dialog;
   private LinearLayout global;
   private ImageView panorama_imag;
   private ImageView tianjia;
@@ -186,7 +191,16 @@ public class MainActivity extends BaseUi {
 	nave = (LinearLayout) findViewById(R.id.nave);
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
 	about = (TextView) findViewById(R.id.about);
-	
+	layout = View.inflate(MainActivity.this, R.layout.pop_dialog, null);
+	TextView cancel = (TextView) layout.findViewById(R.id.cancel_button);
+	cancel.setOnClickListener(new OnClickListener() {
+
+        @Override
+        public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+        	dialog.dismiss();
+        }
+});
     	badgeView.setTargetView(nave);
 	badgeView.setBadgeGravity(Gravity.TOP | Gravity.RIGHT);
 
@@ -273,15 +287,17 @@ public class MainActivity extends BaseUi {
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
    	initLocation();
    	initTTS();
+   	showDialog();
    //	initPanorama();
     } 
     private void showPop() {
+    	View popupView;
             	popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
 		PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.FILL_PARENT,
                                 LayoutParams.FILL_PARENT, true);
                 popupWindow.showAtLocation(mMapView, Gravity.CENTER
                                 | Gravity.CENTER, 0, 0);
-                popupWindow.setAnimationStyle(R.style.PopupAnimation);
+               // popupWindow.setAnimationStyle(R.style.PopupAnimation);
                 // 加上下面两行可以用back键关闭popupwindow，否则必须调用dismiss();
                 ColorDrawable dw = new ColorDrawable(-00000);
                 popupWindow.setBackgroundDrawable(dw);
@@ -296,7 +312,7 @@ public class MainActivity extends BaseUi {
         if(window == null)
         {
             popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
-            cusPopupBtn1=(TextView)popupView.findViewById(R.id.pop_button);
+           // cusPopupBtn1=(TextView)popupView.findViewById(R.id.pop_button);
             window =new PopupWindow(popupView,LayoutParams.FILL_PARENT,300);
         }
         //window.setAnimationStyle(R.style.AnimBottom);
@@ -839,15 +855,38 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
                         }
+                        
+            SharedPreferences share = getSharedPreferences("customer", MODE_PRIVATE);
+           int open = share.getInt("open", 0);
+           if(open == 0) {
 			Handler handler = new Handler();
 			handler.postDelayed(new Runnable(){
 				@Override
 				public void run() {
-					showCusPopUp();
+					showDialog();
 				}}, 4000);
-
+			
+			SharedPreferences.Editor edit = share.edit();
+			edit.putInt("open", 1);
+			edit.commit();
+           }
                 break;
 	}
+}
+@SuppressLint("NewApi") private void showDialog() {
+	AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+	dialog = builder.create();
+	
+	//Window window = dialog.getWindow(); 
+	//dialog.setView(layout,4,4,4,4);
+
+//dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	//window.setBackgroundDrawableResource(android.R.color.transparent);
+	/*WindowManager.LayoutParams lp = window.getAttributes();
+	lp.alpha = 0.5f;
+	window.setAttributes(lp);*/
+	dialog.show();
+	dialog.getWindow().setContentView(layout);
 }
 private void showInfoWindow(LatLng ll) {
 
