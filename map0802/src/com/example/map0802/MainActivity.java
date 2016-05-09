@@ -91,6 +91,7 @@ import com.example.base.C;
 import com.example.list.CameraComment;
 import com.example.model.AllRoadCount;
 import com.example.model.Camera;
+import com.example.model.GongGao;
 import com.example.model.UpdateApk;
 import com.jauker.widget.BadgeView;
 
@@ -122,6 +123,10 @@ public class MainActivity extends BaseUi {
   private LatLng locationMark;
   private LatLng panoramaLocation;
   private String et_desc;
+  private String title;
+  private String content;
+  private TextView tv_content;
+  private TextView tv_title;
   private String et_addr;
   private String camera_typ;
   private String direction;
@@ -136,7 +141,7 @@ public class MainActivity extends BaseUi {
   private 	int share_buzan;
   private TextView safeRoad;
   private TextView about;
-  private String newsCount;
+  private String newsCount = "";
   private LocationClient mLocClient;
   private ProgressDialog progressDialog = null;
   private MyLocationListenner myListener;
@@ -147,6 +152,8 @@ public class MainActivity extends BaseUi {
   private LinearLayout removeLocation;
   private LinearLayout panorama;
   private View layout;
+  private View layout_welcom;
+  private Dialog dialog_welcom;
   AlertDialog.Builder build;
   private AlertDialog dialog;
   private LinearLayout global;
@@ -192,6 +199,7 @@ public class MainActivity extends BaseUi {
 	safeRoad = (TextView) findViewById(R.id.camera_topic);
 	about = (TextView) findViewById(R.id.about);
 	layout = View.inflate(MainActivity.this, R.layout.pop_dialog, null);
+	layout_welcom = View.inflate(MainActivity.this, R.layout.welcom, null);
 	TextView cancel = (TextView) layout.findViewById(R.id.cancel_button);
 	cancel.setOnClickListener(new OnClickListener() {
 
@@ -284,24 +292,39 @@ public class MainActivity extends BaseUi {
 		badgeView.setBadgeCount(0);
 		badgeView.setVisibility(View.GONE);
 	}	
+	doTaskAsync(C.task.update, C.api.update);
+   	doTaskAsync(C.task.gongGao, C.api.gongGao);
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
    	initLocation();
    	initTTS();
-   	showDialog();
+   	//showDialog();
+	showWelcom();
    //	initPanorama();
     } 
-    private void showPop() {
-    	View popupView;
-            	popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
-		PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.FILL_PARENT,
-                                LayoutParams.FILL_PARENT, true);
-                popupWindow.showAtLocation(mMapView, Gravity.CENTER
-                                | Gravity.CENTER, 0, 0);
-               // popupWindow.setAnimationStyle(R.style.PopupAnimation);
-                // 加上下面两行可以用back键关闭popupwindow，否则必须调用dismiss();
-                ColorDrawable dw = new ColorDrawable(-00000);
-                popupWindow.setBackgroundDrawable(dw);
-                popupWindow.update();
+    private void showWelcom()
+    {
+	dialog_welcom = new Dialog(this,R.style.Dialog_Fullscreen);  
+   	dialog_welcom.setContentView(R.layout.welcom);  
+	/*Window window = dialog_welcom.getWindow(); 
+	WindowManager.LayoutParams lp = window.getAttributes();
+	lp.alpha = 0.9f;
+	window.setAttributes(lp);
+	window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+                WindowManager.LayoutParams.FLAG_BLUR_BEHIND);*/
+	Button entry = (Button) dialog_welcom.findViewById(R.id.entry_map);
+	tv_title = (TextView) dialog_welcom.findViewById(R.id.title);
+	tv_content = (TextView) dialog_welcom.findViewById(R.id.content);
+	entry.setOnClickListener(new OnClickListener() {
+
+        @Override
+        public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                dialog_welcom.dismiss();
+		showHelp();
+        }
+	});
+   	dialog_welcom.show();
+
     }
     private void showCusPopUp()
     {
@@ -311,9 +334,9 @@ public class MainActivity extends BaseUi {
 	
         if(window == null)
         {
-            popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
+        //    popupView=LayoutInflater.from(MainActivity.this).inflate(R.layout.popup, null);
            // cusPopupBtn1=(TextView)popupView.findViewById(R.id.pop_button);
-            window =new PopupWindow(popupView,LayoutParams.FILL_PARENT,300);
+          //  window =new PopupWindow(popupView,LayoutParams.FILL_PARENT,300);
         }
         //window.setAnimationStyle(R.style.AnimBottom);
         window.setFocusable(true);
@@ -739,13 +762,17 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		case C.task.safeRoadCountById:
 			AllRoadCount roadCount;
 		try {
-			roadCount = (AllRoadCount) message.getResult("AllRoadCount");
-			newsCount = roadCount.getCount();	
-			badgeView.setBadgeCount(Integer.valueOf(newsCount));
-			progressDialog.dismiss();
-			Toast.makeText(MainActivity.this, "您有 " + newsCount + " 条新评论，请点击个人信息查看", Toast.LENGTH_LONG).show();
-			//toast("您有 " + newsCount + " 条新评论，请点击个人信息查看");
-			doTaskAsync(C.task.update, C.api.update);
+			if(message.getCode().equals("10000")) {
+				roadCount = (AllRoadCount) message.getResult("AllRoadCount");
+				newsCount = roadCount.getCount();	
+				badgeView.setBadgeCount(Integer.valueOf(newsCount));
+				progressDialog.dismiss();
+				Toast.makeText(MainActivity.this, "您有 " + newsCount + " 条新评论，请点击个人信息查看", Toast.LENGTH_LONG).show();
+				//toast("您有 " + newsCount + " 条新评论，请点击个人信息查看");
+			} else {
+				progressDialog.dismiss();
+				toast(message.getMessage());
+			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -768,6 +795,21 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			e1.printStackTrace();
 		}
 		
+			break;
+		case C.task.gongGao:
+		GongGao gong;
+		try {
+			
+			gong = (GongGao) message.getResult("GongGao");
+			title = gong.getTitle();
+			content = gong.getContent();
+			tv_title.setText(title);
+			tv_content.setText(content);
+			Log.d("wang","title is " + title + ", content is " + content);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 			break;
 		case C.task.getCamera:
 			Log.d("wang","entry getCamera");
@@ -856,6 +898,10 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 e1.printStackTrace();
                         }
                         
+                break;
+	}
+}
+private void showHelp() {
             SharedPreferences share = getSharedPreferences("customer", MODE_PRIVATE);
            int open = share.getInt("open", 0);
            if(open == 0) {
@@ -870,8 +916,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			edit.putInt("open", 1);
 			edit.commit();
            }
-                break;
-	}
+
 }
 @SuppressLint("NewApi") private void showDialog() {
 	AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

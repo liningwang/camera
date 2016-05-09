@@ -46,6 +46,7 @@ public void onCreate(Bundle savedInstanceState) {
 	    TextView name = (TextView) findViewById(R.id.cameraName);
 	    TextView address = (TextView) findViewById(R.id.cameraAddress);
 	    TextView time = (TextView) findViewById(R.id.cameraDatetime);
+	    TextView owner = (TextView) findViewById(R.id.owner);
 	    TextView v_return = (TextView) findViewById(R.id.tv_return);
                         v_return.setOnClickListener(new OnClickListener() {
                                 @Override
@@ -57,6 +58,7 @@ public void onCreate(Bundle savedInstanceState) {
 	    name.setText(app.getCameraName());
 	    address.setText(app.getCameraAddress() + app.getCameraDirecton());
 	    time.setText(app.getCameraUptime());
+	    owner.setText("创建者： " + app.getUser());
 	    HashMap<String, String> commentParams = new HashMap<String, String>();
 	    
 	    lv = (ListView) findViewById(R.id.list);

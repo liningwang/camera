@@ -172,6 +172,8 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 safeRoadList = (ArrayList<SafeEachRoad>) message.getResultList("SafeEachRoad");
                                 getData(safeRoadList);
                                 adapter.notifyDataSetChanged();
+				int allCount = computeAllNews();
+				app.setAllCount(allCount);
                         } else {
                                 Map<String, Object> map = new HashMap<String, Object>();
                                 map.put("empty","1");
@@ -180,8 +182,6 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 adapter.notifyDataSetChanged();
                         }
 
-		int allCount = computeAllNews();
-		app.setAllCount(allCount);
                 } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

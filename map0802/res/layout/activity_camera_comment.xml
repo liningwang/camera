@@ -29,7 +29,7 @@
      </LinearLayout>
 <LinearLayout android:orientation="vertical" 
               android:layout_width="fill_parent" 
-              android:layout_height="80dip"
+              android:layout_height="wrap_content"
               android:paddingBottom="10dip"
               android:background="#3366CC"
                 >
@@ -61,6 +61,13 @@
     android:text="上传日期："
 />
 
+<TextView 
+    android:id="@+id/owner"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:paddingLeft="10dip"
+    android:textColor="@color/white"
+/>
 </LinearLayout>
    
      <ListView 

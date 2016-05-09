@@ -88,7 +88,9 @@ public class ProfileActivity extends BaseUi{
 			//news.setTargetView(roadTopic);
 		        //badgeView.setBadgeGravity(Gravity.CENTER | Gravity.RIGHT);
 			//badgeView.setBadgeCount(Integer.valueOf(newsCount));
-			news.setBadgeCount(Integer.valueOf(newsCount));
+			if(!newsCount.equals("")){
+				news.setBadgeCount(Integer.valueOf(newsCount));
+			}
 		}
 		private void unLoginView(){
 			setContentView(R.layout.login_register);

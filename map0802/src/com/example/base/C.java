@@ -40,6 +40,7 @@ public final class C {
 		public static final String safeRoadEachCountById			= "/safeRoad/safeRoadEachCountById";
 		public static final String commentCount			= "/comment/commentCount";
 		public static final String update			= "/update/updateApk";
+		public static final String gongGao		= "/camera/gongGao";
 	}
 	
 	public static final class task {
@@ -65,6 +66,7 @@ public final class C {
 		public static final int safeRoadCountById		= 1020;
 		public static final int safeRoadEachCountById		= 1021;
 		public static final int update		= 1022;
+		public static final int gongGao		= 1023;
 	}
 	
 	public static final class err {

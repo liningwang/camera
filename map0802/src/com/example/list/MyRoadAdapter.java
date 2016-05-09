@@ -100,7 +100,7 @@ public class MyRoadAdapter extends BaseAdapter {
 		zujian.username.setText((String)data.get(arg0).get("user"));
 		zujian.news.setText((String) data.get(arg0).get("itemcount"));
 		String itemcount = (String) data.get(arg0).get("itemcount");
-		if(itemcount.equals("0")) {
+		if((itemcount == null) || (itemcount.equals("0"))) {
 			zujian.news.setVisibility(View.GONE);
 		}
 		zujian.reply.setText((String) data.get(arg0).get("replycount"));
