@@ -14,10 +14,10 @@ public final class C {
 	}
 	
 	public static final class api {
-		public static final String base				= "http://172.28.32.177:8003";
+		public static final String base				= "http://101.200.149.134:8003";
 		//public static final String base				= "http://192.168.1.107:8003";
-		public static final String imageUrl 			= "http://172.28.32.177:8004/faces/road/";
-		public static final String apkUrl 			= "http://172.28.32.177:8004/apk/update.apk";
+		public static final String imageUrl 			= "http://101.200.149.134:8004/faces/road/";
+		public static final String apkUrl 			= "http://101.200.149.134:8004/apk/update.apk";
 		public static final String register			= "/customer/customerCreate";
 		public static final String login			= "/customer/login";
 		public static final String logout			= "/index/logout";
@@ -41,6 +41,7 @@ public final class C {
 		public static final String commentCount			= "/comment/commentCount";
 		public static final String update			= "/update/updateApk";
 		public static final String gongGao		= "/camera/gongGao";
+		public static final String getCustomer		= "/customer/getCustomerByUser";
 	}
 	
 	public static final class task {
@@ -67,6 +68,7 @@ public final class C {
 		public static final int safeRoadEachCountById		= 1021;
 		public static final int update		= 1022;
 		public static final int gongGao		= 1023;
+		public static final int getCustomer		= 1024;
 	}
 	
 	public static final class err {

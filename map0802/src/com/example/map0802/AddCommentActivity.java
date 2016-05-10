@@ -128,11 +128,7 @@ public void onCreate(Bundle savedInstanceState) {
 				 HashMap<String, String> commentParams = new HashMap<String, String>();
 				 commentParams.put("cameraId", cameraId);
 				 commentParams.put("customerId",customerId);
-				 if(name.isEmpty()) {
-					 commentParams.put("name",user);
-				 } else {
-					 commentParams.put("name",name);
-				 }
+				 commentParams.put("name",user);
 				 commentParams.put("content",content);
 			    doTaskAsync(C.task.commentCreate, C.api.commentCreate,commentParams);
 			} else {
@@ -153,7 +149,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			intent.putExtra("content",AddCommentActivity.this.addComment.getText().toString());	
 			intent.putExtra("cameraId",app.getCameraId());
 			intent.putExtra("customerId",String.valueOf(app.getCustomerid()));
-			intent.putExtra("name",app.getSign());
+			intent.putExtra("name",app.getUser());
 			intent.putExtra("user",app.getUser());
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//璁剧疆鏃ユ湡鏍煎紡
 			intent.putExtra("time",df.format(new Date()));// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�

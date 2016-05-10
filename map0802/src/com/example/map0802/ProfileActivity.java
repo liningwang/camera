@@ -33,13 +33,28 @@ public class ProfileActivity extends BaseUi{
 		private AlertDialog dialog;
 		private String newsCount;
 		private BadgeView news;
+		private String userName = "";
+		private String user = "";
+		private String sign = "";
+		private String mQq = "";
+		private String mEmail = "";
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			// TODO Auto-generated method stub
 			super.onCreate(savedInstanceState);
-
-			if(app.isLogin()){
-				if((getIntent() != null) && (getIntent().getExtras() != null)) {
+			if((getIntent() != null) && (getIntent().getExtras() != null) && (getIntent().getExtras().get("user") != null)){
+				userName = getIntent().getExtras().get("user").toString();
+			}
+			Log.d("wang","Profile user name is " + userName);
+			if(!userName.equals("")) {
+				
+				HashMap<String, String> locationParams = new HashMap<String, String>();
+				locationParams.put("user",userName);
+				doTaskAsync(C.task.getCustomer, C.api.getCustomer, locationParams);
+			} else if((userName.equals("")) && (getIntent() != null) && (getIntent().getExtras() != null) && (getIntent().getExtras().get("user") != null)) { 
+				uselessView();
+			} else if(app.isLogin()){
+				if((getIntent() != null) && (getIntent().getExtras() != null) && (getIntent().getExtras().get("newsCount") != null)) {
 					newsCount = getIntent().getExtras().get("newsCount").toString();
 					loginView();
 				} else {
@@ -91,6 +106,38 @@ public class ProfileActivity extends BaseUi{
 			if(!newsCount.equals("")){
 				news.setBadgeCount(Integer.valueOf(newsCount));
 			}
+		}
+	              @SuppressLint("NewApi")
+                private void userView() {
+                        setContentView(R.layout.user_info);
+                        TextView v_return = (TextView) findViewById(R.id.tv_return);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
+                        TextView priva = (TextView) findViewById(R.id.tv_private);
+                        if(!app.getSign().isEmpty()) {
+                                priva.setText(sign);
+                        }
+                        TextView account = (TextView) findViewById(R.id.tv_account);
+                        account.setText(user);
+                        TextView qq = (TextView) findViewById(R.id.tv_qq);
+                        qq.setText(mQq);
+                        TextView email = (TextView) findViewById(R.id.tv_email);
+                        email.setText(mEmail);
+                }
+
+                private void uselessView() {
+                        setContentView(R.layout.useless_info);
+                        TextView v_return = (TextView) findViewById(R.id.tv_return);
+                        v_return.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+                                        finish();
+                                }
+                        });
 		}
 		private void unLoginView(){
 			setContentView(R.layout.login_register);
@@ -170,6 +217,26 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+	} else if(taskId == (C.task.getCustomer)){
+		if((message.getCode().equals("10000"))) {
+			Customer customer;
+			try {
+				customer = (Customer) message.getResult("Customer");
+				Log.d("wang","getCustomer id: " + customer.getId() + " name: " + customer.getName() + " pass: " + customer.getPass() + " qq: " + customer.getQq() + 
+						" email: " + customer.getEmail() + " sign: " + customer.getSign());
+				user =  customer.getName();
+				sign =  customer.getSign();
+				mQq = customer.getQq();
+				mEmail = customer.getEmail();
+				userView();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+		    uselessView();
 		}
 		
 	} else {

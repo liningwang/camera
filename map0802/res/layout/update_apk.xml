@@ -167,10 +167,24 @@
            android:text="1.0"
          />
      </LinearLayout>
+     <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent" 
+                android:orientation="vertical" 
+                android:padding = "7dip"
+                android:layout_marginBottom="20dip"
+                android:gravity="bottom" 
+                >
+    <Button 
+        android:id="@+id/clear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="清空个人信息"/>
     <Button 
         android:id="@+id/chek_newest_version"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="检测最新版本"/>
+     </LinearLayout>
 </LinearLayout>

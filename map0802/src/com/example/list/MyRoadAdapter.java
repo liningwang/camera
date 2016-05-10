@@ -80,16 +80,6 @@ public class MyRoadAdapter extends BaseAdapter {
 			zujian.username=(TextView)arg1.findViewById(R.id.userName);
 			zujian.news=(BadgeView)arg1.findViewById(R.id.news);
 			zujian.reply=(TextView)arg1.findViewById(R.id.reply);
-			zujian.private_cus.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					Intent user = new Intent();
-					user.setClass(MyRoadAdapter.this.context, ProfileActivity.class);
-					MyRoadAdapter.this.context.startActivity(user);
-				}
-			});
 			arg1.setTag(zujian);
 		}else{
 			zujian=(Zujian)arg1.getTag();
@@ -104,6 +94,26 @@ public class MyRoadAdapter extends BaseAdapter {
 			zujian.news.setVisibility(View.GONE);
 		}
 		zujian.reply.setText((String) data.get(arg0).get("replycount"));
+		zujian.private_cus.setTag(arg0);
+		zujian.private_cus.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					int post = (Integer) arg0.getTag();
+					Intent user = new Intent();
+					   String user_name = (String)data.get(post).get("user");
+					//Log.d("wang","MyRoadAdapter user name is " + user_name);
+                                        if(user_name == null) {
+					//Log.d("wang","1 MyRoadAdapter user name is " + user_name);
+                                                user_name = "";
+                                        }
+
+					user.putExtra("user",user_name);
+					user.setClass(MyRoadAdapter.this.context, ProfileActivity.class);
+					MyRoadAdapter.this.context.startActivity(user);
+				}
+			});
 		return arg1;
 	}
     public void updataView(int posi, ListView listView) {  

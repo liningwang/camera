@@ -70,16 +70,6 @@ public class ReplyAdapter extends BaseAdapter {
 			zujian.time=(TextView)arg1.findViewById(R.id.time);
 			zujian.private_cus=(LinearLayout)arg1.findViewById(R.id.private_cus);
 			zujian.username=(TextView)arg1.findViewById(R.id.userName);
-			zujian.private_cus.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					Intent user = new Intent();
-					user.setClass(ReplyAdapter.this.context, ProfileActivity.class);
-					ReplyAdapter.this.context.startActivity(user);
-				}
-			});
 			arg1.setTag(zujian);
 		}else{
 			zujian=(Zujian)arg1.getTag();
@@ -88,6 +78,33 @@ public class ReplyAdapter extends BaseAdapter {
 		zujian.content.setText((String)data.get(arg0).get("comment"));
 		zujian.time.setText((String)data.get(arg0).get("time"));
 		zujian.username.setText((String)data.get(arg0).get("user"));
+		String name = (String)data.get(arg0).get("user");
+                if(name == null) {
+                        zujian.username.setVisibility(View.GONE);
+                        zujian.private_cus.setVisibility(View.GONE);
+                } else {
+                        zujian.username.setVisibility(View.VISIBLE);
+                        zujian.private_cus.setVisibility(View.VISIBLE);
+                        zujian.username.setText((String)data.get(arg0).get("user"));
+                        zujian.private_cus.setTag(arg0);
+                        zujian.private_cus.setOnClickListener(new OnClickListener() {
+
+                                @Override
+                                public void onClick(View arg0) {
+                                        // TODO Auto-generated method stub
+                                        int post = (Integer) arg0.getTag();
+                                        Intent user = new Intent();
+                                        String user_name = (String)data.get(post).get("user");
+                                        if(user_name == null) {
+                                                user_name = "";
+                                        }
+                                        user.putExtra("user",user_name);
+                                        user.setClass(ReplyAdapter.this.context, ProfileActivity.class);
+                                        ReplyAdapter.this.context.startActivity(user);
+                                }
+                        });
+                }
+
 		return arg1;
 	}
 

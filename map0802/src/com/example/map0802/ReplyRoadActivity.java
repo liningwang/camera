@@ -122,13 +122,13 @@ public void onCreate(Bundle savedInstanceState) {
                         	time = df.format(new Date());// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
 				commentParams.put("safeId", safeId);	
 				commentParams.put("content", content);	
-				if(sign.isEmpty()) {
+				//if(sign.isEmpty()) {
 					name = user;
 					commentParams.put("name", user);
-				} else {
+				/*} else {
 					name = sign;
 					commentParams.put("name", sign);
-				}	
+				}*/	
 	    			doTaskAsync(C.task.replyRoadCreate, C.api.replyRoadCreate,commentParams);
                         }
                 });
@@ -204,8 +204,10 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	switch(taskId){
 		case C.task.replyRoadCreate:
 			toast("create comment reply succefully");
+			replyContent.setText("");
 			if((listItem.get(0).get("empty") != null)&&(listItem.get(0).get("empty").equals("1"))){
                                         listItem.remove(0);
+                                adapter.notifyDataSetChanged();
                                 }
 			 Map<String, Object> map = new HashMap<String, Object>();
                                 map.put("comment", content);

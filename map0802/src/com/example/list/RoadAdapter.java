@@ -8,6 +8,7 @@ import com.example.map0802.ProfileActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,16 +73,6 @@ public class RoadAdapter extends BaseAdapter {
 			zujian.private_cus=(LinearLayout)arg1.findViewById(R.id.private_cus);
 			zujian.username=(TextView)arg1.findViewById(R.id.userName);
 			zujian.reply=(TextView)arg1.findViewById(R.id.reply);
-			zujian.private_cus.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					Intent user = new Intent();
-					user.setClass(RoadAdapter.this.context, ProfileActivity.class);
-					RoadAdapter.this.context.startActivity(user);
-				}
-			});
 			arg1.setTag(zujian);
 		}else{
 			zujian=(Zujian)arg1.getTag();
@@ -89,8 +80,37 @@ public class RoadAdapter extends BaseAdapter {
 		//绑定数据
 		zujian.content.setText((String)data.get(arg0).get("comment"));
 		zujian.time.setText((String)data.get(arg0).get("time"));
-		zujian.username.setText((String)data.get(arg0).get("user"));
-		zujian.reply.setText((String) data.get(arg0).get("replycount"));
+		String name = (String)data.get(arg0).get("user");
+		if(name == null) {
+                        zujian.username.setVisibility(View.GONE);
+                        zujian.reply.setVisibility(View.GONE);
+                        zujian.private_cus.setVisibility(View.GONE);
+                } else {
+		        zujian.username.setVisibility(View.VISIBLE);
+                        zujian.private_cus.setVisibility(View.VISIBLE);
+                        zujian.reply.setVisibility(View.VISIBLE);
+
+                        zujian.reply.setText((String)data.get(arg0).get("replycount"));
+                        zujian.username.setText((String)data.get(arg0).get("user"));
+                        zujian.private_cus.setTag(arg0);
+                        zujian.private_cus.setOnClickListener(new OnClickListener() {
+
+                                @Override
+                                public void onClick(View arg0) {
+                                        // TODO Auto-generated method stub
+                                        int post = (Integer) arg0.getTag();
+                                        Intent user = new Intent();
+                                        String user_name = (String)data.get(post).get("user");
+                                        if(user_name == null) {
+                                                user_name = "";
+                                        }
+                                        user.putExtra("user",user_name);
+                                        user.setClass(RoadAdapter.this.context, ProfileActivity.class);
+                                        RoadAdapter.this.context.startActivity(user);
+                                }
+                        });
+                }
+
 		return arg1;
 	}
 

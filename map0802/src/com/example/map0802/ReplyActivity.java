@@ -95,13 +95,13 @@ public void onCreate(Bundle savedInstanceState) {
                         	time = df.format(new Date());// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
 				commentParams.put("commentId", commentId);	
 				commentParams.put("content", content);	
-				if(sign.isEmpty()) {
-					name = user;
-					commentParams.put("name", user);
-				} else {
+				//if(sign.isEmpty()) {
+				name = user;
+				commentParams.put("name", user);
+				/*} else {
 					name = sign;
 					commentParams.put("name", sign);
-				}	
+				}*/	
 	    			doTaskAsync(C.task.replyCreate, C.api.replyCreate,commentParams);
                         }
                 });
@@ -142,6 +142,11 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	switch(taskId){
 		case C.task.replyCreate:
 			toast("create comment reply succefully");
+			replyContent.setText("");
+			     if((listItem.get(0).get("empty") != null)&&(listItem.get(0).get("empty").equals("1"))){
+                                        listItem.remove(0);
+                                adapter.notifyDataSetChanged();
+                                }
 			 Map<String, Object> map = new HashMap<String, Object>();
                                 map.put("comment", content);
                                 map.put("user", name);
@@ -169,6 +174,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 				adapter.notifyDataSetChanged();
 			} else {
 				Map<String, Object> map1 = new HashMap<String, Object>();
+				map1.put("empty","1");
 				map1.put("comment", "no comment,please add a new comment");
 				listItem.add(map1);
 				adapter.notifyDataSetChanged();

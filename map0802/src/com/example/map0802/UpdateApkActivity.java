@@ -39,6 +39,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +50,7 @@ import android.widget.TextView;
 public class UpdateApkActivity extends BaseUi {
 
 	Button m_btnCheckNewestVersion;
+	private Button btn_clear;
 	int m_newVerCode; 
 	String m_newVerName; 
 	String m_appNameStr; 
@@ -68,6 +71,18 @@ public class UpdateApkActivity extends BaseUi {
 	private void initVariable()
 	{
 		m_btnCheckNewestVersion = (Button)findViewById(R.id.chek_newest_version);
+		btn_clear = (Button)findViewById(R.id.clear);
+                btn_clear.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View arg0) {
+					SharedPreferences share = getSharedPreferences("customer", MODE_PRIVATE);
+					Editor editor = share.edit();  
+					editor.clear();  
+					editor.commit();
+					toast("清除数据成功！");
+                                }
+                        });
+
 		ver = (TextView)findViewById(R.id.version);
 		ver.setText(Common.getVerName(getApplicationContext()));
 		m_mainHandler = new Handler();

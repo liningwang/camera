@@ -646,6 +646,27 @@ public void onNetworkError (int taskId) {
                 m_progressDlg.setIndeterminate(false);
                 m_appNameStr = "haha.apk";
         }
+       private void mustUpdate() {
+		     int verCode = Common.getVerCode(getApplicationContext());
+            String verName = Common.getVerName(getApplicationContext());
+
+            String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
+                        " Code:"+m_newVerCode+" ,is ready";
+            Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)
+
+                    .setPositiveButton("ok",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                        int which) {
+                                    m_progressDlg.setTitle("update apk");
+                                    m_progressDlg.setMessage("download..");
+                                    downFile(C.api.apkUrl);
+                                }
+                            }).create();
+            dialog.show();
+
+       }
        private void doNewVersionUpdate() {
                 int verCode = Common.getVerCode(getApplicationContext());
             String verName = Common.getVerName(getApplicationContext());
@@ -886,12 +907,14 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 updateA = (UpdateApk) message.getResult("UpdateApk");
                                 m_newVerName = updateA.getVerName();
                                 m_newVerCode = Integer.valueOf(updateA.getVerCode());
+				int flag = Integer.valueOf(updateA.getFlag());
                                 int vercode = Common.getVerCode(getApplicationContext());
                                 Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName() + "local vercode is " + vercode);
-                         if (m_newVerCode > vercode) {
+                         if ((m_newVerCode > vercode) && (flag == 0)) {
                                         doNewVersionUpdate();
-                         } else {
+                         } else if((m_newVerCode > vercode) && (flag == 1)){
                                 //        notNewVersionDlgShow();
+				mustUpdate();
                          }
                         } catch (Exception e1) {
                                 // TODO Auto-generated catch block
