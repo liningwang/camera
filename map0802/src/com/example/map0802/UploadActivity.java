@@ -24,10 +24,10 @@ import com.example.base.C;
 
 public class UploadActivity extends BaseUi
 {
-    private String fileName = "image.jpg";  //报文中的文件名参数
+    private String fileName = "image.jpg";  //鎶ユ枃涓殑鏂囦欢鍚嶅弬鏁�
     private String path = Environment.getExternalStorageDirectory().getPath();  //Don't use "/sdcard/" here
-    private String uploadFile = path + "/" + fileName;    //待上传的文件路径
-    private String postUrl = "http://172.28.32.117:8003/upload/upload"; //处理POST请求的页面
+    private String uploadFile = path + "/" + fileName;    //寰呬笂浼犵殑鏂囦欢璺緞
+    private String postUrl = "http://101.200.149.134:8003/upload/upload"; //澶勭悊POST璇锋眰鐨勯〉闈�
     private TextView mText1;
     private TextView mText2;
     private Button mButton;
@@ -37,13 +37,13 @@ public class UploadActivity extends BaseUi
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload);
-        //"文件路径：\n"+
+        //"鏂囦欢璺緞锛歕n"+
         mText1 = (TextView) findViewById(R.id.myText1);
         mText1.setText(uploadFile);
-        //"上传网址：\n"+
+        //"涓婁紶缃戝潃锛歕n"+
         mText2 = (TextView) findViewById(R.id.myText2);
         mText2.setText(postUrl);
-        /* 设置mButton的onClick事件处理 */
+        /* 璁剧疆mButton鐨刼nClick浜嬩欢澶勭悊 */
         mButton = (Button) findViewById(R.id.myButton);
         mButton.setOnClickListener(new View.OnClickListener()
         {

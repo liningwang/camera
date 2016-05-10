@@ -160,7 +160,7 @@ public void onCreate(Bundle savedInstanceState) {
 				AddRoadActivity.this.position = position;
 				 HashMap<String, String> commentParams = new HashMap<String, String>();
 				 commentParams.put("file", mDatas.get(position));
-				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "请稍等...", "图片上传中...", true);
+				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "上传照片", "照片上传中...", true);
 			    	doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
                         }
                 });
@@ -183,10 +183,10 @@ public void onCreate(Bundle savedInstanceState) {
 							if(isChecked) {
 								 HashMap<String, String> commentParams = new HashMap<String, String>();
 							 	commentParams.put("file", mDatas.get( AddRoadActivity.this.position));
-				 				progressDialog = ProgressDialog.show(AddRoadActivity.this, "请稍等...", "图片上传中...", true);
+				 				progressDialog = ProgressDialog.show(AddRoadActivity.this, "上传照片", "照片上传中...", true);
 						    		doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
 							} else {
-								toast("请先选择照片");
+								toast("请选择要上传的照片");
 							}
 						}
                 });
@@ -197,14 +197,14 @@ private void getPicture() {
 	ContentResolver mContentResolver = AddRoadActivity.this.getContentResolver();
   	Cursor mCursor = mContentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
   	new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA},
-  	null, null, MediaStore.Images.Media._ID + " DESC"); // 按图片ID降序排列
+  	null, null, MediaStore.Images.Media._ID + " DESC"); // 鎸夊浘鐗嘔D闄嶅簭鎺掑垪
 	int i;
 	for(i = 0; i < 21; i++) {
   		mCursor.moveToNext();
-	  	// 打印LOG查看照片ID的值
+	  	// 鎵撳嵃LOG鏌ョ湅鐓х墖ID鐨勫��
 	  	long id = mCursor.getLong(mCursor.getColumnIndex(MediaStore.Images.Media._ID));
 	  	//Log.d("wang", "id = " + id + "");
-	      	// 过滤掉不需要的图片，只获取拍照后存储照片的相册里的图片
+	      	// 杩囨护鎺変笉闇�瑕佺殑鍥剧墖锛屽彧鑾峰彇鎷嶇収鍚庡瓨鍌ㄧ収鐗囩殑鐩稿唽閲岀殑鍥剧墖
 	        String path = mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
 	    	Log.d("wang","image path=" + path);
 		/*Bitmap bitmap =	SDUtil.getImageforSize(path,300,480);
@@ -244,8 +244,8 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			Intent intent = new Intent();
 			intent.putExtra("content",AddRoadActivity.this.addContent.getText().toString());
 			intent.putExtra("hasPicture", hasPicture);
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        intent.putExtra("time",df.format(new Date()));// new Date()为获取当前系统时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//璁剧疆鏃ユ湡鏍煎紡
+                        intent.putExtra("time",df.format(new Date()));// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
 			intent.putExtra("result","ok");
 			intent.putExtra("safeid",safeid.getId());
 			intent.putExtra("username",app.getUser());

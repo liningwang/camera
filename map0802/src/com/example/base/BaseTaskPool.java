@@ -107,9 +107,9 @@ public class BaseTaskPool {
 							 clientFactory = new HttpConnectionFactory();
 							 client = clientFactory.createHttp(this.taskUrl);
 						}
-						if (HttpUtil.WAP_INT == HttpUtil.getNetType(context)) {
+						/*if (HttpUtil.WAP_INT == HttpUtil.getNetType(context)) {
 							((AppClient) client).useWap();
-						}
+						}*/
 						// http get
 						if (taskArgs == null) {
 							httpResult = ((AppClient) client).get();
