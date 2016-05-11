@@ -163,6 +163,7 @@ public class MainActivity extends BaseUi {
   private int panorama_location = 0;
   private ArrayList<LatLng> latArray = new ArrayList<LatLng>();
   private ArrayList<Overlay> overlayArray = new ArrayList<Overlay>();
+  private float[] old_distance = new float[20];
   private int tag=0;
   private double lati; 
   private double longi; 
@@ -295,12 +296,19 @@ public class MainActivity extends BaseUi {
 	doTaskAsync(C.task.update, C.api.update);
    	doTaskAsync(C.task.gongGao, C.api.gongGao);
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
+   	initDistance();
    	initLocation();
    	initTTS();
    	//showDialog();
 	showWelcom();
    //	initPanorama();
     } 
+    private void initDistance(){
+    	int i;
+    	for(i = 0;i < 20; i++) {
+    		old_distance[i] = (float) 2000.0;
+    	}
+    }
     private void showWelcom()
     {
 	dialog_welcom = new Dialog(this,R.style.Dialog_Fullscreen);  
@@ -467,7 +475,7 @@ private void initLocation() {
     LocationClientOption option = new LocationClientOption();
     option.setOpenGps(true); // 打开gps
     option.setCoorType("bd09ll"); // 设置坐标类型
-    option.setScanSpan(5000);
+    option.setScanSpan(20000);
     mLocClient.setLocOption(option);
     mLocClient.start();
 }
@@ -493,12 +501,15 @@ public class MyLocationListenner implements BDLocationListener {
         	for(int i = 0; i < latArray.size();i++) {
         		LatLng loc = latArray.get(i);
         		Location.distanceBetween(loc.latitude, loc.longitude, location.getLatitude(), location.getLongitude(), distance);
-        		Log.d("wang","distance is " + distance[0]);
-        		if(distance[0] <= 2000.0){
+        		Log.d("wang","distance is " + distance[0] );
+        		if((distance[0] <= 2000.0) && (old_distance[i] > distance[0])){
+        			old_distance[i] = distance[0];
         			toast("2000 distance is bigger " + Math.round(distance[0]));
         			tts.speak("距离标记位置" + i + "还有" + Math.round(distance[0]) + "米", TextToSpeech.QUEUE_ADD, null);
-        		} else {
+        		} else if((old_distance[i] < distance[0]) && (old_distance[i] != 2001.0) && (old_distance[i] != 2000.0)) {
         			//toast("200 distance is smaller " + distance[0]);
+        			old_distance[i] = (float) 2001.0;
+        			tts.speak("您已到达目的地附近", TextToSpeech.QUEUE_ADD, null);
         		}
         	}
     	}
@@ -999,12 +1010,12 @@ private void showInfoWindowForPanorama(LatLng ll) {
                         @Override
                         public boolean onMarkerClick(final Marker marker)
                         {
-                     
+                     //toast("marker is cameraOverlay " + marker.equals(cameraOverlay));
                      LatLng markerLat = marker.getPosition();
                      Point p = mBaiduMap.getProjection().toScreenLocation(markerLat);
              			//mMarkerInfoLy.setVisibility(View.VISIBLE);
                      View location = getPopCameraView();
-                     p.y = -100;
+                     p.y = -90;
                      mInfoWindow = new InfoWindow(location, markerLat,p.y);
 		     mBaiduMap.showInfoWindow(mInfoWindow);
                      judgeClickCamera(markerLat);
