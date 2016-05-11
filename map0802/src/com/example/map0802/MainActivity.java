@@ -311,7 +311,7 @@ public class MainActivity extends BaseUi {
 	window.setAttributes(lp);
 	window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);*/
-	Button entry = (Button) dialog_welcom.findViewById(R.id.entry_map);
+	TextView entry = (TextView) dialog_welcom.findViewById(R.id.entry_map);
 	tv_title = (TextView) dialog_welcom.findViewById(R.id.title);
 	tv_content = (TextView) dialog_welcom.findViewById(R.id.content);
 	entry.setOnClickListener(new OnClickListener() {
@@ -323,6 +323,7 @@ public class MainActivity extends BaseUi {
 		showHelp();
         }
 	});
+	dialog_welcom.setCancelable(false);
    	dialog_welcom.show();
 
     }
@@ -493,8 +494,8 @@ public class MyLocationListenner implements BDLocationListener {
         		LatLng loc = latArray.get(i);
         		Location.distanceBetween(loc.latitude, loc.longitude, location.getLatitude(), location.getLongitude(), distance);
         		Log.d("wang","distance is " + distance[0]);
-        		if(distance[0] <= 200.0){
-        			toast("200 distance is bigger " + Math.round(distance[0]));
+        		if(distance[0] <= 2000.0){
+        			toast("2000 distance is bigger " + Math.round(distance[0]));
         			tts.speak("距离标记位置" + i + "还有" + Math.round(distance[0]) + "米", TextToSpeech.QUEUE_ADD, null);
         		} else {
         			//toast("200 distance is smaller " + distance[0]);

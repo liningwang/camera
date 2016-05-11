@@ -139,6 +139,11 @@ public void onCreate(Bundle savedInstanceState) {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent user = new Intent();
+				String user_name = getIntent().getExtras().get("user").toString();
+                                        if(user_name == null) {
+                                                user_name = "";
+                                        }
+                                        user.putExtra("user",user_name);
 				user.setClass(ReplyRoadActivity.this, ProfileActivity.class);
 				ReplyRoadActivity.this.startActivity(user);
 			}

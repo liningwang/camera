@@ -21,9 +21,9 @@
     android:layout_height="wrap_content"
     android:text="公告"
     android:gravity="center"
-     android:textColor="@color/white"
+     android:textColor="@color/green"
     android:textStyle="bold"
-     android:textSize="15dip"
+     android:textSize="23dip"
     />
   <TextView 
      android:id="@+id/content"
@@ -33,7 +33,31 @@
      android:gravity="center"
      android:padding="5dip"
      android:textColor="@color/white"
+     android:textSize="20dip"
       />
+       <LinearLayout
+                android:id="@+id/panorama_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:layout_marginBottom="3dip"
+                android:layout_marginTop="13dip"
+                android:gravity="center_horizontal" 
+                >
+  <TextView 
+    android:id="@+id/entry_map"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:text="进入地图"
+    android:gravity="center"
+    android:background="@drawable/reply_button_background"
+    android:paddingLeft="8dip"
+    android:paddingRight="8dip"
+    android:paddingTop="3dip"
+    android:paddingBottom="3dip"
+    android:clickable="true"/>
+
+</LinearLayout>
   </LinearLayout>
      <LinearLayout
                 android:id="@+id/panorama_location"
@@ -44,10 +68,20 @@
      		android:paddingLeft="15dip"
      		android:paddingRight="15dip"
                 android:gravity="left|top" > 
+
+  <TextView 
+      android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+     android:text="软件功能"
+     android:layout_gravity="center"
+    android:textStyle="bold"
+     android:textSize="20dip"
+      />
      <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" 
                 android:orientation="horizontal" 
+                android:layout_marginTop="15dip"
                 android:gravity="left|top" >
   <TextView 
       android:layout_width="wrap_content"
@@ -138,20 +172,4 @@
 	
   </LinearLayout>
   </LinearLayout>
-     <LinearLayout
-                android:id="@+id/panorama_location"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" 
-                android:orientation="horizontal" 
-                android:layout_marginBottom="20dip"
-                android:gravity="center_horizontal|bottom" 
-                >
-         <Button 
-         android:id="@+id/entry_map"
-         android:layout_width="140dip"
-        android:layout_height="wrap_content" 
-        android:text="进入地图"
-        android:textColor="@color/white"
-        android:background="@drawable/button_background"/>
-     </LinearLayout>
 </LinearLayout>
