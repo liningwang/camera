@@ -58,7 +58,11 @@ public void onCreate(Bundle savedInstanceState) {
 	    name.setText(app.getCameraName());
 	    address.setText(app.getCameraAddress() + app.getCameraDirecton());
 	    time.setText(app.getCameraUptime());
-	    owner.setText("´´½¨Õß£º" + app.getUser());
+	    if(getIntent().getExtras().get("username") != null) {
+	    	owner.setText("build:" + getIntent().getExtras().get("username").toString());
+	    } else {
+	    	owner.setText("build:" + "other");
+	    }
 	    HashMap<String, String> commentParams = new HashMap<String, String>();
 	    
 	    lv = (ListView) findViewById(R.id.list);

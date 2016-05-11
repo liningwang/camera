@@ -628,6 +628,12 @@ private void uploadCameraOverlay() {
         locationParams.put("type", this.camera_typ);
         locationParams.put("zan", "0");
         locationParams.put("buzan", "0");
+	int customerId = app.getCustomerid();
+	if(customerId != 0) {
+        	locationParams.put("username", app.getUser());
+	} else {
+		locationParams.put("username", "游客");
+	}
         doTaskAsync(C.task.createCamera, C.api.createCamera, locationParams);
 	Log.d("wang","uploadCamera info successfully!!!");
 }
@@ -1073,6 +1079,7 @@ private void showInfoWindowForPanorama(LatLng ll) {
 				MainActivity.this.app.setCameraDirecton(mCurrentCamera.getDirection());
 				MainActivity.this.app.setCameraId(mCurrentCamera.getId());
 				Intent intent = new Intent();
+			intent.putExtra("username",mCurrentCamera.getUsername());
             	intent.setClass(MainActivity.this, CommentActivity.class);
             	startActivity(intent);
 		mBaiduMap.hideInfoWindow();

@@ -13,6 +13,7 @@ public class Camera extends BaseModel{
 	private String type;
 	private String zan;
 	private String buzan;
+	private String username;
 	public Camera() {
 		// TODO Auto-generated constructor stub
 	}
@@ -75,5 +76,11 @@ public class Camera extends BaseModel{
 	}
 	public void setBuzan(String buzan){
 		this.buzan = buzan;
+	}
+	public String getUsername(){
+		return username;
+	}
+	public void setUsername(String username){
+		this.username = username;
 	}
 }
