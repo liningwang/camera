@@ -87,6 +87,8 @@ public class UpdateApkActivity extends BaseUi {
 		ver.setText(Common.getVerName(getApplicationContext()));
 		m_mainHandler = new Handler();
 		m_progressDlg =  new ProgressDialog(this);
+		m_progressDlg.setCancelable(true);
+                m_progressDlg.setCanceledOnTouchOutside(false);
 		m_progressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		     
 		m_progressDlg.setIndeterminate(false);    
@@ -128,6 +130,7 @@ public class UpdateApkActivity extends BaseUi {
 	                          
 	                        }  
 	                    }).create(); 
+	    dialog.setCancelable(false);
 	    dialog.show();  
 	}
 		private void notNewVersionDlgShow()
@@ -202,6 +205,7 @@ public class UpdateApkActivity extends BaseUi {
 	}
 	    void update() {
 	        Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        intent.setDataAndType(Uri.fromFile(new File(Environment
 	                .getExternalStorageDirectory(), m_appNameStr)),
 	                "application/vnd.android.package-archive");

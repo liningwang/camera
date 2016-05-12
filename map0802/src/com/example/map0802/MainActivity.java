@@ -38,11 +38,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.example.shareData.CustomerInfo;
 import com.baidu.location.BDLocation;
@@ -104,7 +108,9 @@ import android.graphics.drawable.ColorDrawable;
 
 public class MainActivity extends BaseUi {
     MapView mMapView = null;
+
    private BaiduMap mBaiduMap;
+
    private BitmapDescriptor mIconMaker; 
    private BitmapDescriptor mPanoramaMaker; 
    private BitmapDescriptor mbiaojiMaker; 
@@ -163,7 +169,6 @@ public class MainActivity extends BaseUi {
   private int panorama_location = 0;
   private ArrayList<LatLng> latArray = new ArrayList<LatLng>();
   private ArrayList<Overlay> overlayArray = new ArrayList<Overlay>();
-  private float[] old_distance = new float[20];
   private int tag=0;
   private double lati; 
   private double longi; 
@@ -296,19 +301,12 @@ public class MainActivity extends BaseUi {
 	doTaskAsync(C.task.update, C.api.update);
    	doTaskAsync(C.task.gongGao, C.api.gongGao);
    	doTaskAsync(C.task.getCamera, C.api.getCamera);
-   	initDistance();
    	initLocation();
    	initTTS();
    	//showDialog();
 	showWelcom();
    //	initPanorama();
     } 
-    private void initDistance(){
-    	int i;
-    	for(i = 0;i < 20; i++) {
-    		old_distance[i] = (float) 2000.0;
-    	}
-    }
     private void showWelcom()
     {
 	dialog_welcom = new Dialog(this,R.style.Dialog_Fullscreen);  
@@ -501,15 +499,12 @@ public class MyLocationListenner implements BDLocationListener {
         	for(int i = 0; i < latArray.size();i++) {
         		LatLng loc = latArray.get(i);
         		Location.distanceBetween(loc.latitude, loc.longitude, location.getLatitude(), location.getLongitude(), distance);
-        		Log.d("wang","distance is " + distance[0] );
-        		if((distance[0] <= 2000.0) && (old_distance[i] > distance[0])){
-        			old_distance[i] = distance[0];
+        		Log.d("wang","distance is " + distance[0]);
+        		if(distance[0] <= 2000.0){
         			toast("2000 distance is bigger " + Math.round(distance[0]));
         			tts.speak("距离标记位置" + i + "还有" + Math.round(distance[0]) + "米", TextToSpeech.QUEUE_ADD, null);
-        		} else if((old_distance[i] < distance[0]) && (old_distance[i] != 2001.0) && (old_distance[i] != 2000.0)) {
+        		} else {
         			//toast("200 distance is smaller " + distance[0]);
-        			old_distance[i] = (float) 2001.0;
-        			tts.speak("您已到达目的地附近", TextToSpeech.QUEUE_ADD, null);
         		}
         	}
     	}
@@ -659,6 +654,8 @@ public void onNetworkError (int taskId) {
         {
                 m_mainHandler = new Handler();
                 m_progressDlg =  new ProgressDialog(this);
+		m_progressDlg.setCancelable(true);
+		m_progressDlg.setCanceledOnTouchOutside(false);
                 m_progressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
                 m_progressDlg.setIndeterminate(false);
@@ -682,6 +679,7 @@ public void onNetworkError (int taskId) {
                                     downFile(C.api.apkUrl);
                                 }
                             }).create();
+	dialog.setCancelable(false);
             dialog.show();
 
        }
@@ -692,6 +690,7 @@ public void onNetworkError (int taskId) {
             String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
                         " Code:"+m_newVerCode+" ,is ready";
             Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)
+	
 
                     .setPositiveButton("ok",
                             new DialogInterface.OnClickListener() {
@@ -711,6 +710,7 @@ public void onNetworkError (int taskId) {
                                     //finish();
                                 }
                             }).create();
+	dialog.setCancelable(false);
             dialog.show();
         }
 
@@ -789,6 +789,7 @@ public void onNetworkError (int taskId) {
         }
         void update() {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setDataAndType(Uri.fromFile(new File(Environment
                         .getExternalStorageDirectory(), m_appNameStr)),
                         "application/vnd.android.package-archive");
@@ -929,9 +930,20 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                                 int vercode = Common.getVerCode(getApplicationContext());
                                 Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName() + "local vercode is " + vercode);
                          if ((m_newVerCode > vercode) && (flag == 0)) {
+					/*IntentFilter intentFilter = new IntentFilter();
+                			intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+                			intentFilter.addDataScheme("package");
+                			registerReceiver(broadcastReceiver, intentFilter);
+					*/
                                         doNewVersionUpdate();
                          } else if((m_newVerCode > vercode) && (flag == 1)){
                                 //        notNewVersionDlgShow();
+					/*IntentFilter intentFilter = new IntentFilter();
+                			intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+                			intentFilter.addDataScheme("package");
+                			registerReceiver(broadcastReceiver, intentFilter);
+					*/
+
 				mustUpdate();
                          }
                         } catch (Exception e1) {
@@ -942,6 +954,37 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                 break;
 	}
 }
+private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context context, Intent intent) {
+		toast("install finished");
+		Log.d("wang","install finished!");
+		openApk(MainActivity.this,new File(Environment
+                        .getExternalStorageDirectory(), m_appNameStr).toString());	
+                }
+        };
+
+       private void openApk(Context context, String url) {
+		Log.d("wang","openApk url is " + url);
+                PackageManager manager = context.getPackageManager();
+                PackageInfo info = manager.getPackageArchiveInfo(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + getFilePath(url), PackageManager.GET_ACTIVITIES);
+                if (info != null) {
+                        Intent intent = manager.getLaunchIntentForPackage(info.applicationInfo.packageName);
+                        startActivity(intent);
+                }
+        }
+        private File getFile(String url) {
+                File files = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), getFilePath(url));
+                return files;
+        }
+
+        private String getFilePath(String url) {
+                return url.substring(url.lastIndexOf("/"), url.length());
+        }
+
+
 private void showHelp() {
             SharedPreferences share = getSharedPreferences("customer", MODE_PRIVATE);
            int open = share.getInt("open", 0);
@@ -984,7 +1027,7 @@ private void showInfoWindow(LatLng ll) {
              LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
              //LatLng llInfo = new LatLng(34.242652, 108.971171);
              Log.d("wang","latitude = " + llInfo.latitude + " longitude" + llInfo.longitude);
-             p.y = -100;
+             p.y = -83;
              mInfoWindow = new InfoWindow(location, llInfo,p.y);
              mBaiduMap.showInfoWindow(mInfoWindow);
 }
@@ -1010,12 +1053,12 @@ private void showInfoWindowForPanorama(LatLng ll) {
                         @Override
                         public boolean onMarkerClick(final Marker marker)
                         {
-                     //toast("marker is cameraOverlay " + marker.equals(cameraOverlay));
+                     
                      LatLng markerLat = marker.getPosition();
                      Point p = mBaiduMap.getProjection().toScreenLocation(markerLat);
              			//mMarkerInfoLy.setVisibility(View.VISIBLE);
                      View location = getPopCameraView();
-                     p.y = -90;
+                     p.y = -83;
                      mInfoWindow = new InfoWindow(location, markerLat,p.y);
 		     mBaiduMap.showInfoWindow(mInfoWindow);
                      judgeClickCamera(markerLat);
