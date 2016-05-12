@@ -7,6 +7,7 @@ public class UpdateApk extends BaseModel{
 	private String verName; 
 	private String verCode;
 	private String flag;
+	private String message;
 	public UpdateApk() {
 		// TODO Auto-generated constructor stub
 	}
@@ -33,5 +34,11 @@ public class UpdateApk extends BaseModel{
 	}
 	public void setFlag(String flag){
 		this.flag = flag;
+	}
+	public String getMessage(){
+		return message;
+	}
+	public void setMessage(String message){
+		this.message = message;
 	}
 }

@@ -661,13 +661,13 @@ public void onNetworkError (int taskId) {
                 m_progressDlg.setIndeterminate(false);
                 m_appNameStr = "haha.apk";
         }
-       private void mustUpdate() {
+       private void mustUpdate(String message) {
 		     int verCode = Common.getVerCode(getApplicationContext());
             String verName = Common.getVerName(getApplicationContext());
 
             String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
                         " Code:"+m_newVerCode+" ,is ready";
-            Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)
+            Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(message)
 
                     .setPositiveButton("ok",
                             new DialogInterface.OnClickListener() {
@@ -683,13 +683,13 @@ public void onNetworkError (int taskId) {
             dialog.show();
 
        }
-       private void doNewVersionUpdate() {
+       private void doNewVersionUpdate(String message) {
                 int verCode = Common.getVerCode(getApplicationContext());
             String verName = Common.getVerName(getApplicationContext());
 
             String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
                         " Code:"+m_newVerCode+" ,is ready";
-            Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)
+            Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(message)
 	
 
                     .setPositiveButton("ok",
@@ -922,10 +922,13 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			break;
 		case C.task.update:
                         UpdateApk updateA;
+			String message1 = "";
                         try {
                                 updateA = (UpdateApk) message.getResult("UpdateApk");
                                 m_newVerName = updateA.getVerName();
                                 m_newVerCode = Integer.valueOf(updateA.getVerCode());
+				message1 = updateA.getMessage();
+				
 				int flag = Integer.valueOf(updateA.getFlag());
                                 int vercode = Common.getVerCode(getApplicationContext());
                                 Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName() + "local vercode is " + vercode);
@@ -935,7 +938,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                 			intentFilter.addDataScheme("package");
                 			registerReceiver(broadcastReceiver, intentFilter);
 					*/
-                                        doNewVersionUpdate();
+                                        doNewVersionUpdate(message1);
                          } else if((m_newVerCode > vercode) && (flag == 1)){
                                 //        notNewVersionDlgShow();
 					/*IntentFilter intentFilter = new IntentFilter();
@@ -944,7 +947,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                 			registerReceiver(broadcastReceiver, intentFilter);
 					*/
 
-				mustUpdate();
+				mustUpdate(message1);
                          }
                         } catch (Exception e1) {
                                 // TODO Auto-generated catch block

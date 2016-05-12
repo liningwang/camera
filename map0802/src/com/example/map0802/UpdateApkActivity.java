@@ -105,13 +105,13 @@ public class UpdateApkActivity extends BaseUi {
 		}
 	};
 	
-	private void doNewVersionUpdate() {
+	private void doNewVersionUpdate(String message) {
 		int verCode = Common.getVerCode(getApplicationContext());  
 	    String verName = Common.getVerName(getApplicationContext());  
 	    
 	    String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
 	    		" Code:"+m_newVerCode+" ,is ready";  
-	    Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(str)  
+	    Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(message)  
 	   
 	            .setPositiveButton("ok", 
 	                    new DialogInterface.OnClickListener() {  
@@ -216,14 +216,16 @@ public void onTaskComplete(int taskId, BaseMessage message) {
         switch(taskId){
 		case C.task.update:
 			UpdateApk updateA;
+			String message1 = "";
 			try {
 				updateA = (UpdateApk) message.getResult("UpdateApk");
 				m_newVerName = updateA.getVerName();
 				m_newVerCode = Integer.valueOf(updateA.getVerCode());
+				message1 = updateA.getMessage();
 				Log.d("wang","updateA id " + updateA.getId() + " verCode is " + updateA.getVerCode() + " verName is " + updateA.getVerName());
 				int vercode = Common.getVerCode(getApplicationContext()); 
 		         if (m_newVerCode > vercode) {  
-		        	 	doNewVersionUpdate();
+		        	 	doNewVersionUpdate(message1);
 		         } else {  
 		        	 	notNewVersionDlgShow();
 		         }  
