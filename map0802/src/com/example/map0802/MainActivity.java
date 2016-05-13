@@ -827,6 +827,9 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			newCamera = (Camera) message.getResult("Camera");
 			newCamera.setLongitude(String.valueOf(cameraLocation.longitude));
 			newCamera.setLatitude(String.valueOf(cameraLocation.latitude));
+			if(cameraList == null) {
+				cameraList = new ArrayList<Camera>(); 
+			}
 			cameraList.add(newCamera);
 			Log.d("wang","camera size is " + cameraList.size());
 			weizhang_imag.setBackgroundResource(R.drawable.weizhangdi1);
@@ -1065,6 +1068,7 @@ private void showInfoWindowForPanorama(LatLng ll) {
                      p.y = -83;
                      mInfoWindow = new InfoWindow(location, markerLat,p.y);
 		     mBaiduMap.showInfoWindow(mInfoWindow);
+		     Log.d("wang","setOnMarkerClickListener location.latitude is " + markerLat.latitude + " location.longitude is " + markerLat.longitude);
                      judgeClickCamera(markerLat);
              			flag = true;
                      return true;
