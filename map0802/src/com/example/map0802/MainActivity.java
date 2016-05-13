@@ -819,8 +819,8 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		}
 			break;
 		case C.task.createCamera:
-			toast("create camera succefully");
-	 	Log.d("wang","cameraList size is " + cameraList.size());
+			toast("违章地提交成功！");
+	 	
 		Camera newCamera;
 		try {
 			
@@ -828,6 +828,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			newCamera.setLongitude(String.valueOf(cameraLocation.longitude));
 			newCamera.setLatitude(String.valueOf(cameraLocation.latitude));
 			cameraList.add(newCamera);
+			Log.d("wang","camera size is " + cameraList.size());
 			weizhang_imag.setBackgroundResource(R.drawable.weizhangdi1);
                         tag = 0;
 		} catch (Exception e1) {
@@ -877,7 +878,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 				//Log.d("wang", "id = " + data.getId());
 				
 			}
-			toast("get camera successfully");
+			toast("成功获取 " + cameraList.size() + " 个摄像头！");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

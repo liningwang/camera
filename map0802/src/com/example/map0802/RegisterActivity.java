@@ -57,9 +57,9 @@ public class RegisterActivity extends BaseUi{
 						@Override
                         public void onClick(View arg0) {
 				if(account.getText().toString().isEmpty()) {
-					toast("甯愬彿涓嶈兘涓虹┖");
+					toast("账号不能是空的！");
 				} else if(!account_code.getText().toString().equals(sure_code.getText().toString())) {
-					toast("涓ゆ杈撳叆鐨勫瘑鐮佷笉鍖归厤 "+ account_code.getText() + " " + sure_code.getText());	
+					toast("两次输入的密码不同，请重新输入!");
 				} else {
 				 HashMap<String, String> locationParams = new HashMap<String, String>();
                                  locationParams.put("name",account.getText().toString());

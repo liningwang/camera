@@ -14,13 +14,14 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-       <!--<meta-data
+       <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="68B6MPkxLW2oPxaqcSWPojsckiCjthVh" />
-	-->
-        <meta-data
+	
+    <!--     <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="awnmaIGOjjyAw1H8E8R9xyNnpVPHb78E" /> 
+        -->
         <activity
             android:name="com.example.map0802.MainActivity"
             android:label="@string/app_name"

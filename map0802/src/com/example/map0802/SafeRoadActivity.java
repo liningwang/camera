@@ -88,7 +88,7 @@ public class SafeRoadActivity extends BaseUi {
 				
                                 	SafeRoadActivity.this.startActivityForResult(intent, 1);
 				} else {
-					toast("please login!");
+					toast("登录后才能添加评论!");
                                 	Intent intent = new Intent();
                                 	intent.setClass(SafeRoadActivity.this, ProfileActivity.class);
 					startActivity(intent);
@@ -237,7 +237,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                                 listItem.add(0,map);
                                 adapter.notifyDataSetChanged();
                         } else if(result.equals("ok1")) {
-				toast("please reflash!!!");
+				toast("请退出，重新进入，就可以看到更多路线!!!");
 			}
                 }
         }

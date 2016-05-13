@@ -70,7 +70,7 @@ public void onCreate(Bundle savedInstanceState) {
 			// TODO Auto-generated method stub
 			CheckBox box = (CheckBox)arg0;
 			direction = box.getText().toString();
-			Toast.makeText(CameraInfo.this,"checkbox is " + box.getText(),Toast.LENGTH_LONG).show();
+			//Toast.makeText(CameraInfo.this,"checkbox is " + box.getText(),Toast.LENGTH_LONG).show();
 		}
 		
 	};
@@ -86,13 +86,13 @@ public void onCreate(Bundle savedInstanceState) {
 			// TODO Auto-generated method stub
 			if(arg1 == rd_jjz.getId()) {
 				radioId = 0;
-				Toast.makeText(CameraInfo.this, "radio id:" + rd_jjz.getId() + " text: " + rd_jjz.getText(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(CameraInfo.this, "radio id:" + rd_jjz.getId() + " text: " + rd_jjz.getText(), Toast.LENGTH_LONG).show();
 			} else if(arg1 == rd_gfq.getId()) {
 				radioId = 1;
-				Toast.makeText(CameraInfo.this, "radio id:" + rd_gfq.getId() + " text: " + rd_gfq.getText(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(CameraInfo.this, "radio id:" + rd_gfq.getId() + " text: " + rd_gfq.getText(), Toast.LENGTH_LONG).show();
 			} else if(arg1 == rd_wh.getId()) {
 				radioId = 2;
-				Toast.makeText(CameraInfo.this, "radio id:" + rd_wh.getId() + " text: " + rd_wh.getText(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(CameraInfo.this, "radio id:" + rd_wh.getId() + " text: " + rd_wh.getText(), Toast.LENGTH_LONG).show();
 			}	
 		}
 		

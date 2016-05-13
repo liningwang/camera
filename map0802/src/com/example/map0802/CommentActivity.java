@@ -123,10 +123,10 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
 		case C.task.commentCreate:
-			toast("create comment succefully");
+			toast("ÆÀÂÛ³É¹¦£¡");
 			break;
 		case C.task.commentList:
-			Log.d("wang","entry commentList");
+			//Log.d("wang","entry commentList");
 			
 		try {
 			if(message.getCode().equals("10000")) {

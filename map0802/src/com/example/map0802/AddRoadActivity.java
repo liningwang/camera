@@ -28,6 +28,7 @@ import com.example.list.SafeRoadAdapter;
 import com.example.model.Camera;
 import com.example.model.Comment;
 import com.example.model.SafeId;
+import com.example.util.AppCache;
 import com.example.util.SDUtil;
 
 import android.os.Bundle;
@@ -132,7 +133,7 @@ public void onCreate(Bundle savedInstanceState) {
 				if(!mDatas.isEmpty()) {
 					String uploadFile = mDatas.get(position);
 					File file1 = new File(uploadFile);
-					String fileName = file1.getName();
+					String fileName = AppCache.getMd5Path(file1.getName());
 					url = C.api.imageUrl + fileName;
 				} else {
 					url = "";
@@ -170,7 +171,7 @@ public void onCreate(Bundle savedInstanceState) {
                         public void onClick(View view, int position)
                         {
 				isChecked = true;
-				toast("checked successfully position is " + position);
+				//toast("checked successfully position is " + position);
 				AddRoadActivity.this.position = position;
 			}
 		});
@@ -221,7 +222,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	switch(taskId){
 		case C.task.upload:
 			progressDialog.dismiss();
-			toast("upload succefully");
+			toast("上传成功！");
 			//mHorizontalScrollView.setVisibility(View.GONE);
 			//mHorizontalScrollView.removeAllViews();
 			layout.setVisibility(View.GONE);
@@ -235,7 +236,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			upload.setEnabled(true);
 			break;
 		case C.task.safeRoadCreate:
-			toast(message.getMessage());
+			//toast(message.getMessage());
 		SafeId safeid;
 		try {
 			safeid = (SafeId) message.getResult("SafeId");

@@ -88,22 +88,22 @@ public void onCreate(Bundle savedInstanceState) {
 				if(zan_flag == 0) {
 					if(arg1 == rd_jjz.getId()) {
 						radioId = arg1;
-						Toast.makeText(AddCommentActivity.this, "radio id:" + rd_jjz.getId() + " text: " + rd_jjz.getText(), Toast.LENGTH_LONG).show();
+						//Toast.makeText(AddCommentActivity.this, "radio id:" + rd_jjz.getId() + " text: " + rd_jjz.getText(), Toast.LENGTH_LONG).show();
 					} else if(arg1 == zan.getId()) {
 						radioId = arg1;
 						HashMap<String, String> locationParams = new HashMap<String, String>();				      
 						locationParams.put("cameraId", app.getCameraId());
 						doTaskAsync(C.task.zan,C.api.zan,locationParams);
-						Toast.makeText(AddCommentActivity.this, "radio id:" + zan.getId() + " text: " + zan.getText(), Toast.LENGTH_LONG).show();
+						//Toast.makeText(AddCommentActivity.this, "radio id:" + zan.getId() + " text: " + zan.getText(), Toast.LENGTH_LONG).show();
 					} else if(arg1 == buzan.getId()) {
 						radioId = arg1;
 						 HashMap<String, String> locationParams = new HashMap<String, String>();				      
 						 locationParams.put("cameraId", app.getCameraId());
 						 doTaskAsync(C.task.buzan,C.api.buzan,locationParams);
-						Toast.makeText(AddCommentActivity.this, "radio id:" + buzan.getId() + " text: " + buzan.getText(), Toast.LENGTH_LONG).show();
+						//Toast.makeText(AddCommentActivity.this, "radio id:" + buzan.getId() + " text: " + buzan.getText(), Toast.LENGTH_LONG).show();
 					}	
 				} else {
-					toast("no select");
+					//toast("no select");
 				}
 			}
 			
@@ -132,7 +132,7 @@ public void onCreate(Bundle savedInstanceState) {
 				 commentParams.put("content",content);
 			    doTaskAsync(C.task.commentCreate, C.api.commentCreate,commentParams);
 			} else {
-			  toast("璇峰厛閫夋嫨鏄惁鎷嶅鍦拌溅");	
+			  toast("请先选择拍不拍外地车！");	
 			}
 			}
 		});
@@ -142,7 +142,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
 		case C.task.commentCreate:
-			toast("create comment succefully");
+			toast("创建评论成功！");
 			Intent intent = new Intent();
 			Log.d("wang"," addComment value:" + addComment.getText() + " name: " + app.getSign() + " user:"+app.getUser()+" cameraId:" + app.getCameraId()
 					+ " customerId: " + app.getCustomerid());
@@ -163,7 +163,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		case C.task.zan:
 			if(message.getCode().equals("10000")) {
 				SharedPreferences share = getSharedPreferences("zan", MODE_PRIVATE);
-				toast(message.getMessage());
+				//toast(message.getMessage());
 				SharedPreferences.Editor edit = share.edit();
 				edit.putInt(app.getCameraId(), 1);
 				edit.commit();
@@ -172,7 +172,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		case C.task.buzan:
 			if(message.getCode().equals("10000")) {
 				SharedPreferences share = getSharedPreferences("buzan", MODE_PRIVATE);
-				toast(message.getMessage());
+				//toast(message.getMessage());
 				SharedPreferences.Editor edit = share.edit();
 				edit.putInt(app.getCameraId(), 1);
 				edit.commit();

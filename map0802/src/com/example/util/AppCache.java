@@ -27,6 +27,10 @@ public class AppCache {
 		String cacheKey = AppUtil.md5(url);
 		return SDUtil.getSample(cacheKey);
 	}
+	public static String getMd5Path(String url) {
+		String cacheKey = AppUtil.md5(url);
+		return cacheKey;
+	}
 	public static Bitmap getImageAsScreen (Activity activity,String url) {
 		String cacheKey = AppUtil.md5(url);
 		return SDUtil.getImagefromPath(activity,cacheKey);

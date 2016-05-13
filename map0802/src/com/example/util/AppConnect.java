@@ -35,7 +35,7 @@ public String post(HashMap urlParams) {
         {
         	 String uploadFile =  (String) urlParams.get("file");
         	 File file1 = new File(uploadFile);
-        	 String fileName = file1.getName();
+        	 String fileName = AppCache.getMd5Path(file1.getName());
 		Log.d("wang","uploadFile is " + uploadFile + " filename is " + fileName);
             URL url = new URL(apiUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -48,27 +48,27 @@ public String post(HashMap urlParams) {
             con.setUseCaches(false);
           /* Set the post method. Default is GET*/
             con.setRequestMethod("POST");
-          /* 设置请求属性 */
+          /* 璁剧疆璇锋眰灞炴�� */
             con.setRequestProperty("Connection", "Keep-Alive");
             con.setRequestProperty("Charset", "UTF-8");
             con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-          /*设置StrictMode 否则HTTPURLConnection连接失败，因为这是在主进程中进行网络连接*/
+          /*璁剧疆StrictMode 鍚﹀垯HTTPURLConnection杩炴帴澶辫触锛屽洜涓鸿繖鏄湪涓昏繘绋嬩腑杩涜缃戠粶杩炴帴*/
             //StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
-          /* 设置DataOutputStream，getOutputStream中默认调用connect()*/
+          /* 璁剧疆DataOutputStream锛実etOutputStream涓粯璁よ皟鐢╟onnect()*/
             DataOutputStream ds = new DataOutputStream(con.getOutputStream());  //output to the connection
             ds.writeBytes(twoHyphens + boundary + end);
             ds.writeBytes("Content-Disposition: form-data; " +
                     "name=\"file\";filename=\"" +
                     fileName + "\"" + end);
             ds.writeBytes(end);
-          /* 取得文件的FileInputStream */
+          /* 鍙栧緱鏂囦欢鐨凢ileInputStream */
             InputStream fStream = SDUtil.getImageStreamfromPath(uploadFile);
-          /* 设置每次写入8192bytes */
+          /* 璁剧疆姣忔鍐欏叆8192bytes */
             int bufferSize = 8192;
             byte[] buffer = new byte[bufferSize];   //8k
             int length = -1;
 	    //byte b;
-          /* 从文件读取数据至缓冲区 */
+          /* 浠庢枃浠惰鍙栨暟鎹嚦缂撳啿鍖� */
 	   /*while(b != -1) {
 	  	 for(int i = 0; i < bufferSize; i++)
 	  	 {
@@ -84,32 +84,32 @@ public String post(HashMap urlParams) {
 	    }*/
             while ((length = fStream.read(buffer)) != -1)
             {
-            /* 将资料写入DataOutputStream中 */
+            /* 灏嗚祫鏂欏啓鍏ataOutputStream涓� */
                 ds.write(buffer, 0, length);
             }
             ds.writeBytes(end);
             ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
-          /* 关闭流，写入的东西自动生成Http正文*/
+          /* 鍏抽棴娴侊紝鍐欏叆鐨勪笢瑗胯嚜鍔ㄧ敓鎴怘ttp姝ｆ枃*/
             fStream.close();
-          /* 关闭DataOutputStream */
+          /* 鍏抽棴DataOutputStream */
             ds.close();
-          /* 从返回的输入流读取响应信息 */
-            InputStream is = con.getInputStream();  //input from the connection 正式建立HTTP连接
+          /* 浠庤繑鍥炵殑杈撳叆娴佽鍙栧搷搴斾俊鎭� */
+            InputStream is = con.getInputStream();  //input from the connection 姝ｅ紡寤虹珛HTTP杩炴帴
             int ch;
            
             while ((ch = is.read()) != -1)
             {
                 b.append((char) ch);
             }
-          /* 显示网页响应内容 */
+          /* 鏄剧ず缃戦〉鍝嶅簲鍐呭 */
             Log.d("wang","wang upload b.toString()" + b.toString());
              return b.toString();
-            //Toast.makeText(UploadActivity.this, b.toString().trim(), Toast.LENGTH_SHORT).show();//Post成功
+            //Toast.makeText(UploadActivity.this, b.toString().trim(), Toast.LENGTH_SHORT).show();//Post鎴愬姛
         } catch (Exception e)
         {
-            /* 显示异常信息 */
+            /* 鏄剧ず寮傚父淇℃伅 */
                 e.printStackTrace();
-            //Toast.makeText(UploadActivity.this, "Fail:" + e, Toast.LENGTH_SHORT).show();//Post失败
+            //Toast.makeText(UploadActivity.this, "Fail:" + e, Toast.LENGTH_SHORT).show();//Post澶辫触
         }
         return b.toString();
     }

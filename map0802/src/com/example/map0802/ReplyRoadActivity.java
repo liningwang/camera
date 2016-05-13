@@ -107,7 +107,7 @@ public void onCreate(Bundle savedInstanceState) {
 
 		this.setHandler(new ConfigHandler(this));
                 loadImage(url);
-
+                image.setBackgroundResource(R.drawable.jiazaizhong);
 		replySubmit.setOnClickListener(new OnClickListener() {
 
                         @SuppressLint("NewApi")
@@ -208,7 +208,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
 		case C.task.replyRoadCreate:
-			toast("create comment reply succefully");
+			toast("回复成功！");
 			replyContent.setText("");
 			if((listItem.get(0).get("empty") != null)&&(listItem.get(0).get("empty").equals("1"))){
                                         listItem.remove(0);

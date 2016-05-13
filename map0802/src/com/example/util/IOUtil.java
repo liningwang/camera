@@ -43,12 +43,12 @@ public class IOUtil {
 		}
 		try {
 			HttpURLConnection conn = null;
-			if (HttpUtil.WAP_INT == HttpUtil.getNetType(ctx)) {
+			/*if (HttpUtil.WAP_INT == HttpUtil.getNetType(ctx)) {
 				Proxy proxy = new Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress("10.0.0.172", 80)); 
 				conn = (HttpURLConnection) myFileUrl.openConnection(proxy);
-			} else {
+			} else {*/
 				conn = (HttpURLConnection) myFileUrl.openConnection();
-			}
+			//}
 			conn.setConnectTimeout(10000);
 			conn.setDoInput(true);
 			conn.connect();

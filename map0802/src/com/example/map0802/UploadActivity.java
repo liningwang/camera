@@ -64,7 +64,7 @@ public class UploadActivity extends BaseUi
 
                 try {
                         if(message.getCode().equals("10000")) {
-				toast("upload complete");
+				toast("上传成功！");
                         } else {
 				toast(message.getMessage());
                         }

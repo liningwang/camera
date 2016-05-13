@@ -72,9 +72,9 @@ public final class C {
 	}
 	
 	public static final class err {
-		public static final String network			= "ï¿½ï¿½ï¿½Ó´ï¿½ï¿½ï¿½";
-		public static final String message			= "ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½";
-		public static final String jsonFormat		= "ï¿½ï¿½Ï¢ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½";
+		public static final String network			= "ÍøÂçÁ¬½Ó´íÎó";
+		public static final String message			= "ÍøÂç´íÎó";
+		public static final String jsonFormat		= "json¸ñÊ½´íÎó";
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
