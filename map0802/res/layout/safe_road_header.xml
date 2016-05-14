@@ -18,7 +18,8 @@
     android:padding="8dip" 
     android:layout_margin="5dip"
     >
-    <TextView 
+    <TextView
+        android:id="@+id/title" 
       android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="公告"
@@ -26,10 +27,11 @@
     android:textStyle="bold"
     />
   <TextView 
+      android:id="@+id/gong"
       android:layout_width="wrap_content"
     android:layout_height="wrap_content"
      android:text="劳烦您把你知道的，在北京经常走的，不会拍外地车的安全路线提交，来供其他的外地车参考。只有每个外地车都贡献自己的力量，才能更好的方便我们外地车"
-     android:gravity="center"
+     android:gravity="center|left"
      android:padding="5dip"
      android:textColor="@color/white"
       />

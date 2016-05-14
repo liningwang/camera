@@ -40,6 +40,14 @@ public class CameraInfo extends Activity{
 	private Button submit;
 	private	int radioId;
 	private String direction = " ";
+	private boolean w2e;
+	private boolean e2w;
+	private boolean s2n;
+	private boolean n2s;
+	private String direction_w2e = "";
+	private String direction_e2w = "";
+	private String direction_s2n = "";
+	private String direction_n2s = "";
 
 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,21 +71,77 @@ public void onCreate(Bundle savedInstanceState) {
                                 }
         });
 
-	CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+	CompoundButton.OnCheckedChangeListener listener1 = new CompoundButton.OnCheckedChangeListener() {
 
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			CheckBox box = (CheckBox)arg0;
-			direction = box.getText().toString();
+			if(arg1) {
+				w2e = true;
+				direction_w2e = box.getText().toString();
+			} else {
+				w2e = false;
+			}
+			//Toast.makeText(CameraInfo.this,"checkbox is " + box.getText() + "checked is " + arg1,Toast.LENGTH_LONG).show();
+		}
+		
+	};
+	CompoundButton.OnCheckedChangeListener listener2 = new CompoundButton.OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+			// TODO Auto-generated method stub
+			CheckBox box = (CheckBox)arg0;
+			if(arg1) {
+				e2w = true;
+				direction_e2w = box.getText().toString();
+			} else {
+				e2w = false;
+			}
+			//direction = direction + " " + box.getText().toString();
 			//Toast.makeText(CameraInfo.this,"checkbox is " + box.getText(),Toast.LENGTH_LONG).show();
 		}
 		
 	};
-	dir_w2e.setOnCheckedChangeListener(listener);
-	dir_e2w.setOnCheckedChangeListener(listener);
-	dir_s2n.setOnCheckedChangeListener(listener);
-	dir_n2s.setOnCheckedChangeListener(listener);
+	CompoundButton.OnCheckedChangeListener listener3 = new CompoundButton.OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+			// TODO Auto-generated method stub
+			CheckBox box = (CheckBox)arg0;
+			if(arg1) {
+				s2n = true;
+				direction_s2n = box.getText().toString();
+			} else {
+				s2n = false;
+			}
+			//direction = direction + " " + box.getText().toString();
+			//Toast.makeText(CameraInfo.this,"checkbox is " + box.getText(),Toast.LENGTH_LONG).show();
+		}
+		
+	};
+	CompoundButton.OnCheckedChangeListener listener4 = new CompoundButton.OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+			// TODO Auto-generated method stub
+			CheckBox box = (CheckBox)arg0;
+			if(arg1) {
+				n2s = true;
+				direction_n2s = box.getText().toString();
+			} else {
+				n2s = false;
+			}
+			//direction = direction + " " + box.getText().toString();
+			//Toast.makeText(CameraInfo.this,"checkbox is " + box.getText(),Toast.LENGTH_LONG).show();
+		}
+		
+	};
+	dir_w2e.setOnCheckedChangeListener(listener1);
+	dir_e2w.setOnCheckedChangeListener(listener2);
+	dir_s2n.setOnCheckedChangeListener(listener3);
+	dir_n2s.setOnCheckedChangeListener(listener4);
 
 	rd_group.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
@@ -107,7 +171,25 @@ public void onCreate(Bundle savedInstanceState) {
 			intent.putExtra("et_desc",et_desc.getText().toString());	
 			intent.putExtra("et_addr",et_addr.getText().toString());
 			intent.putExtra("camera_typ",String.valueOf(radioId));
-			intent.putExtra("direction",direction);
+			if(n2s) {
+				intent.putExtra("direction"," " + direction_n2s);
+			}
+			if(s2n) {
+				intent.putExtra("direction"," " + direction_s2n);
+			} 
+			if(n2s && s2n) {
+				intent.putExtra("direction","南北双向");
+			}
+			if(w2e) {
+				intent.putExtra("direction"," " + direction_w2e);
+			}
+			if(e2w) {
+				intent.putExtra("direction"," " + direction_e2w);
+			}
+			if(w2e && e2w) {
+				intent.putExtra("direction","东西双向");
+			}
+			//intent.putExtra("direction",direction);
 			intent.putExtra("result","ok");
 			CameraInfo.this.setResult(RESULT_OK, intent);
 			CameraInfo.this.finish();

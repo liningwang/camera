@@ -11,9 +11,11 @@ import com.example.base.BaseTask;
 import com.example.base.BaseUi;
 import com.example.base.C;
 import com.example.list.RoadAdapter;
+import com.example.model.GongGao;
 import com.example.model.SafeRoad;
 import com.example.util.AppCache;
 import com.example.util.AppUtil;
+
 
 
 import android.annotation.SuppressLint;
@@ -45,6 +47,8 @@ public class SafeRoadActivity extends BaseUi {
 	private ListView lv;
 	private RoadAdapter adapter;
 	private TextView add_road;
+	private TextView gong;
+	private TextView title;
 	private ArrayList<Map<String, Object>> listItem;
 	private String name;
 	private String safeid;
@@ -77,6 +81,8 @@ public class SafeRoadActivity extends BaseUi {
 
 		View v = View.inflate(SafeRoadActivity.this, R.layout.safe_road_header,null);
 		add_road = (TextView)v.findViewById(R.id.add_saferoad);
+		gong = (TextView)v.findViewById(R.id.gong);
+		title = (TextView)v.findViewById(R.id.title);
 		add_road.setOnClickListener(new OnClickListener() {
 
                         @Override
@@ -119,6 +125,7 @@ public class SafeRoadActivity extends BaseUi {
 		listItem = new ArrayList<Map<String, Object>>();
        adapter = new RoadAdapter(this,listItem);
 		lv.setAdapter(adapter);
+		doTaskAsync(C.task.roadGongGao, C.api.roadGongGao);
 		doTaskAsync(C.task.safeRoadList, C.api.safeRoadList);
 	}
 	
@@ -207,6 +214,21 @@ public void onTaskComplete(int taskId, BaseMessage message) {
                 }
 
                 break;
+     case C.task.roadGongGao:
+                   // Log.d("wang","entry safeRoadList");
+    	 GongGao gao;
+            try {
+            	gao = (GongGao) message.getResult("GongGao");
+    			String biao = gao.getTitle();
+    			String content = gao.getContent();
+    			title.setText(biao);
+    			gong.setText(content);
+    			//Log.d("wang","title is " + title + ", content is " + content);
+            } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            break;
         }
 }
 

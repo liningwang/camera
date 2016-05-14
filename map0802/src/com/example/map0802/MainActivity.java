@@ -1068,7 +1068,7 @@ private void showInfoWindowForPanorama(LatLng ll) {
                      p.y = -83;
                      mInfoWindow = new InfoWindow(location, markerLat,p.y);
 		     mBaiduMap.showInfoWindow(mInfoWindow);
-		     Log.d("wang","setOnMarkerClickListener location.latitude is " + markerLat.latitude + " location.longitude is " + markerLat.longitude);
+		    // Log.d("wang","setOnMarkerClickListener location.latitude is " + markerLat.latitude + " location.longitude is " + markerLat.longitude);
                      judgeClickCamera(markerLat);
              			flag = true;
                      return true;
@@ -1078,6 +1078,8 @@ private void showInfoWindowForPanorama(LatLng ll) {
  private void judgeClickCamera(LatLng location){
 	 Log.d("wang","cameraList judgeClickCamera size is " + cameraList.size());
 	 for(Camera data : cameraList){
+		 //Log.d("wang","marker latitude is " + location.latitude + " longitude is " + location.longitude + " server latitude is " 
+	 //+ Double.valueOf(data.getLatitude()) + " longitude is " + Double.valueOf(data.getLongitude()));
 		 if((location.latitude == Double.valueOf(data.getLatitude())) && (location.longitude == Double.valueOf(data.getLongitude()))) {
 			
 	 		Log.d("wang","judgeClickCamera find camera " + data.getId());
@@ -1301,6 +1303,30 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                      mBaiduMap.hideInfoWindow();
              }
  
+   }
+   @Override
+   public void onBackPressed() {
+   // TODO Auto-generated method stub
+       Dialog dialog = new AlertDialog.Builder(this).setTitle("退出").setMessage("确认退出应用？")
+    			
+
+               .setPositiveButton("退出",
+                       new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog,
+                                   int which) {
+                             finish();
+                           }
+                       })
+               .setNegativeButton("取消",
+                       new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog,
+                                   int whichButton) {
+
+                               //finish();
+                           }
+                       }).create();
+       dialog.show();
    }
     @Override 
     protected void onDestroy() {

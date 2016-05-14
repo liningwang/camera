@@ -59,9 +59,9 @@ public void onCreate(Bundle savedInstanceState) {
 	    address.setText(app.getCameraAddress() + app.getCameraDirecton());
 	    time.setText(app.getCameraUptime());
 	    if(getIntent().getExtras().get("username") != null) {
-	    	owner.setText("build:" + getIntent().getExtras().get("username").toString());
+	    	owner.setText("创建者:" + getIntent().getExtras().get("username").toString());
 	    } else {
-	    	owner.setText("build:" + "other");
+	    	owner.setText("创建者:" + "游客");
 	    }
 	    HashMap<String, String> commentParams = new HashMap<String, String>();
 	    

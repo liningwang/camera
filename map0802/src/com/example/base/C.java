@@ -42,6 +42,7 @@ public final class C {
 		public static final String update			= "/update/updateApk";
 		public static final String gongGao		= "/camera/gongGao";
 		public static final String getCustomer		= "/customer/getCustomerByUser";
+		public static final String roadGongGao		= "/safeRoad/gongGao";
 	}
 	
 	public static final class task {
@@ -69,6 +70,7 @@ public final class C {
 		public static final int update		= 1022;
 		public static final int gongGao		= 1023;
 		public static final int getCustomer		= 1024;
+		public static final int roadGongGao		= 1025;
 	}
 	
 	public static final class err {

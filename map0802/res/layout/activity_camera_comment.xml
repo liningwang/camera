@@ -49,6 +49,7 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
     android:paddingLeft="10dip"
+    android:paddingRight="10dip"
     android:textColor="@color/white"
     android:text="地址："
 />
