@@ -180,7 +180,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			} else {
 				Map<String, Object> map1 = new HashMap<String, Object>();
 				map1.put("empty","1");
-				map1.put("comment", "no comment,please add a new comment");
+				map1.put("comment", "目前没有任何评论！");
 				listItem.add(map1);
 				adapter.notifyDataSetChanged();
 			}

@@ -111,19 +111,19 @@ public class UpdateApkActivity extends BaseUi {
 	    
 	    String str= "version name "+verName+" Code:"+verCode+" ,new version name"+m_newVerName+
 	    		" Code:"+m_newVerCode+" ,is ready";  
-	    Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(message)  
+	    Dialog dialog = new AlertDialog.Builder(this).setTitle("更新应用").setMessage(message)  
 	   
-	            .setPositiveButton("ok", 
+	            .setPositiveButton("确认", 
 	                    new DialogInterface.OnClickListener() {  
 	                        @Override  
 	                        public void onClick(DialogInterface dialog,  
 	                                int which) { 
-	                            m_progressDlg.setTitle("update apk");  
-	                            m_progressDlg.setMessage("download..");  
+	                            m_progressDlg.setTitle("更新应用");  
+	                            m_progressDlg.setMessage("下载中..");  
 	                            downFile(C.api.apkUrl);  
 	                        }  
 	                    })  
-	            .setNegativeButton("cancel",  
+	            .setNegativeButton("取消",  
 	                    new DialogInterface.OnClickListener() {  
 	                        public void onClick(DialogInterface dialog,  
 	                                int whichButton) {  
@@ -138,9 +138,9 @@ public class UpdateApkActivity extends BaseUi {
 			int verCode = Common.getVerCode(this);  
 		    String verName = Common.getVerName(this); 
 		    String str="verName:"+verName+" Code:"+verCode+",/n no new version for apk";
-		    Dialog dialog = new AlertDialog.Builder(this).setTitle("can not find new version")  
+		    Dialog dialog = new AlertDialog.Builder(this).setTitle("已经是最新版本了！")  
 		            .setMessage(str) 
-		            .setPositiveButton("ok",
+		            .setPositiveButton("确认",
 		                    new DialogInterface.OnClickListener() {  
 		                        @Override  
 		                        public void onClick(DialogInterface dialog,  

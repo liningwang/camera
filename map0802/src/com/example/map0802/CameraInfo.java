@@ -171,6 +171,7 @@ public void onCreate(Bundle savedInstanceState) {
 			intent.putExtra("et_desc",et_desc.getText().toString());	
 			intent.putExtra("et_addr",et_addr.getText().toString());
 			intent.putExtra("camera_typ",String.valueOf(radioId));
+			intent.putExtra("direction"," ");
 			if(n2s) {
 				intent.putExtra("direction"," " + direction_n2s);
 			}

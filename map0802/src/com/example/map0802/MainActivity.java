@@ -137,6 +137,7 @@ public class MainActivity extends BaseUi {
   private String camera_typ;
   private String direction;
   private TextView mZanCount;
+  private TextView camera_title;
   private TextView mBuZanCount;
   private int mCurrentZan;
   private int mCurrentBuZan;
@@ -674,8 +675,8 @@ public void onNetworkError (int taskId) {
                                 @Override
                                 public void onClick(DialogInterface dialog,
                                         int which) {
-                                    m_progressDlg.setTitle("update apk");
-                                    m_progressDlg.setMessage("download..");
+                                    m_progressDlg.setTitle("更新应用");
+                                    m_progressDlg.setMessage("下载中..");
                                     downFile(C.api.apkUrl);
                                 }
                             }).create();
@@ -692,17 +693,17 @@ public void onNetworkError (int taskId) {
             Dialog dialog = new AlertDialog.Builder(this).setTitle("update apk").setMessage(message)
 	
 
-                    .setPositiveButton("ok",
+                    .setPositiveButton("确认",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
                                         int which) {
-                                    m_progressDlg.setTitle("update apk");
-                                    m_progressDlg.setMessage("download..");
+                                    m_progressDlg.setTitle("更新应用");
+                                    m_progressDlg.setMessage("下载中..");
                                     downFile(C.api.apkUrl);
                                 }
                             })
-                    .setNegativeButton("cancel",
+                    .setNegativeButton("取消",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                         int whichButton) {
@@ -914,6 +915,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 		try {
 			camera = (Camera) message.getResult("Camera");
 			 mCurrentCamera = camera;
+			 camera_title.setText(camera.getName());
 			 mCurrentZan = Integer.valueOf(mCurrentCamera.getZan());
 			 mZanCount.setText(String.valueOf(mCurrentZan));
 			 mCurrentBuZan = Integer.valueOf(mCurrentCamera.getBuzan());
@@ -1095,7 +1097,8 @@ private void showInfoWindowForPanorama(LatLng ll) {
 		Button zan = (Button) v.findViewById(R.id.zan);
 		Button buzan = (Button) v.findViewById(R.id.buzan);
 		TextView comment = (TextView) v.findViewById(R.id.comment_camera);
-	
+		camera_title = (TextView) v.findViewById(R.id.camera_title);
+		//camera_title.setText("加载中。。");
 		mZanCount = (TextView) v.findViewById(R.id.zan_count);
 		mBuZanCount = (TextView) v.findViewById(R.id.buzan_count);
 		final SharedPreferences share = getSharedPreferences("zan", MODE_PRIVATE);
@@ -1113,6 +1116,8 @@ private void showInfoWindowForPanorama(LatLng ll) {
 					HashMap<String, String> locationParams = new HashMap<String, String>();				      
 					locationParams.put("cameraId", mCurrentCamera.getId());
 					doTaskAsync(C.task.zan,C.api.zan,locationParams);
+				} else {
+					toast("您已经赞过了，不能重复赞！");
 				}
 				//mZanCount.setText(Integer.valueOf(mCurrentCamera.getZan()) + 1);
 			}
@@ -1129,6 +1134,8 @@ private void showInfoWindowForPanorama(LatLng ll) {
 				   HashMap<String, String> locationParams = new HashMap<String, String>();				      
 					locationParams.put("cameraId", mCurrentCamera.getId());
 					doTaskAsync(C.task.buzan,C.api.buzan,locationParams);
+				} else {
+					toast("您已经不赞过了，不能重复不赞！");
 				}
 			}
 		});
