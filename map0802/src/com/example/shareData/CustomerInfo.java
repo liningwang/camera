@@ -37,7 +37,7 @@ public class CustomerInfo extends Application {
 	        }
 
 	        if (!mBMapManager.init(new MyGeneralListener())) {
-	            Toast.makeText(CustomerInfo.getInstance().getApplicationContext(), "BMapManager  鍒濆鍖栭敊璇�",
+	            Toast.makeText(CustomerInfo.getInstance().getApplicationContext(), "BMapManager init failed",
 	                    Toast.LENGTH_LONG).show();
 	        }
 	        Log.d("ljx", "initEngineManager");
@@ -136,11 +136,11 @@ public class CustomerInfo extends Application {
 	            // 闈為浂鍊艰〃绀簁ey楠岃瘉鏈�杩�
 	            if (iError != 0) {
 	                // 鎺堟潈Key閿欒锛�
-	                Toast.makeText(CustomerInfo.getInstance().getApplicationContext(),
-	                        "璇峰湪AndoridManifest.xml涓緭鍏ユ纭殑鎺堟潈Key,骞舵鏌ユ偍鐨勭綉缁滆繛鎺ユ槸鍚︽甯革紒error: " + iError, Toast.LENGTH_LONG).show();
+	                //Toast.makeText(CustomerInfo.getInstance().getApplicationContext(),
+	                  //      "请在AndroidManifest.xml里面添加正确的授权key，并检查网络是否error: " + iError, Toast.LENGTH_LONG).show();
 	            } else {
-	                Toast.makeText(CustomerInfo.getInstance().getApplicationContext(), "key璁よ瘉鎴愬姛", Toast.LENGTH_LONG)
-	                        .show();
+	                //Toast.makeText(CustomerInfo.getInstance().getApplicationContext(), "key璁よ瘉鎴愬姛", Toast.LENGTH_LONG)
+	                  //      .show();
 	            }
 	        }
 	    }
