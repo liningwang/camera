@@ -18,3 +18,28 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-optimizationpasses 5  
+-dontusemixedcaseclassnames  
+-dontskipnonpubliclibraryclasses  
+-dontpreverify  
+-verbose  
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  
+  
+-keepattributes *Annotation*  
+-keepattributes Signature  
+  
+-libraryjars libs/badgeview.jar
+-libraryjars libs/IndoorscapeAlbumPlugin.jar
+-libraryjars libs/android-support-v4.jar
+-libraryjars libs/BaiduLBS_Android.jar
+-libraryjars libs/locSDK_6.13.jar
+-libraryjars libs/armeabi/libapp_BaiduPanoramaAppLib.so
+-libraryjars libs/armeabi/libBaiduMapSDK_base_v3_7_3.so
+-libraryjars libs/armeabi/libBaiduMapSDK_map_v3_7_3.so
+-libraryjars libs/armeabi/libBaiduMapSDK_util_v3_7_3.so
+-libraryjars libs/armeabi/liblocSDK6a.so
+
+-dontwarn com.baidu.**
+-keep class com.baidu.** { *; }   
+-keep class vi.com.gdi.bgl.android.**{*;}
+-keep class com.example.model.** { *; } 
