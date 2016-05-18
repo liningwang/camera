@@ -174,7 +174,7 @@ public class SDUtil {
                 int hRatio = (int) Math.floor(op.outHeight / (float) dh);
                 Log.d("wang", "dw = " + dw + " wRatio = " + wRatio + " outWidth = " + op.outWidth);
                 Log.d("wang", "dh = " + dh + "hRatio = " + hRatio + " outHeight = " + op.outHeight);
-                if (wRatio > 1 && hRatio > 1) {
+                if (wRatio > 1 || hRatio > 1) {
                     if (wRatio > hRatio) {
                         op.inSampleSize = wRatio;
                     } else {

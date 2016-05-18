@@ -1117,7 +1117,7 @@ private void showInfoWindowForPanorama(LatLng ll) {
 					locationParams.put("cameraId", mCurrentCamera.getId());
 					doTaskAsync(C.task.zan,C.api.zan,locationParams);
 				} else {
-					toast("您已经赞过了，不能重复赞！");
+					toast("您已经提交过了，不能重复提交！");
 				}
 				//mZanCount.setText(Integer.valueOf(mCurrentCamera.getZan()) + 1);
 			}
@@ -1135,7 +1135,7 @@ private void showInfoWindowForPanorama(LatLng ll) {
 					locationParams.put("cameraId", mCurrentCamera.getId());
 					doTaskAsync(C.task.buzan,C.api.buzan,locationParams);
 				} else {
-					toast("您已经不赞过了，不能重复不赞！");
+					toast("您已经提交过了，不能重复提交！");
 				}
 			}
 		});

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example"
-    android:versionCode="3"
-    android:versionName="1.0.2" >
+    android:versionCode="4"
+    android:versionName="1.0.3" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme" >
        <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="68B6MPkxLW2oPxaqcSWPojsckiCjthVh" />
+            android:value="8uT6Ykjhvm1S5PXUqP8fTaGgotEtWh0o" />
 	
     <!--     <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
