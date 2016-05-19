@@ -138,8 +138,8 @@ public class UpdateApkActivity extends BaseUi {
 			int verCode = Common.getVerCode(this);  
 		    String verName = Common.getVerName(this); 
 		    String str="verName:"+verName+" Code:"+verCode+",/n no new version for apk";
-		    Dialog dialog = new AlertDialog.Builder(this).setTitle("已经是最新版本了！")  
-		            .setMessage(str) 
+		    Dialog dialog = new AlertDialog.Builder(this).setTitle("版本更新")  
+		            .setMessage("您已经是最新版本了！") 
 		            .setPositiveButton("确认",
 		                    new DialogInterface.OnClickListener() {  
 		                        @Override  

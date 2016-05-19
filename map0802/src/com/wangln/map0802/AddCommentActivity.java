@@ -132,7 +132,7 @@ public void onCreate(Bundle savedInstanceState) {
 				 commentParams.put("content",content);
 			    doTaskAsync(C.task.commentCreate, C.api.commentCreate,commentParams);
 			} else {
-			  toast("请先选择拍不拍外地车！");	
+			  toast("请先选择拍不拍进京证！");	
 			}
 			}
 		});
@@ -142,7 +142,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	super.onTaskComplete(taskId, message);
 	switch(taskId){
 		case C.task.commentCreate:
-			toast("创建评论成功！");
+			toast("评论提交成功！");
 			Intent intent = new Intent();
 			Log.d("wang"," addComment value:" + addComment.getText() + " name: " + app.getSign() + " user:"+app.getUser()+" cameraId:" + app.getCameraId()
 					+ " customerId: " + app.getCustomerid());
@@ -151,8 +151,8 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			intent.putExtra("customerId",String.valueOf(app.getCustomerid()));
 			intent.putExtra("name",app.getUser());
 			intent.putExtra("user",app.getUser());
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//璁剧疆鏃ユ湡鏍煎紡
-			intent.putExtra("time",df.format(new Date()));// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//鐠佸墽鐤嗛弮銉︽埂閺嶇厧绱�
+			intent.putExtra("time",df.format(new Date()));// new Date()娑撻缚骞忛崣鏍х秼閸撳秶閮寸紒鐔告闂傦拷
 			intent.putExtra("result","ok");
 			setResult(RESULT_OK, intent);
 			finish();

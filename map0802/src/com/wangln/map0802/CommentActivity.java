@@ -59,9 +59,9 @@ public void onCreate(Bundle savedInstanceState) {
 	    address.setText(app.getCameraAddress() + app.getCameraDirecton());
 	    time.setText(app.getCameraUptime());
 	    if(getIntent().getExtras().get("username") != null) {
-	    	owner.setText("������:" + getIntent().getExtras().get("username").toString());
+	    	owner.setText("创建者:" + getIntent().getExtras().get("username").toString());
 	    } else {
-	    	owner.setText("������:" + "�ο�");
+	    	owner.setText("创建者:" + "游客");
 	    }
 	    HashMap<String, String> commentParams = new HashMap<String, String>();
 	    
@@ -137,7 +137,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			} else {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("empty","1");
-				map.put("comment", "Ŀǰû���κ����ۣ���ӭ��ӣ�");
+				map.put("comment", "目前没有任何评论！");
 				listItem.add(map);
 				adapter.notifyDataSetChanged();
 			}

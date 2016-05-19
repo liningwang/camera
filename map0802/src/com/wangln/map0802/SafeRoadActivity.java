@@ -94,7 +94,7 @@ public class SafeRoadActivity extends BaseUi {
 				
                                 	SafeRoadActivity.this.startActivityForResult(intent, 1);
 				} else {
-					toast("��¼������������!");
+					toast("登陆后才能添加路线!");
                                 	Intent intent = new Intent();
                                 	intent.setClass(SafeRoadActivity.this, ProfileActivity.class);
 					startActivity(intent);
@@ -259,7 +259,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                                 listItem.add(0,map);
                                 adapter.notifyDataSetChanged();
                         } else if(result.equals("ok1")) {
-				toast("���˳������½��룬�Ϳ��Կ������·��!!!");
+				toast("请退出后，重新进入来刷新查看更多路线!!!");
 			}
                 }
         }

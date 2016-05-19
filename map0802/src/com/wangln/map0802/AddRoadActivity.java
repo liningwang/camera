@@ -161,7 +161,7 @@ public void onCreate(Bundle savedInstanceState) {
 				AddRoadActivity.this.position = position;
 				 HashMap<String, String> commentParams = new HashMap<String, String>();
 				 commentParams.put("file", mDatas.get(position));
-				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "上传照片", "照片上传中...", true);
+				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "涓婁紶鐓х墖", "鐓х墖涓婁紶涓�...", true);
 			    	doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
                         }
                 });
@@ -184,10 +184,10 @@ public void onCreate(Bundle savedInstanceState) {
 							if(isChecked) {
 								 HashMap<String, String> commentParams = new HashMap<String, String>();
 							 	commentParams.put("file", mDatas.get( AddRoadActivity.this.position));
-				 				progressDialog = ProgressDialog.show(AddRoadActivity.this, "上传照片", "照片上传中...", true);
+				 				progressDialog = ProgressDialog.show(AddRoadActivity.this, "上传图片", "图片上传中...", true);
 						    		doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
 							} else {
-								toast("请选择要上传的照片");
+								toast("请先选择要上传的照片！");
 							}
 						}
                 });
@@ -198,14 +198,14 @@ private void getPicture() {
 	ContentResolver mContentResolver = AddRoadActivity.this.getContentResolver();
   	Cursor mCursor = mContentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
   	new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA},
-  	null, null, MediaStore.Images.Media._ID + " DESC"); // 鎸夊浘鐗嘔D闄嶅簭鎺掑垪
+  	null, null, MediaStore.Images.Media._ID + " DESC"); // 閹稿娴橀悧鍢擠闂勫秴绨幒鎺戝灙
 	int i;
 	for(i = 0; i < 21; i++) {
   		mCursor.moveToNext();
-	  	// 鎵撳嵃LOG鏌ョ湅鐓х墖ID鐨勫��
+	  	// 閹垫挸宓僉OG閺屻儳婀呴悡褏澧朓D閻ㄥ嫬锟斤拷
 	  	long id = mCursor.getLong(mCursor.getColumnIndex(MediaStore.Images.Media._ID));
 	  	//Log.d("wang", "id = " + id + "");
-	      	// 杩囨护鎺変笉闇�瑕佺殑鍥剧墖锛屽彧鑾峰彇鎷嶇収鍚庡瓨鍌ㄧ収鐗囩殑鐩稿唽閲岀殑鍥剧墖
+	      	// 鏉╁洦鎶ら幒澶夌瑝闂囷拷鐟曚胶娈戦崶鍓у閿涘苯褰ч懢宄板絿閹峰秶鍙庨崥搴＄摠閸屻劎鍙庨悧鍥╂畱閻╃鍞介柌宀�娈戦崶鍓у
 	        String path = mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
 	    	Log.d("wang","image path=" + path);
 		/*Bitmap bitmap =	SDUtil.getImageforSize(path,300,480);
@@ -222,7 +222,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 	switch(taskId){
 		case C.task.upload:
 			progressDialog.dismiss();
-			toast("上传成功！");
+			toast("上传图片成功！");
 			//mHorizontalScrollView.setVisibility(View.GONE);
 			//mHorizontalScrollView.removeAllViews();
 			layout.setVisibility(View.GONE);
@@ -245,8 +245,8 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			Intent intent = new Intent();
 			intent.putExtra("content",AddRoadActivity.this.addContent.getText().toString());
 			intent.putExtra("hasPicture", hasPicture);
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//璁剧疆鏃ユ湡鏍煎紡
-                        intent.putExtra("time",df.format(new Date()));// new Date()涓鸿幏鍙栧綋鍓嶇郴缁熸椂闂�
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//鐠佸墽鐤嗛弮銉︽埂閺嶇厧绱�
+                        intent.putExtra("time",df.format(new Date()));// new Date()娑撻缚骞忛崣鏍х秼閸撳秶閮寸紒鐔告闂傦拷
 			intent.putExtra("result","ok");
 			intent.putExtra("safeid",safeid.getId());
 			intent.putExtra("username",app.getUser());

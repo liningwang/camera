@@ -179,7 +179,7 @@ public void onCreate(Bundle savedInstanceState) {
 				intent.putExtra("direction"," " + direction_s2n);
 			} 
 			if(n2s && s2n) {
-				intent.putExtra("direction","�ϱ�˫��");
+				intent.putExtra("direction","南北双向");
 			}
 			if(w2e) {
 				intent.putExtra("direction"," " + direction_w2e);
@@ -188,7 +188,7 @@ public void onCreate(Bundle savedInstanceState) {
 				intent.putExtra("direction"," " + direction_e2w);
 			}
 			if(w2e && e2w) {
-				intent.putExtra("direction","����˫��");
+				intent.putExtra("direction","东西双向");
 			}
 			//intent.putExtra("direction",direction);
 			intent.putExtra("result","ok");
