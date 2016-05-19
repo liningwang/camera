@@ -865,7 +865,7 @@ public void onTaskComplete(int taskId, BaseMessage message) {
 			Marker marker = null;
 			LatLng latLng = null;
 			for(Camera data : cameraList){
-			    Log.d("wang","camera addr = " + data.getAddress() + "name = " + data.getName() + "direction = " + data.getDirection());
+			    //Log.d("wang","camera addr = " + data.getAddress() + "name = " + data.getName() + "direction = " + data.getDirection());
 				latLng = new LatLng(Double.valueOf(data.getLatitude()),Double.valueOf(data.getLongitude()));
 				if(data.getType().equals("0")) {
                     mIconMaker = BitmapDescriptorFactory.fromResource(R.drawable.jinjingmarker);
