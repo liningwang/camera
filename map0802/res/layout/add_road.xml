@@ -116,7 +116,7 @@
         		  android:layout_marginTop="20dip"
 			  android:gravity="center"
         		  >
-    <com.example.list.MyHorizontalScrollView
+    <com.wangln.list.MyHorizontalScrollView
         android:id="@+id/id_horizontalScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal" >
         </LinearLayout>
-    </com.example.list.MyHorizontalScrollView>
+    </com.wangln.list.MyHorizontalScrollView>
         <TextView 
          android:id="@+id/upload_button"
          android:layout_width="wrap_content"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example"
+    package="com.wangln"
     android:versionCode="4"
     android:versionName="1.0.3" >
 
@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <application
-        android:name="com.example.shareData.CustomerInfo"
+        android:name="com.wangln.shareData.CustomerInfo"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
             android:value="awnmaIGOjjyAw1H8E8R9xyNnpVPHb78E" /> 
         -->
         <activity
-            android:name="com.example.map0802.MainActivity"
+            android:name="com.wangln.map0802.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" >
             <intent-filter>
@@ -33,53 +33,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.map0802.CommentActivity"
+            android:name="com.wangln.map0802.CommentActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.map0802.PictrueView"
+            android:name="com.wangln.map0802.PictrueView"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.list.FullscreenActivity"
+            android:name="com.wangln.list.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name="com.example.list.CameraComment"
+            android:name="com.wangln.list.CameraComment"
             android:label="@string/title_activity_camera_comment" >
         </activity>
         <activity
-            android:name="com.example.map0802.CameraInfo"
+            android:name="com.wangln.map0802.CameraInfo"
             android:label="@string/title_activity_camera_info" >
         </activity>
         <activity
-            android:name="com.example.map0802.ProfileActivity"
+            android:name="com.wangln.map0802.ProfileActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>
         <activity
-            android:name="com.example.map0802.RegisterActivity"
+            android:name="com.wangln.map0802.RegisterActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>
         <activity
-            android:name="com.example.map0802.AddCommentActivity"
+            android:name="com.wangln.map0802.AddCommentActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>
         <activity
-            android:name="com.example.map0802.SafeRoadActivity"
+            android:name="com.wangln.map0802.SafeRoadActivity"
             android:label="@string/title_activity_camera_info" >
         </activity> 
         <activity
-            android:name="com.example.map0802.ReplyActivity"
+            android:name="com.wangln.map0802.ReplyActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>       
         <activity
-            android:name="com.example.map0802.UploadActivity"
+            android:name="com.wangln.map0802.UploadActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>       
         <activity
-            android:name="com.example.map0802.AddRoadActivity"
+            android:name="com.wangln.map0802.AddRoadActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>  
         <service
@@ -88,23 +88,23 @@
             android:process=":remote" >
         </service>
         <activity
-            android:name="com.example.map0802.ScaleImageActivity"
+            android:name="com.wangln.map0802.ScaleImageActivity"
             android:label="@string/title_activity_camera_info">
         </activity>      
         <activity
-            android:name="com.example.map0802.ReplyRoadActivity"
+            android:name="com.wangln.map0802.ReplyRoadActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>       
         <activity
-            android:name="com.example.map0802.MySafeRoadActivity"
+            android:name="com.wangln.map0802.MySafeRoadActivity"
             android:label="@string/title_activity_camera_info" >
         </activity> 
          <activity
-            android:name="com.example.map0802.UpdateApkActivity"
+            android:name="com.wangln.map0802.UpdateApkActivity"
             android:label="@string/title_activity_camera_info" >
         </activity>   
         <activity
-            android:name="com.example.map0802.PanoramaMView"
+            android:name="com.wangln.map0802.PanoramaMView"
             android:label="@string/title_activity_camera_info" >
         </activity>       
         

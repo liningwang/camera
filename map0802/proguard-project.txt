@@ -42,4 +42,4 @@
 -dontwarn com.baidu.**
 -keep class com.baidu.** { *; }   
 -keep class vi.com.gdi.bgl.android.**{*;}
--keep class com.example.model.** { *; } 
+-keep class com.wangln.model.** { *; } 
