@@ -161,7 +161,7 @@ public void onCreate(Bundle savedInstanceState) {
 				AddRoadActivity.this.position = position;
 				 HashMap<String, String> commentParams = new HashMap<String, String>();
 				 commentParams.put("file", mDatas.get(position));
-				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "涓婁紶鐓х墖", "鐓х墖涓婁紶涓�...", true);
+				 progressDialog = ProgressDialog.show(AddRoadActivity.this, "上传照片", "照片上传中...", true);
 			    	doTaskAsync(C.task.upload, C.api.upload,commentParams,true);
                         }
                 });
